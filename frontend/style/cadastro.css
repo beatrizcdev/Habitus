@@ -1,0 +1,262 @@
+.container {
+  font-family: 'Magra';
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100%;
+  min-height: 100vh;
+  font-size: 18px;
+  padding: 2rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+}
+
+.container-titulo p {
+  margin: 0;
+  font-size: 2rem;
+  color: #3F9A6C;
+  font-weight: 800;
+  flex-shrink: 1;
+}
+
+.container-titulo img {
+  max-width: 300px;
+  height: auto;
+}
+
+.texto-introdutorio{
+    display: flex;
+    gap: 10px;
+    font-size: 15px;
+    margin-top: 30px;
+}
+
+.texto-introdutorio p{
+    color: #3F9A6C;
+
+}
+
+.box {
+  background-color: white;
+  width: 55%;
+  min-height: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 45px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+  position: relative;
+}
+
+.inicio-folhas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+
+#folhas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.formWrapper {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.box h3{
+  color: #3F9A6C;
+  font-size: 45px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.text {
+  margin-top: 20px;
+  color: #3F9A6C;
+  display: flex;
+  font-size: 22px;
+  gap: 10px;
+}
+
+
+.box hr {
+  width: 380px;
+}
+
+.l1{
+  color: #3F9A6C;
+  top: -28px;
+  right: 10px;
+  position: relative;
+  height: 5px;
+  background-color: #3F9A6C;
+  border: none;
+  border-radius: 24px;
+}
+
+.l2 {
+  color: #3F9A6C;
+  position: relative;
+  top: -30px;
+  left: 620px;
+  height: 5px;
+  background-color: #3F9A6C;
+  border: none;
+  border-radius: 24px;
+}
+
+.boxforms {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 20px;
+  margin-top: 30px;
+  gap: 20px; 
+}
+
+.boxforms label{
+  font-size: 30px;
+}
+
+.forms {
+  color: #3F9A6C;
+  letter-spacing: 1px; 
+  font-weight: bold; 
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  flex: 1;
+}
+
+.forms input{
+  width: 80%;
+  height: 50px;
+  margin-bottom: 10px;
+  background-color: white;
+  border: none;
+  font-size: 18px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  color: #1C5750;
+  padding: 10px;
+}
+
+.forms input:focus{
+  outline: 2px solid #ffa946;
+}
+
+.cpfsenha {
+  margin-top: 20px;
+  display: flex;
+  gap: 30px;         
+  width: 89%;       
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  flex: 1;           
+}
+
+.cpfsenha label{
+  margin-bottom: 15px;
+}
+
+.botao {
+  background-color: #FFAE43;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 20px 70px 20px 70px;
+  font-weight: bold; 
+  margin: 0 auto;
+  margin-top: 40px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao:hover{
+  background-color: #ff9812;
+  transform: scale(1.02);
+}
+
+.arvore {
+  position: absolute;
+  right: 0px;
+  bottom: 0;
+  height: auto;
+  max-height: 90%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#botaoCadastro {
+  background-color: #FFAE43;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 20px 70px 20px 70px;
+  font-weight: bold; 
+  margin: 0 auto;
+  margin-top: 40px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#botaoCadastro:hover{
+  background-color: #ff9812;
+  transform: scale(1.02);
+}
+
+.erroContainer {
+  background-color: #FFF0F0;
+  border: 1px solid #FFD6D6;
+  color: #D8000C;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.erroIcon {
+  background-color: #D8000C;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.erroTexto {
+  font-size: 18px;
+}
