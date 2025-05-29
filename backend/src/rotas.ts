@@ -1,0 +1,237 @@
+import { Router } from "express"
+import { cadastrarUsuario } from "./controladores/cadastro"
+import { loginUsuario } from "./controladores/login"
+import Tarefa from "./modelos/Tarefa"
+import { adicionarTarefa, editarTarefa, excluirTarefa, marcarTarefaComoConcluida } from "./controladores/tarefa"
+import { listarMissoes } from "./controladores/missoes"
+import { carregarUsuario, verificarAcessoHandler, verificarMissoesMiddleware } from "./utilitarios/middlewares"
+import { editarPerfil, exibirPerfil } from "./controladores/perfil"
+import { pegarMoedasUsuario } from "./controladores/exibirMoedas"
+import { adicionarHabito, editarHabito, excluirHabito, listarHabitos, marcarHabitoComoConcluido } from "./controladores/habitos"
+import { RequestComUsuario } from "./modelos/request"
+import { comprarItem, equiparItem, listarInventario } from "./controladores/itens"
+
+const rotas = Router()
+
+//cadastrar usuário
+rotas.post('/cadastrar', async (req, res) => {
+  try {
+    const dados = req.body
+
+    const mensagem = await cadastrarUsuario({
+      ...dados,
+      missoesFeitas: dados.missoesFeitas || 0,
+    })
+
+    res.status(201).json({ sucesso: true, mensagem })
+  } catch (erro: any) {
+    res.status(400).json({ sucesso: false, mensagem: erro.message })
+  }
+})
+//login
+rotas.post('/login', async (req, res) => {
+    const { emailOuCpf, senha } = req.body;
+
+    try {
+        const resultado = await loginUsuario(emailOuCpf, senha);
+        
+        res.status(200).json({ 
+            message: resultado.mensagem,
+            userId: resultado.userId 
+        });
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+    }
+});
+//verificar primeiro acesso
+rotas.get('/usuario/primeiro-acesso/:id', carregarUsuario, verificarAcessoHandler)
+//adicionar tarefa
+rotas.post('/adicionarTarefa', async (req, res) => {
+    try {
+        const { descricao, status, idUsuario, nome, prioridade, categoria, dataLimite } = req.body
+
+        const novaTarefa = new Tarefa(descricao, idUsuario, nome, 'pendente', prioridade, categoria, dataLimite)
+
+        const resultado = await adicionarTarefa(novaTarefa)
+
+        res.status(201).json({ mensagem: resultado })
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ message: error.message })
+        } else {
+            res.status(500).json({ message: 'Erro interno do servidor' })
+        }
+    }
+})
+//editar tarefa
+rotas.put('/editarTarefa/:id', async (req, res) => {
+    const idTarefa = Number(req.params.id)
+    const { descricao, dataLimite, prioridade, categoria} = req.body
+
+    try {
+        const dadosAtualizados: Partial<Tarefa> = {
+            descricao,
+            dataLimite,
+            prioridade,
+            categoria
+        }
+
+        const mensagem = await editarTarefa(idTarefa, dadosAtualizados)
+        res.status(200).json({mensagem})
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ erro: error.message})
+        } else {
+            res.status(500).json({ erro: 'Erro desconhecido.'})
+        }
+    }
+})
+//marcar tarefa como concluida
+rotas.put('/tarefa/:id/concluir', async (req, res) => {
+    const idTarefa = Number(req.params.id)
+
+    try {
+        const mensagem = await marcarTarefaComoConcluida(idTarefa)
+        res.status(200).json({ mensagem})
+    }catch (erro: any) {
+        res.status(400).json({ erro: erro.message})
+    }
+  }, verificarMissoesMiddleware, (req, res) => {
+    res.status(200).json({ mensagem: "Tarefa concluída e missões verificadas" })
+})
+//excluir tarefa
+rotas.delete('/tarefas/:id', excluirTarefa)
+//listar missões
+rotas.get('/missoes/:idUsuario', async (req, res) => {
+    try {
+        const {idUsuario} = req.params
+        const missoes = await listarMissoes(Number(idUsuario))
+        res.status(200).json(missoes)
+    } catch (erro) {
+        console.error(erro)
+        res.status(500).json({ mensagem: 'Erro ao buscar missões.'})
+    }
+})
+//exibir perfil
+rotas.get('/perfil/:idUsuario', carregarUsuario, async (req, res) => {
+    try {
+        const idUsuario = req.params.idUsuario
+        const perfil = await exibirPerfil(Number(idUsuario))
+        res.json(perfil)
+    }catch (erro: any) {
+        res.status(400).json({ erro: erro.message})
+    }
+})
+//editar perfil
+rotas.put('/:idUsuario', async (req,res) => {
+  try {
+    const id = Number(req.params.idUsuario)
+    const mensagem = await editarPerfil(id, req.body)
+    res.status(200).json({mensagem})
+  }catch (erro: any){
+    res.status(400).json({ erro: erro.message})
+  }
+})
+//exibir moedas
+rotas.get('/moedas/:idUsuario', carregarUsuario, async (req, res) => {
+  try {
+    const idUsuario = req.params.idUsuario
+
+    const moedas = await pegarMoedasUsuario(Number(idUsuario))
+    res.json({ moedas })
+  } catch (error: any) {
+    res.status(400).json({ erro: error.message })
+  }
+})
+// Adicionar hábito
+rotas.post('/habitos', async (req, res) => {
+  try {
+    const mensagem = await adicionarHabito(req.body)
+    res.status(201).json({ mensagem })
+  } catch (erro: any) {
+    res.status(400).json({ erro: erro.message })
+  }
+})
+// Editar hábito
+rotas.put('/habitos/:idHabito', async (req, res) => {
+  try {
+    const idHabito = Number(req.params.idHabito)
+    const mensagem = await editarHabito(idHabito, req.body)
+    res.status(200).json({ mensagem })
+  } catch (erro: any) {
+    res.status(400).json({ erro: erro.message })
+  }
+})
+// Excluir hábito
+rotas.delete('/habitos/:idHabito', async (req, res) => {
+  try {
+    const idHabito = Number(req.params.idHabito)
+    const mensagem = await excluirHabito(idHabito)
+    res.status(200).json({ mensagem })
+  } catch (erro: any) {
+    res.status(404).json({ erro: erro.message })
+  }
+})
+// Marcar ou desmarcar hábito como concluído
+rotas.patch('/habitos/:idHabito/concluir', async (req, res) => {
+  try {
+    const idHabito = Number(req.params.idHabito)
+    const mensagem = await marcarHabitoComoConcluido(idHabito)
+    res.status(200).json({ mensagem })
+  } catch (erro: any) {
+    res.status(404).json({ erro: erro.message })
+  }
+})
+//comprar itens na loja
+rotas.post('/loja/comprar', async (req, res) => {
+  try{
+    const { idItem, equipar} = req.body
+    const usuario = (req as RequestComUsuario).usuario
+
+    if(!usuario) {
+      return res.status(401).json({ erro: "Usuário não autenticado" })
+    }
+
+    const mensagem = await comprarItem(usuario.idUsuario, idItem, equipar)
+    res.status(200).json({ mensagem })
+  }catch (erro: any) {
+    res.status(400).json({ erro: erro.menssage})
+  }
+})
+// rotas/inventario.ts
+rotas.get('/inventario', carregarUsuario, async (req, res) => {
+  try {
+    const idUsuario = (req as RequestComUsuario).usuario?.idUsuario
+    const itens = await listarInventario(Number(idUsuario))
+    res.json(itens)
+  } catch (erro: any) {
+    res.status(500).json({ erro: erro.message })
+  }
+})
+//equipar item
+rotas.patch('/inventario/:idItem/equipar', carregarUsuario, async (req, res) => {
+  try {
+    const idUsuario = (req as RequestComUsuario).usuario?.idUsuario
+    const idItem = Number(req.params.idItem)
+    const mensagem = await equiparItem(Number(idUsuario), idItem)
+    res.status(200).json({ mensagem })
+  } catch (erro: any) {
+    res.status(400).json({ erro: erro.message })
+  }
+})
+//listar habitos
+rotas.get('/habitos/:idUsuario', async (req, res) => {
+  try {
+    const idUsuario = Number(req.params.idUsuario)
+    const habitos = await listarHabitos(idUsuario)
+    res.status(200).json(habitos)
+  } catch (erro: any) {
+    res.status(500).json({ erro: erro.message })
+  }
+})
+
+export default rotas
