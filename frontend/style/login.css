@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 110px;
+  padding-top: 100px;
 }
 
 .container-titulo {
@@ -35,22 +35,6 @@
   max-width: 300px;
   height: auto;
 }
-
-.header-pequeno {
-  position: absolute;
-  top: 0;
-  left: 53%;
-  transform: translateX(-50%);
-  z-index: 100;
-  padding-top: 10px;
-  margin: 0;
-  padding: 0;
-}
-
-.header-pequeno img{
-    width: 80%;
-}
-
 
 .texto-introdutorio{
     display: flex;
@@ -220,12 +204,27 @@
   transform: scale(1.02);
 }
 
+.header-pequeno {
+  position: absolute;
+  top: 0;
+  left: 53%;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding-top: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.header-pequeno img{
+    width: 80%;
+}
+
 .arvore {
   position: absolute;
   right: 0px;
   bottom: 0;
   height: auto;
-  max-height: 90%;
+  max-height: 85%;
   z-index: 2;
   pointer-events: none;
 }
@@ -235,7 +234,7 @@
   color: white;
   border: none;
   border-radius: 30px;
-  font-size: 20px;
+  font-size: 25px;
   cursor: pointer;
   padding: 20px 70px 20px 70px;
   font-weight: bold; 
@@ -247,6 +246,37 @@
 #botaoCadastro:hover{
   background-color: #ff9812;
   transform: scale(1.02);
+}
+
+#botaoLogin {
+  background-color: #FFAE43;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 20px 70px 20px 70px;
+  font-weight: bold; 
+  margin: 0 auto;
+  margin-top: 40px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#botaoLogin:hover{
+  background-color: #ff9812;
+  transform: scale(1.02);
+}
+
+.botoes {
+  display: flex;
+  justify-content: flex-start;
+  gap: 80px;
+  margin-top: 20px;
+  padding-right: 25%;
+}
+
+.botoes button {
+  white-space: nowrap;
 }
 
 .erroContainer {

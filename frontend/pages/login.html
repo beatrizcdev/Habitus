@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Magra:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/frontend/style/login.css" />
+  <link rel="stylesheet" href="/frontend/style/global.css" />
 </head>
 <body>
-    <p>ola sou o login</p>
+    <header class="header-pequeno">
+        <img src="../pictures/utilidades/HEADER.svg" alt="header">
+    </header>
+    <img class="arvore" src="../pictures/arvore/arvore_fase_4.svg" alt="arvore">
+    <div class="inicio-folhas">
+        <img id="folhas" src="/frontend/pictures/utilidades/Vector.svg" alt="Folhas" />
+    </div>
+  <div class="container">
+    <div class="box">
+        <div class="container-titulo">
+            <img src="../pictures/utilidades/linha-bemvindo.svg" alt="linha">
+            <p>Bem-vindo</p>
+            <img src="../pictures/utilidades/linha-bemvindo.svg" alt="linha">
+        </div>
+        <div class="texto-introdutorio">
+            <img src="../pictures/utilidades/icon-cadastro.svg" alt="icon-cadastro">
+            <p>Cultive hábitos, colha um futuro mais verde. Vamos juntos nessa jornada por um mundo mais sustentável!</p>
+        </div>
+        <div class="formWrapper">
+          <form id="cadastroForm" class="boxforms">
+            <div id="erroContainer" class="erroContainer" style="display: none;">
+              <span class="erroIcon">!</span>
+              <span class="erroTexto" id="erroTexto"></span>
+            </div>
+
+            <div class="forms">
+                <label for="nome">Login:</label>
+                <input type="text" id="login" name="login" />
+
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" />
+
+            </div>
+        </div>
+
+            <div class="botoes">
+                <button type="button" id="botaoCadastro" onclick="window.location.href='./cadastro.html'">NOVA CONTA</button>
+
+                <button type="submit" id="botaoLogin">LOGIN</button>
+            </div>
+          </form>
+        </div>
+      
+    </div>
+  </div>
+
+  <script src="/frontend/integracao/login.js"></script>
 </body>
 </html>
