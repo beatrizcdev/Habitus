@@ -3,16 +3,16 @@ import knex, { Knex } from "knex"
 export const config: Knex.Config = {
     client: 'sqlite',
     connection: {
-        filename: './backend/db/app.db',
+        filename: './db/app.db',
     },
     useNullAsDefault: true,
     migrations: {
         extension: 'ts',
-        directory: './backend/db/migrations',
+        directory: './db/migrations',
     },
     seeds: {
         extension: 'ts',
-        directory: './backend/db/seeds',
+        directory: './db/seeds',
     },
 }
 

@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --runInBand --config backend/jest.config.ts",
-    "dev": "nodemon --exec tsx ./src/server.ts",
+    "dev": "nodemon --exec tsx ./backend/src/server.ts",
     "knex": "node --import tsx ./node_modules/knex/bin/cli.js",
     "knex:seed": "tsx node_modules/knex/bin/cli.js seed:run --knexfile knexfile.ts",
-    "knex:migrate": "tsx node_modules/knex/bin/cli.js migrate:latest --knexfile knexfile.ts",
+    "knex:migrate": "tsx node_modules/knex/bin/cli.js migrate:latest --knexfile backend/knexfile.ts",
     "json-server": "npx json-server --watch db.json --port 3001"
   },
   "keywords": [],

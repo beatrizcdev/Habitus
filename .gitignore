@@ -1,7 +1,7 @@
 # dependencies
 dist
-db/app.db
-db/teste.db
+backend/db/app.db
+app/teste.db
 node_modules
 /.pnp
 .pnp.js
