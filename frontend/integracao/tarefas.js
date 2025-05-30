@@ -328,17 +328,17 @@ document.getElementById("lista-tarefas")?.addEventListener("click", async (event
 
     await carregarTarefas(); // Recarrega a lista
     alert("Tarefa excluída com sucesso!");
-} catch (erro) {
-    console.error("Erro ao excluir tarefa:", erro);
-    alert(erro.message || "Erro ao excluir tarefa.");
-} finally {
-    // Desliga o modo exclusão
-    modoExclusaoAtivo = false;
-    btnExcluir.textContent = "Excluir Tarefas";
-    btnExcluir.style.backgroundColor = "";
+    } catch (erro) {
+        console.error("Erro ao excluir tarefa:", erro);
+        alert(erro.message || "Erro ao excluir tarefa.");
+    } finally {
+        // Desliga o modo exclusão
+        modoExclusaoAtivo = false;
+        btnExcluir.textContent = "Excluir Tarefas";
+        btnExcluir.style.backgroundColor = "";
 
-    document.querySelectorAll(".item-tarefa").forEach(item => {
-      item.classList.remove("modo-exclusao");
-    });
-  }
+        document.querySelectorAll(".item-tarefa").forEach(item => {
+        item.classList.remove("modo-exclusao");
+        });
+    }
 });
