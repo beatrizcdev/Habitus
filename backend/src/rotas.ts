@@ -2,7 +2,7 @@ import { Router } from "express"
 import { cadastrarUsuario } from "./controladores/cadastro"
 import { loginUsuario } from "./controladores/login"
 import Tarefa from "./modelos/Tarefa"
-import { adicionarTarefa, editarTarefa, excluirTarefa, marcarTarefaComoConcluida } from "./controladores/tarefa"
+import { adicionarTarefa, editarTarefa, excluirTarefa, listarTarefas, marcarTarefaComoConcluida } from "./controladores/tarefa"
 import { listarMissoes } from "./controladores/missoes"
 import { carregarUsuario, verificarAcessoHandler, verificarMissoesMiddleware } from "./utilitarios/middlewares"
 import { editarPerfil, exibirPerfil } from "./controladores/perfil"
@@ -10,6 +10,7 @@ import { pegarMoedasUsuario } from "./controladores/exibirMoedas"
 import { adicionarHabito, editarHabito, excluirHabito, listarHabitos, marcarHabitoComoConcluido } from "./controladores/habitos"
 import { RequestComUsuario } from "./modelos/request"
 import { comprarItem, equiparItem, listarInventario } from "./controladores/itens"
+import path from "path"
 
 const rotas = Router()
 
@@ -49,24 +50,64 @@ rotas.post('/login', async (req, res) => {
 });
 //verificar primeiro acesso
 rotas.get('/usuario/primeiro-acesso/:id', carregarUsuario, verificarAcessoHandler)
+//listar tarefas
+rotas.get('/tarefas/:idUsuario', async (req, res) => {
+  try {
+    const idUsuario = Number(req.params.idUsuario)
+    const tarefas = await listarTarefas(idUsuario)
+    res.json(tarefas)
+  } catch (erro) {
+    const error = erro as Error
+    res.status(500).json({ erro: error.message })
+  }
+})
 //adicionar tarefa
-rotas.post('/adicionarTarefa', async (req, res) => {
+rotas.post('/tarefas/:idUsuario/adicionar', async (req, res) => {
     try {
-        const { descricao, status, idUsuario, nome, prioridade, categoria, dataLimite } = req.body
+        // Pega o ID diretamente da URL e converte para número
+        const idUsuario = parseInt(req.params.idUsuario, 10);
+        
+        // Validação robusta do ID
+        if (isNaN(idUsuario)) {
+            throw new Error('ID do usuário deve ser um número válido');
+        }
 
-        const novaTarefa = new Tarefa(descricao, idUsuario, nome, 'pendente', prioridade, categoria, dataLimite)
+        // Extrai os dados do corpo da requisição
+        const { nome, descricao, prioridade, categoria, dataLimite } = req.body;
 
-        const resultado = await adicionarTarefa(novaTarefa)
+        // Cria a tarefa com o ID convertido
+        const novaTarefa = new Tarefa(
+            descricao,
+            'pendente',
+            idUsuario, // Já é number
+            nome,
+            prioridade,
+            categoria,
+            dataLimite
+        );
 
-        res.status(201).json({ mensagem: resultado })
+        // Chama a função de adicionar tarefa
+        const resultado = await adicionarTarefa(novaTarefa);
+        
+        res.status(201).json({ 
+            success: true,
+            message: resultado 
+        });
+        
     } catch (error) {
         if (error instanceof Error) {
-            res.status(400).json({ message: error.message })
+            res.status(400).json({ 
+                success: false,
+                message: error.message 
+            });
         } else {
-            res.status(500).json({ message: 'Erro interno do servidor' })
+            res.status(500).json({ 
+                success: false,
+                message: 'Erro interno no servidor' 
+            });
         }
     }
-})
+});
 //editar tarefa
 rotas.put('/editarTarefa/:id', async (req, res) => {
     const idTarefa = Number(req.params.id)

@@ -32,7 +32,7 @@
 }
 
 .container-titulo img {
-  max-width: 300px;
+  max-width: 250px;
   height: auto;
 }
 
@@ -185,7 +185,7 @@
 }
 
 .cpfsenha {
-  margin-top: 20px;
+  margin-top: 15px;
   display: flex;
   gap: 30px;         
   width: 89%;       
@@ -211,7 +211,7 @@
   padding: 20px 70px 20px 70px;
   font-weight: bold; 
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 30px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -240,7 +240,7 @@
   padding: 20px 70px 20px 70px;
   font-weight: bold; 
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 

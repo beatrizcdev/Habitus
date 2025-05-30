@@ -2,37 +2,43 @@ import Tarefa from '../modelos/Tarefa'
 import { conectarBanco, conectarBancoTeste } from '../utilitarios/conexaoBD'
 
 export async function adicionarTarefa(tarefa: Tarefa): Promise<string> {
-
-    //validação de campos
-    if (!tarefa.descricao || !tarefa.idUsuario || !tarefa.nome){
-        throw new Error('Preencha todos os campos obrigatórios.')
+    // Validação de campos
+    if (!tarefa.descricao || !tarefa.idUsuario || !tarefa.nome) {
+        throw new Error('Preencha todos os campos obrigatórios.');
     }
 
-    if (tarefa.dataLimite){
-        const hoje = new Date().toISOString().split('T')[0]
-        if (tarefa.dataLimite < hoje){
-            throw new Error('A data limite não pode estar no passado.')
+    // Definir status padrão explicitamente
+    const status = tarefa.status || 'pendente';
+
+    if (tarefa.dataLimite) {
+        const hoje = new Date().toISOString().split('T')[0];
+        if (tarefa.dataLimite < hoje) {
+            throw new Error('A data limite não pode estar no passado.');
         }
     }
 
     const db = process.env.NODE_ENV === 'test'
-    ? await conectarBancoTeste()
-    : await conectarBanco()
+        ? await conectarBancoTeste()
+        : await conectarBanco();
 
+    try {
         await db.run(
-        `INSERT INTO tarefa (descricao, nome, idUsuario, prioridade, categoria, dataLimite)
-        VALUES (?, ?, ?, ?, ?, ?)`,
-        [
-            tarefa.descricao,
-            tarefa.nome,
-            tarefa.idUsuario,
-            tarefa.prioridade,
-            tarefa.categoria,
-            tarefa.dataLimite,
-        ]
-        )
-    await db.close()
-    return 'Tarefa adicionada com sucesso!'  
+            `INSERT INTO tarefa (descricao, nome, idUsuario, prioridade, categoria, dataLimite, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [
+                tarefa.descricao,
+                tarefa.nome,
+                tarefa.idUsuario,
+                tarefa.prioridade,
+                tarefa.categoria,
+                tarefa.dataLimite,
+                status // Incluindo o status na query
+            ]
+        );
+        return 'Tarefa adicionada com sucesso!';
+    } finally {
+        await db.close();
+    }
 }
 
 export async function editarTarefa(idTarefa: number, dadosAtualizados: Partial<Tarefa>): Promise<string> {
@@ -135,4 +141,18 @@ export async function excluirTarefa(idTarefa: number): Promise<string> {
 
     await db.close()
     return 'Tarefa excluída com sucesso.'
+}
+
+export async function listarTarefas(idUsuario: number): Promise<Tarefa[]> {
+  const db = process.env.NODE_ENV === 'test'
+    ? await conectarBancoTeste()
+    : await conectarBanco()
+
+  const tarefas = await db.all<Tarefa[]>(
+    `SELECT * FROM tarefa WHERE idUsuario = ?`,
+    idUsuario
+  )
+
+  await db.close()
+  return tarefas
 }

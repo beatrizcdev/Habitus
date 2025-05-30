@@ -80,27 +80,18 @@
 
 <!-- Conteúdo das abas -->
 <div id="conteudo-tarefas" class="conteudo-aba ativo">
-    <div class="tarefas-container">
-  <h2>Lista de Tarefas</h2>
-  <ul class="task-list">
-  <li class="task-item">
-    <span class="check-circle"></span>
-    <span class="task-text">Declarar imposto</span>
-  </li>
-  <li class="task-item">
-    <span class="check-circle"></span>
-    <span class="task-text">Estudar node.js</span>
-  </li>
-  <li class="task-item">
-    <span class="check-circle"></span>
-    <span class="task-text">Escrever relatório</span>
-  </li>
-</ul>
-  <div class="botoes-tarefa">
-    <button class="btn-add">+</button>
-    <button class="btn-trash">🗑️</button>
+  <div class="tarefas-container">
+    <h2>Lista de Tarefas</h2>
+    
+    <ul id="lista-tarefas" class="task-list">
+      <!-- Tarefas carregadas dinamicamente vão aparecer aqui -->
+    </ul>
+
+    <div class="botoes-tarefa">
+      <button class="btn-add">+</button>
+      <button class="btn-trash">🗑️</button>
+    </div>
   </div>
-</div>
 </div>
 
 <div id="conteudo-habitos" class="conteudo-aba">
@@ -111,7 +102,37 @@
 <img class="arvore" src="../pictures/arvore/arvore_fase_4.svg" alt="arvore">
 
   <div class="headerSpacing"></div>
+  <!-- Modal de Nova Tarefa -->
+<div id="modal-tarefa" class="modal hidden">
+  <div class="modal-content">
+    <h2>Nova Tarefa</h2>
 
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" name="titulo">
+
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" name="descricao"></textarea>
+
+    <div class="linha-prioridade-data">
+      <div class="prioridade">
+        <p>Prioridade:</p>
+        <label><input type="radio" name="prioridade" value="alta" required> <span class="bolinha vermelha"></span> Alta</label><br>
+        <label><input type="radio" name="prioridade" value="media"> <span class="bolinha amarela"></span> Média</label><br>
+        <label><input type="radio" name="prioridade" value="baixa"> <span class="bolinha verde"></span> Baixa</label>
+      </div>
+
+      <div class="data-limite">
+        <label for="dataLimite">Data máxima:</label>
+        <input type="date" id="dataLimite" name="dataLimite">
+      </div>
+    </div>
+
+    <button id="btnSalvarTarefa">Salvar</button>
+    <button id="btn-cancelar-tarefa">Cancelar</button>
+  </div>
+</div>
+
+    <script type="module" src="../integracao/tarefas.js"></script>
   <script type="module">
   import {mostrarAba} from '../script/dashboard.js';
 
