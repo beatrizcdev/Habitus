@@ -99,26 +99,38 @@ export async function carregarTarefas() {
 
       // Evento para concluir tarefa
       check.addEventListener("click", async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
 
-        try {
-          const resposta = await fetch(`http://localhost:5000/tarefa/${tarefa.idTarefa}/concluir`, {
+    // Feedback visual imediato
+    check.classList.toggle("checked");
+    texto.classList.toggle("checked");
+    
+    try {
+        const resposta = await fetch(`http://localhost:5000/tarefa/${tarefa.idTarefa}/concluir`, {
             method: 'PUT',
-          });
+        });
 
-          if (!resposta.ok) throw new Error("Erro ao atualizar tarefa");
-
-          const resultado = await resposta.json();
-          console.log(resultado.mensagem);
-
-          check.classList.toggle("checked");
-          texto.classList.toggle("checked");
-        } catch (erro) {
-          console.error("Erro ao concluir tarefa:", erro);
-          alert("Erro ao atualizar tarefa.");
+        if (!resposta.ok) {
+            // Reverte a mudança visual se houve erro
+            check.classList.toggle("checked");
+            texto.classList.toggle("checked");
+            
+            const erro = await resposta.json();
+            throw new Error(erro.erro || "Erro ao atualizar tarefa");
         }
-      });
+
+        const resultado = await resposta.json();
+        
+        // Atualiza o status no objeto local
+        tarefa.status = resultado.status;
+        
+        console.log(resultado.mensagem);
+    } catch (erro) {
+        console.error("Erro ao concluir tarefa:", erro);
+        alert("Erro ao atualizar tarefa: " + erro.message);
+    }
+});
 
       // Evento para abrir modal de edição
       textoContainer.addEventListener("click", (e) => {

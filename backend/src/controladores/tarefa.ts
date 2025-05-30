@@ -101,32 +101,28 @@ export async function editarTarefa(idTarefa: number, dadosAtualizados: Partial<T
     return 'Tarefa editada com sucesso!'
 }
 
-export async function marcarTarefaComoConcluida(idTarefa: number): Promise<string> {
-    const db = process.env.NODE_ENV === 'test'
-    ? await conectarBancoTeste()
-    : await conectarBanco()
+export async function marcarTarefaComoConcluida(idTarefa: number): Promise<{mensagem: string, novoStatus: string}> {
+    const db = await conectarBanco();
 
-    //verifica a existência da tarefa
-    const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, [idTarefa])
-    if (!tarefa) {
-        throw new Error('Tarefa não encontrada.')
+    try {
+        const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, [idTarefa]);
+        if (!tarefa) throw new Error('Tarefa não encontrada.');
+
+        const novoStatus = tarefa.status === 'concluída' ? 'pendente' : 'concluída';
+        const operacaoMoedas = novoStatus === 'concluída' ? 1 : -1;
+
+        await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, [novoStatus, idTarefa]);
+        await db.run(`UPDATE Usuario SET moedas = moedas + ? WHERE idUsuario = ?`, [operacaoMoedas, tarefa.idUsuario]);
+
+        return {
+            mensagem: novoStatus === 'concluída' 
+                ? 'Tarefa concluída com sucesso!' 
+                : 'Tarefa reativada com sucesso.',
+            novoStatus
+        };
+    } finally {
+        await db.close();
     }
-
-    if(tarefa.status === 'concluída') {
-        
-        await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'pendente', idTarefa)
-        await db.run(`UPDATE Usuario SET moedas = moedas - 1 WHERE idUsuario = ?`, [tarefa.idUsuario])
-
-        await db.close()
-        return 'Tarefa reativada com sucesso.'
-    }
-
-    //se a tarefa não estiver concluída marca como concluída
-    await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'concluída', [idTarefa])
-    await db.run(`UPDATE Usuario SET moedas = moedas + 1 WHERE idUsuario = ?`, [tarefa.idUsuario])
-
-    await db.close()
-    return 'Tarefa concluída com sucesso!'
 }
 
 export async function excluirTarefa(idTarefa: number): Promise<string> {
