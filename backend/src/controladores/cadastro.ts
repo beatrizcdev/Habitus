@@ -62,7 +62,7 @@ export async function cadastrarUsuario(dados:{
             dados.nascimento,
             dados.email,
             dados.diasSeguidos,
-            dados.moedas  
+            dados.moedas ?? 0
         )
 
         //inserir novo usuário no banco
