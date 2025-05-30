@@ -1,0 +1,280 @@
+.container {
+  background-image: url('../pictures/utilidades/Vector.svg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  color: white;
+  overflow-y: hidden;
+}
+
+.navbar{
+    background-color: white;
+    display: flex;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 50px;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    gap: 10%;
+    padding-left: 5%;
+}
+
+.ajuda, .loja, .missoes{
+    display: flex;
+    font-size: 12px;
+    gap: 5px;
+}
+
+.ajuda img, .loja img, .missoes img{
+    width: 40px;
+}
+
+.moedas {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.moedas img {
+  width: 20px;
+  margin: 10px;
+}
+
+.perfil img {
+  width: 35px;
+  margin-left: 10px;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  margin-right: 5%; 
+}
+
+#logotipo{
+    width: 80px;
+}
+
+.navbar p{
+    color: black;
+}
+
+.opcoes-navbar{
+    display: flex;
+    align-items: center;
+    padding-left: 10%;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.tarefas-container {
+  background-color: #ffa726;
+  color: white;
+  border-radius: 20px;
+  padding: 20px;
+  width: 250px;
+  font-family: sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-left: 5%;
+}
+
+.tarefas-container h2 {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.check-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.check-circle.checked {
+  background-color: #ffffff;
+}
+
+.check-circle.checked::after {
+  content: "✔";
+  color: #0f0f0f;
+  font-size: 12px;
+  position: absolute;
+  top: 1px;
+  left: 3px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  background-color: white;
+  color: #000;
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+.check-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ffa726;
+  margin: 5px;
+  margin-left: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  background-color: white; /* Sempre branca */
+  transition: all 0.2s ease-in-out;
+}
+
+.check-circle.checked::after {
+  content: "✔";
+  color: #000;
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  left: 4px;
+}
+
+.task-text.checked {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.icone-status {
+  margin-right: 10px;
+}
+
+.texto-tarefa {
+  flex-grow: 1;
+  font-size: 14px;
+}
+
+.prioridade {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.vermelha {
+  background-color: red;
+}
+
+.laranja {
+  background-color: orange;
+}
+
+.amarela {
+  background-color: yellow;
+}
+
+.verde {
+  background-color: green;
+}
+
+.botoes-tarefa {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.btn-add,
+.btn-trash {
+  background-color: white;
+  color: #ffa726;
+  border: none;
+  font-size: 20px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add:hover,
+.btn-trash:hover {
+  background-color: #ffe0b2;
+}
+
+.tabs-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  margin-top: 120px;
+  margin-bottom: 3%;
+  margin-left: 5%;
+}
+
+.tab {
+  background-color: transparent;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tab:hover {
+  background-color: #ffa726;
+}
+
+.tab.active {
+  background-color: #ffa726;
+  color: white;
+}
+
+.conteudo-aba {
+  display: none;
+}
+
+.conteudo-aba.ativo {
+  display: block;
+}
+
+.arvore {
+  position: absolute;
+  right: 0px;
+  bottom: 0;
+  height: auto;
+  max-height: 90%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+
+
+

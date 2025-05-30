@@ -1,0 +1,110 @@
+.navbar {
+  position: absolute;
+  padding: 0 6%;
+  z-index: 9999;
+  margin: 0;
+  background-color: white;
+  height: 75px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 0px 0px 20px 20px;
+  box-shadow: 0px 15px 0px 0px #257d6b;
+}
+
+.headerSpacing {
+  height: calc(75px + 0.8rem);
+}
+
+.logo {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.lista {
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.navbar li:hover {
+  color: #41995a;
+}
+
+.mainitens {
+  padding: 0px 20px;
+  font-size: 20px;
+  color: #124621;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainicons {
+  /* margin-right: 10px; */
+  /* margin-left: 10px; */
+  width: 27px;
+}
+
+.itensborda {
+  justify-self: end;
+  font-size: 20px;
+  color: #fea025;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.moeda {
+  display: flex;
+  gap: 6px;
+}
+
+.iconsborda {
+  width: 32px;
+  /* margin-right: 20px; */
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.modalNotificacoes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: end;
+  align-items: start;
+}
+
+.modalContent {
+  border: 2px solid #fea025;
+  background-color: rgba(255, 255, 255, 0.76);
+  padding: 30px;
+  border-radius: 20px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  color: #124621;
+  text-align: left;
+}
+
+.fechar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #999;
+}
