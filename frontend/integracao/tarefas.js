@@ -45,35 +45,32 @@ export async function carregarTarefas() {
         texto.classList.add("checked");
       }
 
-      check.addEventListener("click", async (event) => {
+        check.addEventListener("click", async (event) => {
         event.preventDefault();
+        event.stopPropagation(); // Adicione esta linha para parar a propagação do evento
 
-        // feedback visual imediato
-        check.classList.toggle("checked");
-        texto.classList.toggle("checked");
+        const idTarefa = tarefa.idTarefa;
 
         try {
-          const resposta = await fetch(`http://localhost:5000/tarefa/${tarefa.idTarefa}/concluir`, {
+            const resposta = await fetch(`http://localhost:5000/tarefa/${idTarefa}/concluir`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' }
-          });
+            });
 
-          if (!resposta.ok) {
-            // desfaz alteração visual se der erro
+            if (!resposta.ok) throw new Error("Erro ao atualizar tarefa");
+
+            const resultado = await resposta.json();
+            console.log(resultado.mensagem);
+
             check.classList.toggle("checked");
             texto.classList.toggle("checked");
-
-            const erro = await resposta.json();
-            throw new Error(erro.erro || "Erro ao atualizar tarefa");
-          }
-
-          const resultado = await resposta.json();
-          console.log(resultado.mensagem);
+            
+            return false; // Adicione isso como precaução adicional
         } catch (erro) {
-          console.error("Erro ao marcar tarefa como concluída:", erro);
-          alert("Erro ao marcar tarefa. Verifique o console.");
+            console.error("Erro ao concluir tarefa:", erro);
+            alert("Erro ao atualizar tarefa.");
+            return false;
         }
-      });
+        });
 
       li.appendChild(check);
       li.appendChild(texto);
