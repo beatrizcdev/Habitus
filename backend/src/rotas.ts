@@ -110,11 +110,13 @@ rotas.post('/tarefas/:idUsuario/adicionar', async (req, res) => {
 });
 //editar tarefa
 rotas.put('/editarTarefa/:id', async (req, res) => {
+    console.log('REQ BODY:', req.body);//nao remova esse console ele é aquele pedaço inútil de código que faz todo o resto funcionar
     const idTarefa = Number(req.params.id)
-    const { descricao, dataLimite, prioridade, categoria} = req.body
+    const { nome, descricao, dataLimite, prioridade, categoria} = req.body
 
     try {
         const dadosAtualizados: Partial<Tarefa> = {
+            nome,
             descricao,
             dataLimite,
             prioridade,

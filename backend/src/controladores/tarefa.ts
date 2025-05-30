@@ -70,6 +70,11 @@ export async function editarTarefa(idTarefa: number, dadosAtualizados: Partial<T
         throw new Error('Tarefa não encontrada')
     }
 
+    const tarefaAtual = await db.get('SELECT * FROM tarefa WHERE idTarefa = ?', [idTarefa]);
+
+    const statusFinal = dadosAtualizados.status ?? tarefaAtual.status ?? 'pendente';
+
+
     //modificando banco de dados
     const resultado = await db.run(
         `UPDATE tarefa
@@ -82,7 +87,7 @@ export async function editarTarefa(idTarefa: number, dadosAtualizados: Partial<T
             dadosAtualizados.dataLimite,
             dadosAtualizados.prioridade,
             dadosAtualizados.categoria,
-            dadosAtualizados.status || 'pendente',
+            statusFinal,
             idTarefa
         ]
     )

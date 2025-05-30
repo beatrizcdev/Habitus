@@ -118,16 +118,20 @@
   <div class="modal-content">
     <h2>Nova Tarefa</h2>
 
-    <label for="titulo">Título:</label>
-    <input type="text" id="titulo" name="titulo">
+    <label for="nome">Título:</label>
+    <input type="text" id="nome" name="nome">
 
     <label for="descricao">Descrição:</label>
     <textarea id="descricao" name="descricao"></textarea>
 
+        <label for="categoria">Categoria:</label>
+        <input type="text" id="categoria" name="categoria">
+
     <div class="linha-prioridade-data">
       <div class="prioridade">
         <p>Prioridade:</p>
-        <label><input type="radio" name="prioridade" value="alta" required> <span class="bolinha vermelha"></span> Alta</label><br>
+        <label><input type="radio" name="prioridade" value="alta" required> <span class="bolinha vermelha"></span> Alta</label>
+        <br>
         <label><input type="radio" name="prioridade" value="media"> <span class="bolinha amarela"></span> Média</label><br>
         <label><input type="radio" name="prioridade" value="baixa"> <span class="bolinha verde"></span> Baixa</label>
       </div>
