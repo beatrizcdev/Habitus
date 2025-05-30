@@ -27,10 +27,10 @@ document.getElementById('cadastroForm').addEventListener('submit', async (e) => 
     const resultado = await resposta.json();
 
    if (resposta.ok) {
-    console.log('Login ok, redirecionando...'); 
-    setTimeout(() => {
-        window.location.href = './dashboard.html'; 
-    }, 100);
+      console.log('Login ok, redirecionando...');
+      setTimeout(() => {
+        window.location.href = `./dashboard.html?userId=${resultado.userId}`;
+      }, 100);
     } else {
       erroTexto.textContent = resultado.error || 'Erro ao fazer login.';
       erroContainer.style.display = 'flex';

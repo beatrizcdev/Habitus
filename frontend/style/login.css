@@ -32,7 +32,7 @@
 }
 
 .container-titulo img {
-  max-width: 300px;
+  max-width: 250px;
   height: auto;
 }
 
@@ -272,7 +272,7 @@
   justify-content: flex-start;
   gap: 80px;
   margin-top: 20px;
-  padding-right: 25%;
+  padding-right: 20%;
 }
 
 .botoes button {

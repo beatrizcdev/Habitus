@@ -2,7 +2,7 @@ import { Router } from "express"
 import { cadastrarUsuario } from "./controladores/cadastro"
 import { loginUsuario } from "./controladores/login"
 import Tarefa from "./modelos/Tarefa"
-import { adicionarTarefa, editarTarefa, excluirTarefa, marcarTarefaComoConcluida } from "./controladores/tarefa"
+import { adicionarTarefa, editarTarefa, excluirTarefa, listarTarefas, marcarTarefaComoConcluida } from "./controladores/tarefa"
 import { listarMissoes } from "./controladores/missoes"
 import { carregarUsuario, verificarAcessoHandler, verificarMissoesMiddleware } from "./utilitarios/middlewares"
 import { editarPerfil, exibirPerfil } from "./controladores/perfil"
@@ -10,6 +10,7 @@ import { pegarMoedasUsuario } from "./controladores/exibirMoedas"
 import { adicionarHabito, editarHabito, excluirHabito, listarHabitos, marcarHabitoComoConcluido } from "./controladores/habitos"
 import { RequestComUsuario } from "./modelos/request"
 import { comprarItem, equiparItem, listarInventario } from "./controladores/itens"
+import path from "path"
 
 const rotas = Router()
 
@@ -49,31 +50,73 @@ rotas.post('/login', async (req, res) => {
 });
 //verificar primeiro acesso
 rotas.get('/usuario/primeiro-acesso/:id', carregarUsuario, verificarAcessoHandler)
+//listar tarefas
+rotas.get('/tarefas/:idUsuario', async (req, res) => {
+  try {
+    const idUsuario = Number(req.params.idUsuario)
+    const tarefas = await listarTarefas(idUsuario)
+    res.json(tarefas)
+  } catch (erro) {
+    const error = erro as Error
+    res.status(500).json({ erro: error.message })
+  }
+})
 //adicionar tarefa
-rotas.post('/adicionarTarefa', async (req, res) => {
+rotas.post('/tarefas/:idUsuario/adicionar', async (req, res) => {
     try {
-        const { descricao, status, idUsuario, nome, prioridade, categoria, dataLimite } = req.body
+        // Pega o ID diretamente da URL e converte para número
+        const idUsuario = parseInt(req.params.idUsuario, 10);
+        
+        // Validação robusta do ID
+        if (isNaN(idUsuario)) {
+            throw new Error('ID do usuário deve ser um número válido');
+        }
 
-        const novaTarefa = new Tarefa(descricao, idUsuario, nome, 'pendente', prioridade, categoria, dataLimite)
+        // Extrai os dados do corpo da requisição
+        const { nome, descricao, prioridade, categoria, dataLimite } = req.body;
 
-        const resultado = await adicionarTarefa(novaTarefa)
+        // Cria a tarefa com o ID convertido
+        const novaTarefa = new Tarefa(
+            descricao,
+            'pendente',
+            idUsuario, // Já é number
+            nome,
+            prioridade,
+            categoria,
+            dataLimite
+        );
 
-        res.status(201).json({ mensagem: resultado })
+        // Chama a função de adicionar tarefa
+        const resultado = await adicionarTarefa(novaTarefa);
+        
+        res.status(201).json({ 
+            success: true,
+            message: resultado 
+        });
+        
     } catch (error) {
         if (error instanceof Error) {
-            res.status(400).json({ message: error.message })
+            res.status(400).json({ 
+                success: false,
+                message: error.message 
+            });
         } else {
-            res.status(500).json({ message: 'Erro interno do servidor' })
+            res.status(500).json({ 
+                success: false,
+                message: 'Erro interno no servidor' 
+            });
         }
     }
-})
+});
 //editar tarefa
 rotas.put('/editarTarefa/:id', async (req, res) => {
+    console.log('REQ BODY:', req.body);//nao remova esse console ele é aquele pedaço inútil de código que faz todo o resto funcionar
     const idTarefa = Number(req.params.id)
-    const { descricao, dataLimite, prioridade, categoria} = req.body
+    const { nome, descricao, dataLimite, prioridade, categoria} = req.body
 
     try {
         const dadosAtualizados: Partial<Tarefa> = {
+            nome,
             descricao,
             dataLimite,
             prioridade,
@@ -91,20 +134,34 @@ rotas.put('/editarTarefa/:id', async (req, res) => {
     }
 })
 //marcar tarefa como concluida
-rotas.put('/tarefa/:id/concluir', async (req, res) => {
-    const idTarefa = Number(req.params.id)
+rotas.put('/tarefa/:id/concluir', async (req, res, next) => {
+  const idTarefa = Number(req.params.id)
 
-    try {
-        const mensagem = await marcarTarefaComoConcluida(idTarefa)
-        res.status(200).json({ mensagem})
-    }catch (erro: any) {
-        res.status(400).json({ erro: erro.message})
-    }
-  }, verificarMissoesMiddleware, (req, res) => {
-    res.status(200).json({ mensagem: "Tarefa concluída e missões verificadas" })
-})
+  try {
+    const mensagem = await marcarTarefaComoConcluida(idTarefa)
+    res.locals.mensagem = mensagem
+    next()
+  } catch (erro: any) {
+    res.status(400).json({ erro: erro.message })
+  }
+}, verificarMissoesMiddleware, (req, res) => {
+  res.status(200).json({ mensagem: res.locals.mensagem || "Tarefa concluída" });
+});
 //excluir tarefa
-rotas.delete('/tarefas/:id', excluirTarefa)
+rotas.delete('/tarefas/:id', async (req, res) => {
+    try {
+        const idTarefa = parseInt(req.params.id);
+        if (isNaN(idTarefa)) {
+            return res.status(400).json({ erro: 'ID inválido' });
+        }
+
+        const resultado = await excluirTarefa(idTarefa);
+        res.status(200).json({ mensagem: resultado });
+    } catch (erro) {
+        res.status(erro instanceof Error && erro.message === 'Tarefa não encontrada.' ? 404 : 500)
+           .json({ erro: erro instanceof Error ? erro.message : 'Erro desconhecido' });
+    }
+});
 //listar missões
 rotas.get('/missoes/:idUsuario', async (req, res) => {
     try {

@@ -2,37 +2,43 @@ import Tarefa from '../modelos/Tarefa'
 import { conectarBanco, conectarBancoTeste } from '../utilitarios/conexaoBD'
 
 export async function adicionarTarefa(tarefa: Tarefa): Promise<string> {
-
-    //validação de campos
-    if (!tarefa.descricao || !tarefa.idUsuario || !tarefa.nome){
-        throw new Error('Preencha todos os campos obrigatórios.')
+    // Validação de campos
+    if (!tarefa.descricao || !tarefa.idUsuario || !tarefa.nome) {
+        throw new Error('Preencha todos os campos obrigatórios.');
     }
 
-    if (tarefa.dataLimite){
-        const hoje = new Date().toISOString().split('T')[0]
-        if (tarefa.dataLimite < hoje){
-            throw new Error('A data limite não pode estar no passado.')
+    // Definir status padrão explicitamente
+    const status = tarefa.status || 'pendente';
+
+    if (tarefa.dataLimite) {
+        const hoje = new Date().toISOString().split('T')[0];
+        if (tarefa.dataLimite < hoje) {
+            throw new Error('A data limite não pode estar no passado.');
         }
     }
 
     const db = process.env.NODE_ENV === 'test'
-    ? await conectarBancoTeste()
-    : await conectarBanco()
+        ? await conectarBancoTeste()
+        : await conectarBanco();
 
+    try {
         await db.run(
-        `INSERT INTO tarefa (descricao, nome, idUsuario, prioridade, categoria, dataLimite)
-        VALUES (?, ?, ?, ?, ?, ?)`,
-        [
-            tarefa.descricao,
-            tarefa.nome,
-            tarefa.idUsuario,
-            tarefa.prioridade,
-            tarefa.categoria,
-            tarefa.dataLimite,
-        ]
-        )
-    await db.close()
-    return 'Tarefa adicionada com sucesso!'  
+            `INSERT INTO tarefa (descricao, nome, idUsuario, prioridade, categoria, dataLimite, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [
+                tarefa.descricao,
+                tarefa.nome,
+                tarefa.idUsuario,
+                tarefa.prioridade,
+                tarefa.categoria,
+                tarefa.dataLimite,
+                status // Incluindo o status na query
+            ]
+        );
+        return 'Tarefa adicionada com sucesso!';
+    } finally {
+        await db.close();
+    }
 }
 
 export async function editarTarefa(idTarefa: number, dadosAtualizados: Partial<Tarefa>): Promise<string> {
@@ -64,6 +70,11 @@ export async function editarTarefa(idTarefa: number, dadosAtualizados: Partial<T
         throw new Error('Tarefa não encontrada')
     }
 
+    const tarefaAtual = await db.get('SELECT * FROM tarefa WHERE idTarefa = ?', [idTarefa]);
+
+    const statusFinal = dadosAtualizados.status ?? tarefaAtual.status ?? 'pendente';
+
+
     //modificando banco de dados
     const resultado = await db.run(
         `UPDATE tarefa
@@ -76,7 +87,7 @@ export async function editarTarefa(idTarefa: number, dadosAtualizados: Partial<T
             dadosAtualizados.dataLimite,
             dadosAtualizados.prioridade,
             dadosAtualizados.categoria,
-            dadosAtualizados.status || 'pendente',
+            statusFinal,
             idTarefa
         ]
     )
@@ -96,7 +107,7 @@ export async function marcarTarefaComoConcluida(idTarefa: number): Promise<strin
     : await conectarBanco()
 
     //verifica a existência da tarefa
-    const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, idTarefa)
+    const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, [idTarefa])
     if (!tarefa) {
         throw new Error('Tarefa não encontrada.')
     }
@@ -104,35 +115,55 @@ export async function marcarTarefaComoConcluida(idTarefa: number): Promise<strin
     if(tarefa.status === 'concluída') {
         
         await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'pendente', idTarefa)
-        await db.run(`UPDATE Usuario SET moedas = moedas - 1 WHERE idUsuario = ?`, tarefa.idUsuario)
+        await db.run(`UPDATE Usuario SET moedas = moedas - 1 WHERE idUsuario = ?`, [tarefa.idUsuario])
 
         await db.close()
         return 'Tarefa reativada com sucesso.'
     }
 
     //se a tarefa não estiver concluída marca como concluída
-    await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'concluída', idTarefa)
-    await db.run(`UPDATE Usuario SET moedas = moedas + 1 WHERE idUsuario = ?`, tarefa.idUsuario)
+    await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'concluída', [idTarefa])
+    await db.run(`UPDATE Usuario SET moedas = moedas + 1 WHERE idUsuario = ?`, [tarefa.idUsuario])
 
     await db.close()
     return 'Tarefa concluída com sucesso!'
 }
 
 export async function excluirTarefa(idTarefa: number): Promise<string> {
-    
     const db = process.env.NODE_ENV === 'test'
+        ? await conectarBancoTeste()
+        : await conectarBanco();
+
+    try {
+        // Verificar existência da tarefa
+        const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, [idTarefa]);
+        if (!tarefa) {
+            throw new Error('Tarefa não encontrada.');
+        }
+
+        // Excluir a tarefa
+        const resultado = await db.run('DELETE FROM tarefa WHERE idTarefa = ?', [idTarefa]);
+        
+        if (resultado.changes === 0) {
+            throw new Error('Nenhuma tarefa foi excluída.');
+        }
+
+        return 'Tarefa excluída com sucesso.';
+    } finally {
+        await db.close();
+    }
+}
+
+export async function listarTarefas(idUsuario: number): Promise<Tarefa[]> {
+  const db = process.env.NODE_ENV === 'test'
     ? await conectarBancoTeste()
     : await conectarBanco()
 
-    //verifica a existência da tarefa
-    const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, idTarefa)
-    if (!tarefa) {
-        throw new Error('Tarefa não encontrada.')
-    }
+  const tarefas = await db.all<Tarefa[]>(
+    `SELECT * FROM tarefa WHERE idUsuario = ?`,
+    [idUsuario]
+  )
 
-     // Exclui a tarefa
-    await db.run('DELETE FROM tarefa WHERE idTarefa = ?', idTarefa)
-
-    await db.close()
-    return 'Tarefa excluída com sucesso.'
+  await db.close()
+  return tarefas
 }

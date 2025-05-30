@@ -1,11 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../style/global.css">
+    <link rel="stylesheet" href="../style/tarefas.css">
+    <link rel="stylesheet" href="../style/navbar.css">
+    <link rel="stylesheet" href="../style/habito.css">
 </head>
 <body>
-    <p>ola estou aqui</p>
+    <div class="container">
+  <div id="navbar-container"></div>
+
+  <div class="tabs-container">
+  <button class="tab active" onclick="mostrarAba('tarefas')">Tarefas</button>
+  <button class="tab" onclick="mostrarAba('habitos')">Hábitos</button>
+</div>
+
+<!-- Conteúdo das abas -->
+<div id="conteudo-tarefas" class="conteudo-aba ativo">
+  <div class="tarefas-container">
+    <h2>Lista de Tarefas</h2>
+    
+    <ul id="lista-tarefas" class="task-list">
+      <!-- Tarefas carregadas dinamicamente vão aparecer aqui -->
+    </ul>
+
+    <div class="botoes-tarefa">
+      <button class="btn-add">+</button>
+      <button id="btn-excluir-tarefa-modal" class="btn-trash">🗑️</button>
+    </div>
+  </div>
+</div>
+
+<div id="conteudo-habitos" class="conteudo-aba">
+    <h3>
+        <hr style="width: 20%; display: inline-block;"> Lista de Hábitos
+        <hr style="width: 20%; display: inline-block;">
+      </h3>
+
+      <ul id="lista-habitos"></ul>
+      
+      <div class="habitos-botoes">
+        <button id="habitos-botao" onclick="abrirModalHabito()"> <img src="../pictures/utilidades/Plus.svg" alt="icone +"> </button>
+        <button id="habitos-botao" onclick="abrirModalRemoverHabito()"> <img src="../pictures/utilidades/lixeira.svg" alt="icone lixeira"> </button>
+      </div>
+</div>
+
+</div>
+<img class="arvore" src="../pictures/arvore/arvore_fase_4.svg" alt="arvore">
+
+  <div class="headerSpacing"></div>
+  <!-- Modal de Nova Tarefa -->
+<div id="modal-tarefa" class="modal hidden">
+  <div class="modal-content">
+    <h2>Nova Tarefa</h2>
+
+    <label for="nome">Título:</label>
+    <input type="text" id="nome" name="nome">
+
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" name="descricao"></textarea>
+
+        <label for="categoria">Categoria:</label>
+        <input type="text" id="categoria" name="categoria">
+
+    <div class="linha-prioridade-data">
+      <div class="prioridade">
+        <p>Prioridade:</p>
+        <label><input type="radio" name="prioridade" value="alta" required> <span class="bolinha vermelha"></span> Alta</label>
+        <br>
+        <label><input type="radio" name="prioridade" value="media"> <span class="bolinha amarela"></span> Média</label><br>
+        <label><input type="radio" name="prioridade" value="baixa"> <span class="bolinha verde"></span> Baixa</label>
+      </div>
+
+      <div class="data-limite">
+        <label for="dataLimite">Data máxima:</label>
+        <input type="date" id="dataLimite" name="dataLimite">
+      </div>
+    </div>
+
+    <button id="btnSalvarTarefa">Salvar</button>
+    <button id="btn-cancelar-tarefa">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal habitos -->
+      <div id="modal-habito" class="modal-habito" style="display: none;">
+        <div class="modal-habito-conteudo">
+          <h4>Adicionar novo hábito</h4>
+          <input type="text" id="input-novo-habito" placeholder="Nome do Hábito">
+          <button class="modal-habito-botao" onclick="confirmarAdicionarHabito()">Adicionar</button>
+          <button class="modal-habito-botao" onclick="fecharModalHabito()">Cancelar</button>
+        </div>
+      </div>
+
+      <div id="modal-remover-habito" class="modal-habito" style="display: none;">
+        <div class="modal-habito-conteudo">
+          <h2>Remover Hábito</h2>
+          <select id="habitosParaRemover">
+            <!-- hábitos serão inseridos aqui via JS -->
+          </select>
+          <button class="modal-habito-botao" onclick="removerHabitoSelecionado()">Remover</button>
+          <button class="modal-habito-botao" onclick="fecharModalRemoverHabito()">Cancelar</button>
+        </div>
+      </div>
+
+
+    <script type="module" src="../script/navbar.js"></script> 
+    <script type="module" src="../integracao/tarefas.js"></script>
+  <script type="module">
+  import {mostrarAba, abrirModalHabito,
+    fecharModalHabito,
+    confirmarAdicionarHabito,
+    abrirModalRemoverHabito,
+    fecharModalRemoverHabito,
+    removerHabitoSelecionado} from '../script/dashboard.js';
+
+  document.querySelectorAll(".tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const aba = btn.textContent.trim().toLowerCase();
+      mostrarAba(aba);
+    });
+  });
+</script>
 </body>
+
 </html>
