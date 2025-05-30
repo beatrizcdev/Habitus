@@ -11,68 +11,7 @@
 </head>
 <body>
     <div class="container">
-  <header class="header">
-    <nav class="navbar">
-      <!-- Logo -->
-      <a href="/" class="logo">
-        <img src="../pictures/utilidades/logotipo.svg" alt="Logo da Habitus" width="130" height="50" />
-      </a>
-
-      <!-- Menu principal -->
-      <ul class="lista">
-        <li class="mainitens">
-          <img class="mainicons" src="../pictures/utilidades/missions.svg" alt="Missões" width="24" height="24" />
-          <a href="/missoes">Missões</a>
-        </li>
-        <li class="mainitens">
-          <img class="mainicons" src="../pictures/utilidades/teamshield.svg" alt="Equipe" width="24" height="24" />
-          <a href="/equipe">Equipe</a>
-        </li>
-        <li class="mainitens">
-          <img class="mainicons" src="../pictures/utilidades/questionmark.svg" alt="Ajuda" width="24" height="24" />
-          <a href="/ajuda">Ajuda</a>
-        </li>
-      </ul>
-
-      <!-- Borda direita -->
-      <div class="itensborda">
-        <div class="moeda">
-          <img class="mainicons" src="../pictures/utilidades/coinspig.svg" alt="Moedas" width="24" height="24" />
-          <span>10000</span>
-        </div>
-
-        <img
-          class="iconsborda"
-          src="../pictures/utilidades/notif.svg"
-          alt="Notificações"
-          width="36"
-          height="36"
-          onclick="document.getElementById('modal-notificacoes').style.display = 'flex';"
-        />
-
-        <a href="/editar-perfil">
-          <img
-            class="iconsborda"
-            src="../pictures/utilidades/profile.svg"
-            alt="Perfil"
-            width="36"
-            height="36"
-          />
-        </a>
-      </div>
-
-      <!-- Modal de notificações -->
-      <div id="modal-notificacoes" class="modalNotificacoes" style="display: none;">
-        <div class="modalContent">
-          <span class="fechar" onclick="document.getElementById('modal-notificacoes').style.display = 'none';">&times;</span>
-          <h2>Notificações</h2>
-          <p>🔔 Você ganhou 50 moedas!</p>
-          <p>📅 Missão nova disponível!</p>
-          <p>🎉 Parabéns pelo nível 15!</p>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <div id="navbar-container"></div>
 
   <div class="tabs-container">
   <button class="tab active" onclick="mostrarAba('tarefas')">Tarefas</button>
@@ -169,7 +108,7 @@
       </div>
 
 
-
+    <script type="module" src="../script/navbar.js"></script> 
     <script type="module" src="../integracao/tarefas.js"></script>
   <script type="module">
   import {mostrarAba, abrirModalHabito,
