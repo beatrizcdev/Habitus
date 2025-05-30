@@ -394,6 +394,48 @@
   margin-bottom: 10px;
 }
 
+.item-tarefa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.check-circle {
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.texto-container {
+  flex: 1;
+  text-align: left;
+}
+
+.prioridade-box {
+  width: 16px;
+  height: 8px;
+  border-radius: 5px;
+  margin-left: 12px;
+  padding-left: 8px;
+}
+
+/* Cores das prioridades */
+.prioridade-alta {
+  background-color: red;
+}
+
+.prioridade-media {
+  background-color: orange;
+}
+
+.prioridade-baixa {
+  background-color: green;
+}
+
  #conteudo-habitos.ativo{
   background: #288f5ce3;
   padding: 2rem;

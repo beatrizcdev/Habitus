@@ -27,19 +27,48 @@ export async function carregarTarefas() {
     }
 
     tarefas.forEach(tarefa => {
-      const li = document.createElement("li");
-      li.classList.add("item-tarefa");
-      li.id = `tarefa-${tarefa.idTarefa}`;
+    const li = document.createElement("li");
+    li.classList.add("item-tarefa");
+    li.id = `tarefa-${tarefa.idTarefa}`;
 
-      const check = document.createElement("span");
-      check.classList.add("check-circle");
-      if (tarefa.status === "concluída") {
+    // Checkbox
+    const check = document.createElement("span");
+    check.classList.add("check-circle");
+    if (tarefa.status === "concluída") {
         check.classList.add("checked");
-      }
+    }
 
-      const texto = document.createElement("span");
-      texto.classList.add("texto-tarefa");
-      texto.textContent = tarefa.nome;
+    // Texto da tarefa
+    const texto = document.createElement("span");
+    texto.classList.add("texto-tarefa");
+    texto.textContent = tarefa.nome;
+    if (tarefa.status === "concluída") {
+        texto.classList.add("checked");
+    }
+
+    // Container do texto (para alinhamento)
+    const textoContainer = document.createElement("div");
+    textoContainer.classList.add("texto-container");
+    textoContainer.appendChild(texto);
+
+    // Prioridade
+    
+
+    // Adiciona os elementos na ordem correta
+    li.appendChild(check);
+    li.appendChild(textoContainer);
+    
+    const prioridadeBox = document.createElement("span");
+    prioridadeBox.classList.add("prioridade-box");
+    
+    if (tarefa.prioridade === "alta") {
+        prioridadeBox.classList.add("prioridade-alta");
+    } else if (tarefa.prioridade === "media") {
+        prioridadeBox.classList.add("prioridade-media");
+    } else if (tarefa.prioridade === "baixa") {
+        prioridadeBox.classList.add("prioridade-baixa");
+    }
+    li.appendChild(prioridadeBox);
 
       if (tarefa.status === "concluída") {
         texto.classList.add("checked");
@@ -72,8 +101,6 @@ export async function carregarTarefas() {
         }
         });
 
-      li.appendChild(check);
-      li.appendChild(texto);
       lista.appendChild(li);
     });
   } catch (erro) {
