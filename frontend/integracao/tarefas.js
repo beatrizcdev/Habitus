@@ -45,11 +45,32 @@ export async function carregarTarefas() {
         texto.classList.add("checked");
       }
 
-      check.addEventListener("click", () => {
-        check.classList.toggle("checked");
-        texto.classList.toggle("checked");
-        // Aqui você pode adicionar a chamada para atualizar o status no backend
-      });
+        check.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation(); // Adicione esta linha para parar a propagação do evento
+
+        const idTarefa = tarefa.idTarefa;
+
+        try {
+            const resposta = await fetch(`http://localhost:5000/tarefa/${idTarefa}/concluir`, {
+            method: 'PUT',
+            });
+
+            if (!resposta.ok) throw new Error("Erro ao atualizar tarefa");
+
+            const resultado = await resposta.json();
+            console.log(resultado.mensagem);
+
+            check.classList.toggle("checked");
+            texto.classList.toggle("checked");
+            
+            return false; // Adicione isso como precaução adicional
+        } catch (erro) {
+            console.error("Erro ao concluir tarefa:", erro);
+            alert("Erro ao atualizar tarefa.");
+            return false;
+        }
+        });
 
       li.appendChild(check);
       li.appendChild(texto);

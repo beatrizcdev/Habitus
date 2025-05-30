@@ -132,18 +132,19 @@ rotas.put('/editarTarefa/:id', async (req, res) => {
     }
 })
 //marcar tarefa como concluida
-rotas.put('/tarefa/:id/concluir', async (req, res) => {
-    const idTarefa = Number(req.params.id)
+rotas.put('/tarefa/:id/concluir', async (req, res, next) => {
+  const idTarefa = Number(req.params.id)
 
-    try {
-        const mensagem = await marcarTarefaComoConcluida(idTarefa)
-        res.status(200).json({ mensagem})
-    }catch (erro: any) {
-        res.status(400).json({ erro: erro.message})
-    }
-  }, verificarMissoesMiddleware, (req, res) => {
-    res.status(200).json({ mensagem: "Tarefa concluída e missões verificadas" })
-})
+  try {
+    const mensagem = await marcarTarefaComoConcluida(idTarefa)
+    res.locals.mensagem = mensagem
+    next()
+  } catch (erro: any) {
+    res.status(400).json({ erro: erro.message })
+  }
+}, verificarMissoesMiddleware, (req, res) => {
+  res.status(200).json({ mensagem: res.locals.mensagem || "Tarefa concluída" });
+});
 //excluir tarefa
 rotas.delete('/tarefas/:id', excluirTarefa)
 //listar missões
