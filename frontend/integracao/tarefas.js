@@ -68,6 +68,35 @@ export async function carregarTarefas() {
       li.appendChild(textoContainer);
       li.appendChild(prioridadeBox);
 
+      const lixeira = document.createElement("span");
+    lixeira.innerHTML = "🗑️"; // Ou use um ícone de sua preferência
+    lixeira.classList.add("lixeira-exclusao");
+    lixeira.title = "Excluir tarefa";
+
+    // Adicione a lixeira ao item (coloque onde achar melhor)
+    textoContainer.appendChild(lixeira);
+
+    // Evento de clique na lixeira
+    lixeira.addEventListener("click", async (event) => {
+      event.stopPropagation(); // Impede que o modal de edição abra
+
+      const confirmar = confirm(`Excluir a tarefa "${tarefa.nome}"?`);
+      if (!confirmar) return;
+
+      try {
+        const resposta = await fetch(`http://localhost:5000/tarefas/${tarefa.idTarefa}`, {
+          method: "DELETE"
+        });
+
+        if (!resposta.ok) throw new Error("Erro ao excluir tarefa");
+
+        await carregarTarefas(); // Recarrega a lista
+      } catch (erro) {
+        console.error("Erro ao excluir tarefa:", erro);
+        alert("Erro ao excluir tarefa.");
+      }
+    });      
+
       // Evento para concluir tarefa
       check.addEventListener("click", async (event) => {
         event.preventDefault();
@@ -248,4 +277,68 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Carregar tarefas inicialmente
   carregarTarefas();
+});
+
+
+const btnExcluir = document.getElementById("btn-excluir-tarefa-modal");
+let modoExclusaoAtivo = false;
+
+btnExcluir?.addEventListener("click", () => {
+  modoExclusaoAtivo = !modoExclusaoAtivo; // Alterna entre true/false
+  
+  document.querySelectorAll(".item-tarefa").forEach(item => {
+    if (modoExclusaoAtivo) {
+      item.classList.add("modo-exclusao");
+    } else {
+      item.classList.remove("modo-exclusao");
+    }
+  });
+
+  if (modoExclusaoAtivo) {
+    btnExcluir.textContent = "Cancelar Exclusão";
+    btnExcluir.style.backgroundColor = "#ff4444";
+  } else {
+    btnExcluir.textContent = "Excluir Tarefas";
+    btnExcluir.style.backgroundColor = "";
+  }
+});
+
+// Evento para excluir tarefa ao clicar em li no modo exclusão
+document.getElementById("lista-tarefas")?.addEventListener("click", async (event) => {
+  if (!modoExclusaoAtivo) return;
+
+  const li = event.target.closest(".item-tarefa");
+  if (!li) return;
+
+  const idTarefa = li.id.replace("tarefa-", "");
+  const nomeTarefa = li.querySelector(".texto-tarefa")?.textContent || "essa tarefa";
+
+  const confirmar = confirm(`Tem certeza que deseja excluir a tarefa "${nomeTarefa}"?`);
+  if (!confirmar) return;
+
+  try {
+    const resposta = await fetch(`http://localhost:5000/tarefas/${idTarefa}`, {
+        method: "DELETE"
+    });
+
+    if (!resposta.ok) {
+        const erro = await resposta.json();
+        throw new Error(erro.erro || "Erro ao excluir tarefa");
+    }
+
+    await carregarTarefas(); // Recarrega a lista
+    alert("Tarefa excluída com sucesso!");
+} catch (erro) {
+    console.error("Erro ao excluir tarefa:", erro);
+    alert(erro.message || "Erro ao excluir tarefa.");
+} finally {
+    // Desliga o modo exclusão
+    modoExclusaoAtivo = false;
+    btnExcluir.textContent = "Excluir Tarefas";
+    btnExcluir.style.backgroundColor = "";
+
+    document.querySelectorAll(".item-tarefa").forEach(item => {
+      item.classList.remove("modo-exclusao");
+    });
+  }
 });

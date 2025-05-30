@@ -107,7 +107,7 @@ export async function marcarTarefaComoConcluida(idTarefa: number): Promise<strin
     : await conectarBanco()
 
     //verifica a existência da tarefa
-    const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, idTarefa)
+    const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, [idTarefa])
     if (!tarefa) {
         throw new Error('Tarefa não encontrada.')
     }
@@ -115,37 +115,43 @@ export async function marcarTarefaComoConcluida(idTarefa: number): Promise<strin
     if(tarefa.status === 'concluída') {
         
         await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'pendente', idTarefa)
-        await db.run(`UPDATE Usuario SET moedas = moedas - 1 WHERE idUsuario = ?`, tarefa.idUsuario)
+        await db.run(`UPDATE Usuario SET moedas = moedas - 1 WHERE idUsuario = ?`, [tarefa.idUsuario])
 
         await db.close()
         return 'Tarefa reativada com sucesso.'
     }
 
     //se a tarefa não estiver concluída marca como concluída
-    await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'concluída', idTarefa)
-    await db.run(`UPDATE Usuario SET moedas = moedas + 1 WHERE idUsuario = ?`, tarefa.idUsuario)
+    await db.run(`UPDATE tarefa SET status = ? WHERE idTarefa = ?`, 'concluída', [idTarefa])
+    await db.run(`UPDATE Usuario SET moedas = moedas + 1 WHERE idUsuario = ?`, [tarefa.idUsuario])
 
     await db.close()
     return 'Tarefa concluída com sucesso!'
 }
 
 export async function excluirTarefa(idTarefa: number): Promise<string> {
-    
     const db = process.env.NODE_ENV === 'test'
-    ? await conectarBancoTeste()
-    : await conectarBanco()
+        ? await conectarBancoTeste()
+        : await conectarBanco();
 
-    //verifica a existência da tarefa
-    const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, idTarefa)
-    if (!tarefa) {
-        throw new Error('Tarefa não encontrada.')
+    try {
+        // Verificar existência da tarefa
+        const tarefa = await db.get(`SELECT idUsuario, status FROM tarefa WHERE idTarefa = ?`, [idTarefa]);
+        if (!tarefa) {
+            throw new Error('Tarefa não encontrada.');
+        }
+
+        // Excluir a tarefa
+        const resultado = await db.run('DELETE FROM tarefa WHERE idTarefa = ?', [idTarefa]);
+        
+        if (resultado.changes === 0) {
+            throw new Error('Nenhuma tarefa foi excluída.');
+        }
+
+        return 'Tarefa excluída com sucesso.';
+    } finally {
+        await db.close();
     }
-
-     // Exclui a tarefa
-    await db.run('DELETE FROM tarefa WHERE idTarefa = ?', idTarefa)
-
-    await db.close()
-    return 'Tarefa excluída com sucesso.'
 }
 
 export async function listarTarefas(idUsuario: number): Promise<Tarefa[]> {
@@ -155,7 +161,7 @@ export async function listarTarefas(idUsuario: number): Promise<Tarefa[]> {
 
   const tarefas = await db.all<Tarefa[]>(
     `SELECT * FROM tarefa WHERE idUsuario = ?`,
-    idUsuario
+    [idUsuario]
   )
 
   await db.close()

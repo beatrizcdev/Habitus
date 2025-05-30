@@ -148,7 +148,20 @@ rotas.put('/tarefa/:id/concluir', async (req, res, next) => {
   res.status(200).json({ mensagem: res.locals.mensagem || "Tarefa concluída" });
 });
 //excluir tarefa
-rotas.delete('/tarefas/:id', excluirTarefa)
+rotas.delete('/tarefas/:id', async (req, res) => {
+    try {
+        const idTarefa = parseInt(req.params.id);
+        if (isNaN(idTarefa)) {
+            return res.status(400).json({ erro: 'ID inválido' });
+        }
+
+        const resultado = await excluirTarefa(idTarefa);
+        res.status(200).json({ mensagem: resultado });
+    } catch (erro) {
+        res.status(erro instanceof Error && erro.message === 'Tarefa não encontrada.' ? 404 : 500)
+           .json({ erro: erro instanceof Error ? erro.message : 'Erro desconhecido' });
+    }
+});
 //listar missões
 rotas.get('/missoes/:idUsuario', async (req, res) => {
     try {
