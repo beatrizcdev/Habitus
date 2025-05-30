@@ -67,23 +67,21 @@
    TAREFA INDIVIDUAL
 ========================= */
 .item-tarefa {
-  background-color: white;
-  margin-top: 3%;
-  border-radius: 20px;
-  color: #000;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 10px 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 8px;
   margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 .task-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 16px;
+  flex: 1;
+  min-width: 0;
 }
 
 .check-circle {
@@ -97,6 +95,7 @@
   position: relative;
   margin-left: 10px;
   transition: all 0.2s ease-in-out;
+  margin-right: 12px;
 }
 
 .check-circle.checked::after {
@@ -114,10 +113,12 @@
 }
 
 .texto-tarefa {
-  flex-grow: 1;
-  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+  color: #000;
 }
-
 .botoes-tarefa {
   display: flex;
   justify-content: center;
@@ -152,6 +153,19 @@
   height: 8px;
   border-radius: 5px;
   margin-left: 12px;
+}
+
+.prioridade-box {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.prioridade {
+  display: flex;
+  font-size: 14px;
+  color: #f57c00;
+  min-width: 80px;
+  text-align: right;
 }
 
 .prioridade-alta,
