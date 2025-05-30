@@ -1,19 +1,19 @@
 // Função para carregar tarefas
 export async function carregarTarefas() {
-    const params = new URLSearchParams(window.location.search);
-    const idUsuario = params.get('userId');
-    if (!idUsuario) {
-        console.error('ID do usuário não encontrado');
-        return;
-    }
+  const params = new URLSearchParams(window.location.search);
+  const idUsuario = params.get('userId');
+  if (!idUsuario) {
+    console.error('ID do usuário não encontrado');
+    return;
+  }
 
-    try {
-        const resposta = await fetch(`http://localhost:5000/tarefas/${idUsuario}`);
-        if (!resposta.ok) throw new Error('Erro ao buscar tarefas');
-    
-        const tarefas = await resposta.json();
-        const lista = document.getElementById("lista-tarefas");
-    
+  try {
+    const resposta = await fetch(`http://localhost:5000/tarefas/${idUsuario}`);
+    if (!resposta.ok) throw new Error('Erro ao buscar tarefas');
+
+    const tarefas = await resposta.json();
+    const lista = document.getElementById("lista-tarefas");
+
     if (!lista) {
       console.error('Elemento lista-tarefas não encontrado');
       return;
@@ -45,10 +45,34 @@ export async function carregarTarefas() {
         texto.classList.add("checked");
       }
 
-      check.addEventListener("click", () => {
+      check.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        // feedback visual imediato
         check.classList.toggle("checked");
         texto.classList.toggle("checked");
-        // Aqui você pode adicionar a chamada para atualizar o status no backend
+
+        try {
+          const resposta = await fetch(`http://localhost:5000/tarefa/${tarefa.idTarefa}/concluir`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' }
+          });
+
+          if (!resposta.ok) {
+            // desfaz alteração visual se der erro
+            check.classList.toggle("checked");
+            texto.classList.toggle("checked");
+
+            const erro = await resposta.json();
+            throw new Error(erro.erro || "Erro ao atualizar tarefa");
+          }
+
+          const resultado = await resposta.json();
+          console.log(resultado.mensagem);
+        } catch (erro) {
+          console.error("Erro ao marcar tarefa como concluída:", erro);
+          alert("Erro ao marcar tarefa. Verifique o console.");
+        }
       });
 
       li.appendChild(check);
