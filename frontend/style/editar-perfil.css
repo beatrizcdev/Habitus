@@ -1,12 +1,10 @@
 *{
     padding: 0;
     margin: 0;
-
 }
 
 .container {
   background-image: url("../pictures/utilidades/Vector.svg"), linear-gradient(to right, #1c5750, #8ab37d);
-  font-family: "Magra";
   min-height: 100dvh;
 }
 

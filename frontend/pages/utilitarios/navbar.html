@@ -1,7 +1,7 @@
 <header class="header">
     <nav class="navbar">
       <!-- Logo -->
-      <a href="/" class="logo">
+      <a href="/frontend/pages/dashboard.html" class="logo">
         <img src="../pictures/utilidades/logotipo.svg" alt="Logo da Habitus" width="130" height="50" />
       </a>
 
@@ -9,19 +9,19 @@
       <ul class="lista">
         <li class="mainitens">
           <img class="mainicons" src="../pictures/navbar/home.svg" alt="Home" width="24" height="24" />
-          <a href="/missoes">Home</a>
+          <a href="/frontend/pages/dashboard.html">Home</a>
         </li>
         <li class="mainitens">
           <img class="mainicons" src="../pictures/utilidades/missions.svg" alt="Missões" width="24" height="24" />
-          <a href="/missoes">Missões</a>
+          <a href="/frontend/pages/missoes.html">Missões</a>
         </li>
         <li class="mainitens">
           <img class="mainicons" src="../pictures/navbar/shop-icon.svg" alt="Loja" width="24" height="24" />
-          <a href="/loja">Loja</a>
+          <a href="/frontend/pages/loja.html">Loja</a>
         </li>
         <li class="mainitens">
           <img class="mainicons" src="../pictures/utilidades/questionmark.svg" alt="Ajuda" width="24" height="24" />
-          <a href="/ajuda">Ajuda</a>
+          <a href="/frontend/pages/suporte.html">Ajuda</a>
         </li>
       </ul>
 
@@ -34,16 +34,17 @@
 
         <img
           class="iconsborda"
-          src="../pictures/utilidades/notif.svg"
+          src="/frontend/pictures/navbar/notificacao.svg"
           alt="Notificações"
           width="36"
-          height="36"
+          height="30"
           onclick="document.getElementById('modal-notificacoes').style.display = 'flex';"
         />
 
-        <a href="/editar-perfil">
+        <a href="/frontend/pages/editar-perfil.html">
           <img
             class="iconsborda"
+            id="icon-avatar"
             src="../pictures/utilidades/profile.svg"
             alt="Perfil"
             width="36"
