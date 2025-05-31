@@ -204,7 +204,7 @@ rotas.put('/:idUsuario', async (req,res) => {
   }
 })
 //exibir moedas
-rotas.get('/moedas/:idUsuario', carregarUsuario, async (req, res) => {
+rotas.get('/moedas/:idUsuario', async (req, res) => {
   try {
     const idUsuario = req.params.idUsuario
 
