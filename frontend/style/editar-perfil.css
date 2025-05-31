@@ -7,7 +7,7 @@
 .container {
   background-image: url("../pictures/utilidades/Vector.svg"), linear-gradient(to right, #1c5750, #8ab37d);
   font-family: "Magra";
-  height: 100vh;
+  min-height: 100dvh;
 }
 
 .main{
@@ -17,6 +17,7 @@
   padding-top: 140px;
   margin: auto;
   width: 80%;
+  position: relative;
 }
 
 .boxperfil {
@@ -89,6 +90,14 @@
   max-height: 50vh;
   max-width: 70%;
   border-radius: 24px;
+}
+
+.arvore{
+  position:absolute;
+  right: -175px;
+  bottom: -20px;
+  z-index: 0;
+  
 }
 
 .infoperfil h1{

@@ -6,10 +6,14 @@
     <title>Editar Perfil</title>
     <link rel="stylesheet" href="../style/editar-perfil.css">
     <link href="https://fonts.googleapis.com/css2?family=Magra:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style/navbar.css">
+    <link rel="stylesheet" href="../style/global.css">
 
 </head>
 <body>
+    
     <div class="container">
+        <div id="navbar-container"></div>
         <div class="main">
             <div class="boxperfil">
                 <img
@@ -77,10 +81,14 @@
                     </div>
                 </div>
             </div>
+        
         </div>
     </div>
 
+
+    <script type="module" src="../script/navbar.js"></script> 
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
             const campos = ["nome", "email", "senha"];
 
@@ -110,6 +118,9 @@
                 });
             });
         });
+
+            
+
     </script>
 </body>
 </html>
