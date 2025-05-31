@@ -1,0 +1,159 @@
+*{
+    padding: 0;
+    margin: 0;
+
+}
+
+.container {
+  background-image: url("../pictures/utilidades/Vector.svg"), linear-gradient(to right, #1c5750, #8ab37d);
+  font-family: "Magra";
+  height: 100vh;
+}
+
+.main{
+  font-size: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 140px;
+  margin: auto;
+  width: 80%;
+}
+
+.boxperfil {
+  position: relative;
+  color: white;
+  background-color: #66cf9296;
+  margin: auto;
+  padding: 100px 50px 50px;
+  border-radius: 60px;
+  text-align: center;
+  min-height: 500px; 
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+.avatar{
+  background-color: white;
+  border: 10px solid #3F9A6C;
+  border-radius: 99px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 25px;
+}
+
+.boxperfil h3,
+.boxperfil p {
+  text-align: left;
+  padding-left: 10px;
+}
+
+.boxperfil p{
+  margin-bottom: 10px
+}
+
+.boxperfil .conquistastitulo{
+  text-align: center;
+  margin-top: 30px;
+}
+
+.conquistas{
+  margin-top: 10px;
+  background-color: white;
+  border: 5px solid #3F9A6C;
+  border-radius: 24px;
+  padding: 5px 2px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.botao {
+  background-color: #ffae43;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0.6em 2em;
+  font-weight: bold;
+  margin: auto;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+    background-color: #ff9812;
+    transform: scale(1.02);
+  }
+}
+
+.infoperfil {
+  color: white;
+  padding: 40px;
+  background-color: #3f9a6d69;
+  max-height: 50vh;
+  max-width: 70%;
+  border-radius: 24px;
+}
+
+.infoperfil h1{
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.campo {
+  margin-bottom: 25px;
+}
+
+.campo label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.editavel {
+  background-color: white;
+  color: #333;
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 500px;
+}
+
+.editavel span {
+  color: #1c5750;
+  flex: 1;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editavel img {
+  cursor: pointer;
+}
+
+.popup {
+  background-color: white;
+  padding: 15px;
+  margin-top: 10px;
+  border: 2px solid #3F9A6C;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+}
+
+.popup input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.popup button {
+  margin: 10px 5px 0 0;
+  background-color: #3F9A6C;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
