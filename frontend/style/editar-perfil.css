@@ -7,7 +7,7 @@
 .container {
   background-image: url("../pictures/utilidades/Vector.svg"), linear-gradient(to right, #1c5750, #8ab37d);
   font-family: "Magra";
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .main{
