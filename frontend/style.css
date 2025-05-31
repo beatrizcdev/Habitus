@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Magra:wght@400;700&display=swap');
+*{font-family: 'Magra';}
+
 html, body {
    margin: 0;
   padding: 0;
@@ -6,8 +9,18 @@ html, body {
 
 .inicio-container {
   position: relative;
-  min-height: 100vh; 
+  min-height: 100dvh; 
   overflow: hidden;
+  margin: 0 auto;
+}
+
+.inicio-wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1400px;
+  justify-content: space-between;
 }
 
 .inicio-folhas {
@@ -29,45 +42,46 @@ html, body {
   object-fit: cover; /* cobre toda a área mantendo proporção */
 }
 
-.inicial-header{
+.inicio-main{
   display: flex;
-  justify-content: center;
-  padding-left: 10%;
-  max-width: 80%;
-  max-height: 80%;
-  width: max-content;
+  align-items: center;
+  margin-top: 200px;
+}
+
+
+.inicial-header{
   position: absolute;
   top: 0;
   z-index: 1;
 }
 
-
+.inicio-card-wrapper{
+display: grid;
+}
 .inicio-card-borda{
-  position: relative;
-  margin-top: 12%;
-  margin-left: 8%;
   background-color: #257D6B;
-  max-width: 35%;
+  max-width: min(600px, 90%);
+  min-width: 400px;
   border-radius: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
   text-align: center;
+  display: flex;
   padding: 20px;
-  border: 0px;
-  margin-bottom: 0px;
 }
 
 .inicio-card{
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2em;
   border-radius: 50px;
+  font-size: 2rem;
   max-width: 100%;
-  height: fit-content;
   padding: 12%;
-  font-size: 38px;
-  text-align: center;
 }
+
+
 
 .inicio-card p {
   color: #3F9A6C;
@@ -75,27 +89,26 @@ html, body {
 
 .inicio-button{
   background-color: #FEA025;
-  border-radius: 40px;
-  font-size: 30px;
+  padding: 1em 4em;
   border: none;
-  margin: 40px auto 0 auto;
-  width: 80%;
-  padding: 5%;
-  margin-top: 12%;
-  max-width: 350px;
-  max-height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  box-shadow: 0px 6px 0px 0px #c27510;
+  border-radius: 2em;
+  font-size: 1.5rem;
+  color: white;
+  transition: box-shadow 0s;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: #db820d;
+    cursor: pointer;
+  }
+  &:active {
+    transform: translate(0, 6px);
+    box-shadow: none;
+  }
+} 
 
 .inicio-arvore{
-  margin: 0;
-  z-index: 1;
-  position: absolute;
-  right: 8%;
-  bottom: 0px;
-  top: 20%;
+  position: relative;
 }
 
 #gif-folhas {
@@ -114,74 +127,32 @@ html, body {
   max-height: 100%;
 }
 
-@media (max-width: 800px) {
-  .inicio-arvore{
-    display: none;
-  }
-
+@media (max-width: 1000px) {
   .inicio-card{
-    font-size: 30px;
+    font-size: 1.5rem;
   }
 
-  .inicio-main{
-    margin-top: 35%;
-    margin-right: 5%;
-  }
-
-  .inicio-card-borda{
-    max-width: 100%;
-    margin-top: 40%;
-    margin-left: 20px;
-    margin-right: 20px;
-    z-index: 1000;
-  }
-
-  .inicio-folhas {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-
-  #folhas {
-    width: 100%;
-    height: auto;
-  }
-
-  .inicio-container{
-    overflow-x: hidden;
+  .inicio-button{
+    font-size: 1.2rem;
+    padding: 1em 2.2em;
   }
 }
 
-@media (max-width: 1080px) {
-   .inicio-card-borda {
-    margin-left: 6%;
-    margin-right: 0;
-    margin-top: 15%;
-    z-index: 2;
-  }
+@media (max-width: 800px) {
+ .inicio-main{
+  flex-direction: column;
+  justify-content: center;
+  gap: 2em;
+ }
+}
 
+@media (max-width: 420px) {
   .inicio-card{
-    font-size: 30px;
+    padding: 1em;
   }
-
-  .inicio-arvore {
-    max-width: 50%;
-    right: 5%; 
-    top: auto; 
-    left: auto;
+  .inicio-card-borda{
+    padding: 6%;
+    min-width: 200px;
   }
-
-  .inicio-folhas {
-    width: 100%;
-    object-fit: contain;
-  }
-
-  #folhas {
-    width: 100%;
-  }
-
-  .inicio-container{
-    overflow-x: hidden;
-    overflow-y: hidden;
-  }
+  
 }
