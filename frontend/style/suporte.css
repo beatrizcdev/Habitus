@@ -1,0 +1,116 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Magra", sans-serif;
+}
+
+.container {
+  background-image: url("/assets/estampa-test.png"), linear-gradient(to right, #1c5750, #fff, #ffffff);
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 100px;
+}
+
+.treeside {
+    position: relative;
+  padding-left: 70px;
+  padding-top: 80px;
+}
+
+#gif-folhas{
+    position: absolute;
+    top: 300px;
+    right: 5px;
+}
+
+.titulo-com-linhas {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+
+.linha {
+  flex: 1;
+  max-width: 300px;
+  border: none;
+  border-top: 3px solid #3F9A6C;
+}
+
+.content {
+  color: #3F9A6C;
+}
+
+.bloco {
+  width: 70%;
+  margin-left: 80px;
+  font-size: 18px;
+}
+
+.bloco h3 {
+  font-size: 22px;
+  max-width: 60%;
+  text-align: center;
+  color: #fff;
+  background-color: #3F9A6C;
+  padding: 10px;
+  border-radius: 24px;
+  margin-bottom: 14px;
+  margin-top: 14px;
+}
+
+.listaDicas {
+  margin-top: 10px;
+  list-style-position: inside;
+}
+
+.encorajamento {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding-top: 60px;
+    height: auto;
+    min-height: 100vh;
+    background-image: linear-gradient(to right, #1c5750, #fff, #ffffff);
+  }
+
+  .container > .treeside {
+    display: none;
+  }
+
+  .treeside {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .bloco {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bloco h3 {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .titulo-com-linhas {
+    font-size: 24px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .linha {
+    width: 100%;
+    max-width: 100%;
+  }
+}
