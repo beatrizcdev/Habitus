@@ -146,4 +146,3 @@ BEGIN
   INSERT INTO Missao_Usuario (idMissao, idUsuario, statusMissao)
   SELECT NEW.idMissao, idUsuario, 'pendente' FROM Usuario;
 END;
-

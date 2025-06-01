@@ -33,10 +33,8 @@ document
       console.log("Resposta do servidor:", resultado); // Debug
 
       if (resposta.ok) {
-        console.log("Cadastro OK, redirecionando...");
-        setTimeout(() => {
-          window.location.href = "./login.html";
-        }, 100);
+        window.location.href = "./login.html";
+        return;
       } else {
         console.error("Erro no cadastro:", resultado.mensagem); // Debug
         document.getElementById("erroTexto").innerText = resultado.mensagem;

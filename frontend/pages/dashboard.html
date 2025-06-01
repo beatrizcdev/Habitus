@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="../style/habitos.css" />
   </head>
   <body>
-    <div class="container">
+    <div id="navbar-container"></div>
+    <div class="wrapper">
+      <div class="container">
+        <img src="../pictures/utilidades/HEADER.svg" alt="header" />
       <div id="navbar-container"></div>
 
       <div class="tabs-container">
@@ -38,7 +41,7 @@
               id="btn-excluir-tarefa-modal"
               class="btn-trash"
             >
-              🗑️
+              <img src="../pictures/utilidades/trash.svg" height="20px" alt="" />
             </button>
           </div>
         </div>
@@ -59,7 +62,7 @@
               id="btn-excluir-habit-modal"
               class="btn-trash"
             >
-              🗑️
+              <img src="../pictures/utilidades/trash.svg" height="20px" alt="" />
             </button>
           </div>
         </div>
@@ -130,6 +133,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="../script/dashboard.js"></script>

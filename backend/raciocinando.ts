@@ -8,3 +8,4 @@
 //npm run knex:migrate
 //sqlite3 db/teste.db < estrutura_banco_teste.sql
 //pra criar o banco de dados teste
+//"C:\sqlite\sqlite3.exe" backend/db/app.db < backend/estrutura_banco.sql

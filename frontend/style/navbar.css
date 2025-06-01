@@ -13,10 +13,6 @@
   box-shadow: 0px 15px 0px 0px #257d6b;
 }
 
-.headerSpacing {
-  height: calc(75px + 0.8rem);
-}
-
 .logo {
   display: flex;
   justify-content: start;
@@ -28,14 +24,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: 20px;
 }
 
 .navbar li:hover {
   color: #41995a;
 }
 
+/* Adicione estas regras ao seu arquivo CSS */
+
 .mainitens {
+  position: relative; 
   padding: 0px 20px;
   font-size: 20px;
   color: #124621;
@@ -43,12 +42,28 @@
   gap: 6px;
   justify-content: center;
   align-items: center;
+  transition: color 0.3s ease; 
 }
 
-.mainicons {
-  /* margin-right: 10px; */
-  /* margin-left: 10px; */
-  width: 27px;
+.mainitens::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #41995a;
+  transform: scaleX(0); 
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.mainitens:hover::after {
+  transform: scaleX(0.7); 
+}
+
+.mainitens:hover {
+  color: #41995a; 
 }
 
 .itensborda {
@@ -61,9 +76,30 @@
   gap: 24px;
 }
 
-.moeda {
+.moeda{
   display: flex;
   gap: 6px;
+  padding: 8px 12px; 
+  align-items: center;
+  border-radius: 24px;
+  transition: all 0.3s ease; 
+  background: transparent;
+  border: 2px solid transparent; 
+}
+
+.moeda span {
+  margin-top: 4px; 
+  color: #fea025;
+  font-weight: bold; 
+  text-decoration: none;
+}
+
+.moeda:hover {
+  cursor: pointer;
+  border: 2px solid #ffd399; 
+  background: rgba(255, 211, 153, 0.1); 
+  box-shadow: 0 0 10px rgba(255, 211, 153, 0.5); 
+  transform: scale(1.02); 
 }
 
 .iconsborda {
@@ -72,6 +108,7 @@
   margin-top: 5px;
   cursor: pointer;
 }
+
 
 .modalNotificacoes {
   position: fixed;

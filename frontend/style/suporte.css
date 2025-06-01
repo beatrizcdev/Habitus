@@ -5,9 +5,8 @@ body {
 }
 
 .container {
-  background-image: url("/assets/estampa-test.png"),
-    linear-gradient(to right, #1c5750, #fff, #ffffff);
-  height: 100vh;
+  background-image: url("/assets/estampa-test.png"), linear-gradient(to right, #1c5750, #fff, #ffffff);
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding-top: 100px;
