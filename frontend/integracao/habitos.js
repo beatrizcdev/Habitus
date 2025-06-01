@@ -121,7 +121,7 @@ export async function adicionarHabito(dadosHabito) {
   const idUsuario = localStorage.getItem("userId");
   if (!idUsuario) throw new Error("ID do usuário não encontrado");
   await axios.post(`${API_URL}/habitos/${idUsuario}/adicionar`, dadosHabito);
-}
+};
 
 // Editar hábito
 export async function editarHabito(idHabito, dadosAtualizados) {
