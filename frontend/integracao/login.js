@@ -1,4 +1,4 @@
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
+document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const login = document.getElementById('login').value.trim();
@@ -26,11 +26,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     const resultado = await resposta.json();
 
-    if (resposta.ok) {
+   if (resposta.ok) {
       console.log('Login ok, redirecionando...');
-      localStorage.setItem("userId", resultado.userId);
       setTimeout(() => {
-        window.location.href = "./dashboard.html";
+        window.location.href = `./dashboard.html?userId=${resultado.userId}`;
       }, 100);
     } else {
       erroTexto.textContent = resultado.error || 'Erro ao fazer login.';

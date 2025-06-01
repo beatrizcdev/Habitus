@@ -9,21 +9,15 @@ export async function listarHabitos(idUsuario: number): Promise<Habito[]> {
   const habitos = await db.all(`SELECT * FROM habito WHERE idUsuario = ?`, [idUsuario])
   await db.close()
 
-  // Garante que status é sempre string
-  return habitos.map(h => ({
-    ...h,
-    status: h.status === "concluido" ? "concluido" : "pendente"
-  }))
+  return habitos
 }
 
 export async function adicionarHabito(habito: Habito): Promise<string> {
 
     //validação de campos
-    if (!habito.descricao || !habito.idUsuario || !habito.nome ){
+    if (!habito.descricao || !habito.status || !habito.idUsuario){
         throw new Error('Preencha todos os campos obrigatórios.')
     }
-
-    const status = habito.status || 'pendente';
 
     const db = process.env.NODE_ENV === 'test'
         ? await conectarBancoTeste()
@@ -36,7 +30,7 @@ export async function adicionarHabito(habito: Habito): Promise<string> {
         [
             habito.idUsuario,
             habito.nome,
-            status,
+            habito.status,
             habito.descricao,
         ]
     )
@@ -55,6 +49,10 @@ export async function editarHabito(idHabito: number, dadosAtualizados: Partial<H
         throw new Error('O hábito deve ter um nome e descrição.')
     }
 
+    if(!dadosAtualizados.status){
+        throw new Error('O hábito deve ter um nome e descrição.')
+    }
+
     //acessando banco de dados
     const db = process.env.NODE_ENV === 'test'
     ? await conectarBancoTeste()
@@ -63,11 +61,12 @@ export async function editarHabito(idHabito: number, dadosAtualizados: Partial<H
     //modificando banco de dados
     const resultado = await db.run(
         `UPDATE Habito
-        SET nome = ?, descricao = ?
+        SET nome = ?, status = ?, descricao = ?
         WHERE idHabito = ?`,
 
         [
-            dadosAtualizados.nome,
+            dadosAtualizados.nome, 
+            dadosAtualizados.status,
             dadosAtualizados.descricao,
             idHabito
         ]
@@ -99,30 +98,30 @@ export async function excluirHabito(idHabito: number): Promise<string> {
     return 'Habito excluído com sucesso.'
 }
 
-export async function marcarHabitoComoConcluido(idHabito: number): Promise<{ mensagem: string, concluidoHoje: boolean }> {
-  const db = await conectarBanco();
+export async function marcarHabitoComoConcluido(idHabito: number): Promise<string> {
+    const db = process.env.NODE_ENV === 'test'
+    ? await conectarBancoTeste()
+    : await conectarBanco()
 
-  try {
-    const habito = await db.get(`SELECT idUsuario, status FROM Habito WHERE idHabito = ?`, [idHabito]);
-    if (!habito) throw new Error('Hábito não encontrado.');
+    //verifica a existência da tarefa
+    const habito = await db.get(`SELECT idUsuario, status FROM Habito WHERE idHabito = ?`, idHabito)
+    if (!habito) {
+        throw new Error('Habito não encontrado.')
+    }
 
-    // Verifica se o hábito já está concluído
-    const concluidoHoje = habito.status !== 'concluido';
+    if(habito.status === 'concluido') {
+        
+        await db.run(`UPDATE Habito SET status = ? WHERE idHabito = ?`, 'pendente', idHabito)
+        await db.run(`UPDATE Usuario SET moedas = moedas - 1 WHERE idUsuario = ?`, habito.idUsuario)
 
-    // Define novo status conforme o toggle
-    const novoStatus = concluidoHoje ? 'concluido' : 'pendente';
+        return 'Tarefa reativada com sucesso.'
+    }
 
-    await db.run(`UPDATE Habito SET status = ? WHERE idHabito = ?`, [novoStatus, idHabito]);
+    //se o habito não estiver concluído marca como concluído
+    await db.run(`UPDATE Habito SET status = ? WHERE idHabito = ?`, 'concluido', idHabito)
+    await db.run(`UPDATE Usuario SET moedas = moedas + 1 WHERE idUsuario = ?`, habito.idUsuario)
 
-    return {
-      mensagem: concluidoHoje
-        ? 'Hábito concluído com sucesso!'
-        : 'Conclusão do hábito desfeita.',
-      concluidoHoje
-    };
-  } finally {
-    await db.close();
-  }
+    return 'Habito concluída com sucesso!'
 }
 
 export async function resetarHabitosDiarios(): Promise<void> {
