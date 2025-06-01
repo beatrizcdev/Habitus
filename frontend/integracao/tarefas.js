@@ -24,7 +24,8 @@ export async function carregarTarefas() {
     lista.innerHTML = "";
 
     if (tarefas.length === 0) {
-      lista.innerHTML = "<p class='nenhuma-tarefa'>Nenhuma tarefa cadastrada.</p>";
+      lista.innerHTML =
+        "<p class='nenhuma-tarefa'>Nenhuma tarefa cadastrada.</p>";
       return;
     }
 

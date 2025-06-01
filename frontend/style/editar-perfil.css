@@ -1,16 +1,16 @@
-*{
-    padding: 0;
-    margin: 0;
-
+* {
+  padding: 0;
+  margin: 0;
 }
 
 .container {
-  background-image: url("../pictures/utilidades/Vector.svg"), linear-gradient(to right, #1c5750, #8ab37d);
+  background-image: url("../pictures/utilidades/Vector.svg"),
+    linear-gradient(to right, #1c5750, #8ab37d);
   font-family: "Magra";
   height: 100vh;
 }
 
-.main{
+.main {
   font-size: 24px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -27,14 +27,13 @@
   padding: 100px 50px 50px;
   border-radius: 60px;
   text-align: center;
-  min-height: 500px; 
+  min-height: 500px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-
-.avatar{
+.avatar {
   background-color: white;
-  border: 10px solid #3F9A6C;
+  border: 10px solid #3f9a6c;
   border-radius: 99px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: 25px;
@@ -46,19 +45,19 @@
   padding-left: 10px;
 }
 
-.boxperfil p{
-  margin-bottom: 10px
+.boxperfil p {
+  margin-bottom: 10px;
 }
 
-.boxperfil .conquistastitulo{
+.boxperfil .conquistastitulo {
   text-align: center;
   margin-top: 30px;
 }
 
-.conquistas{
+.conquistas {
   margin-top: 10px;
   background-color: white;
-  border: 5px solid #3F9A6C;
+  border: 5px solid #3f9a6c;
   border-radius: 24px;
   padding: 5px 2px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -91,7 +90,7 @@
   border-radius: 24px;
 }
 
-.infoperfil h1{
+.infoperfil h1 {
   margin-bottom: 40px;
   text-align: center;
 }
@@ -134,7 +133,7 @@
   background-color: white;
   padding: 15px;
   margin-top: 10px;
-  border: 2px solid #3F9A6C;
+  border: 2px solid #3f9a6c;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: 500px;
@@ -150,7 +149,7 @@
 
 .popup button {
   margin: 10px 5px 0 0;
-  background-color: #3F9A6C;
+  background-color: #3f9a6c;
   color: white;
   border: none;
   padding: 6px 12px;

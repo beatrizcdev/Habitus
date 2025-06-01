@@ -1,5 +1,5 @@
 .container {
-  font-family: 'Magra';
+  font-family: "Magra";
   background-repeat: no-repeat, no-repeat;
   background-size: 100%;
   min-height: 100vh;
@@ -26,7 +26,7 @@
 .container-titulo p {
   margin: 0;
   font-size: 2rem;
-  color: #3F9A6C;
+  color: #3f9a6c;
   font-weight: 800;
   flex-shrink: 1;
 }
@@ -47,21 +47,19 @@
   padding: 0;
 }
 
-.header-pequeno img{
-    width: 80%;
+.header-pequeno img {
+  width: 80%;
 }
 
-
-.texto-introdutorio{
-    display: flex;
-    gap: 10px;
-    font-size: 17px;
-    margin-top: 30px;
+.texto-introdutorio {
+  display: flex;
+  gap: 10px;
+  font-size: 17px;
+  margin-top: 30px;
 }
 
-.texto-introdutorio p{
-    color: #3F9A6C;
-
+.texto-introdutorio p {
+  color: #3f9a6c;
 }
 
 .box {
@@ -99,8 +97,8 @@
   z-index: 1;
 }
 
-.box h3{
-  color: #3F9A6C;
+.box h3 {
+  color: #3f9a6c;
   font-size: 45px;
   text-align: center;
   margin-top: 24px;
@@ -108,35 +106,34 @@
 
 .text {
   margin-top: 20px;
-  color: #3F9A6C;
+  color: #3f9a6c;
   display: flex;
   font-size: 22px;
   gap: 10px;
 }
 
-
 .box hr {
   width: 380px;
 }
 
-.l1{
-  color: #3F9A6C;
+.l1 {
+  color: #3f9a6c;
   top: -28px;
   right: 10px;
   position: relative;
   height: 5px;
-  background-color: #3F9A6C;
+  background-color: #3f9a6c;
   border: none;
   border-radius: 24px;
 }
 
 .l2 {
-  color: #3F9A6C;
+  color: #3f9a6c;
   position: relative;
   top: -30px;
   left: 620px;
   height: 5px;
-  background-color: #3F9A6C;
+  background-color: #3f9a6c;
   border: none;
   border-radius: 24px;
 }
@@ -148,17 +145,17 @@
   align-items: flex-start;
   padding-left: 20px;
   margin-top: 30px;
-  gap: 20px; 
+  gap: 20px;
 }
 
-.boxforms label{
+.boxforms label {
   font-size: 30px;
 }
 
 .forms {
-  color: #3F9A6C;
-  letter-spacing: 1px; 
-  font-weight: bold; 
+  color: #3f9a6c;
+  letter-spacing: 1px;
+  font-weight: bold;
   font-size: 20px;
   display: flex;
   flex-direction: column;
@@ -167,7 +164,7 @@
   flex: 1;
 }
 
-.forms input{
+.forms input {
   width: 80%;
   height: 50px;
   margin-bottom: 10px;
@@ -176,46 +173,46 @@
   font-size: 18px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
   border-radius: 10px;
-  color: #1C5750;
+  color: #1c5750;
   padding: 10px;
 }
 
-.forms input:focus{
+.forms input:focus {
   outline: 2px solid #ffa946;
 }
 
 .cpfsenha {
   margin-top: 15px;
   display: flex;
-  gap: 30px;         
-  width: 89%;       
+  gap: 30px;
+  width: 89%;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  flex: 1;           
+  flex: 1;
 }
 
-.cpfsenha label{
+.cpfsenha label {
   margin-bottom: 15px;
 }
 
 .botao {
-  background-color: #FFAE43;
+  background-color: #ffae43;
   color: white;
   border: none;
   border-radius: 30px;
   font-size: 20px;
   cursor: pointer;
   padding: 20px 70px 20px 70px;
-  font-weight: bold; 
+  font-weight: bold;
   margin: 0 auto;
   margin-top: 30px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.botao:hover{
+.botao:hover {
   background-color: #ff9812;
   transform: scale(1.02);
 }
@@ -231,28 +228,28 @@
 }
 
 #botaoCadastro {
-  background-color: #FFAE43;
+  background-color: #ffae43;
   color: white;
   border: none;
   border-radius: 30px;
   font-size: 20px;
   cursor: pointer;
   padding: 20px 70px 20px 70px;
-  font-weight: bold; 
+  font-weight: bold;
   margin: 0 auto;
   margin-top: px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-#botaoCadastro:hover{
+#botaoCadastro:hover {
   background-color: #ff9812;
   transform: scale(1.02);
 }
 
 .erroContainer {
-  background-color: #FFF0F0;
-  border: 1px solid #FFD6D6;
-  color: #D8000C;
+  background-color: #fff0f0;
+  border: 1px solid #ffd6d6;
+  color: #d8000c;
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -262,7 +259,7 @@
 }
 
 .erroIcon {
-  background-color: #D8000C;
+  background-color: #d8000c;
   color: white;
   width: 20px;
   height: 20px;
