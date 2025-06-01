@@ -91,4 +91,3 @@ export async function cadastrarUsuario(dados:{
         return 'Cadastro realizado com sucesso!'
     }
 
-

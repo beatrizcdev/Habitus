@@ -1,16 +1,22 @@
 /* ========================
    GERAL / CONTAINER
 ========================= */
-.container {
-  background-image: url('../pictures/utilidades/Vector.svg');
+.wrapper {
+  background-image: url("../pictures/utilidades/Vector.svg");
   background-size: cover;
   background-position: center;
+}
+
+.container {
+  box-sizing: content-box;
+  padding: 0 6%;
   min-height: 100vh;
   color: white;
   overflow-y: hidden;
   font-family: sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
 }
-
 
 /* ========================
    TAREFAS
@@ -20,9 +26,8 @@
   color: white;
   border-radius: 20px;
   padding: 20px;
-  width: 250px;
+  max-width: 450px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  margin-left: 5%;
 }
 
 .tarefas-container h2 {
@@ -34,7 +39,7 @@
 .tabs-container {
   display: flex;
   gap: 10px;
-  margin: 120px 0 3% 5%;
+  margin: 120px 0 20px 0;
   padding-left: 20px;
 }
 
@@ -64,19 +69,45 @@
 }
 
 /* ========================
-   TAREFA INDIVIDUAL
+  TAREFA INDIVIDUAL
 ========================= */
 .item-tarefa {
-  display: flex;
+  display: grid;
+  grid-template-columns: 0fr 1fr 0fr;
   align-items: center;
   padding: 10px 12px;
   background-color: #fff;
   border-radius: 8px;
+  border: transparent 1px;
   margin-bottom: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.task-list {
+  list-style: none;
+  padding: 0 12px 0 0;
+  margin: 0;
+  max-height: 300px; /* Ajuste conforme necessário */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #ccc;
+  }
+}
 
+/*++++*/
 .task-item {
   display: flex;
   align-items: center;
@@ -112,10 +143,15 @@
   opacity: 0.7;
 }
 
-.texto-tarefa {
-  white-space: nowrap;
+.texto-container {
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.texto-tarefa {
+  text-overflow: ellipsis;
+  overflow: hidden;
   margin-left: 10px;
   color: #000;
 }
@@ -128,6 +164,9 @@
 
 .btn-add,
 .btn-trash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   color: #ffa726;
   border: none;
@@ -197,7 +236,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -209,7 +248,7 @@
   border-radius: 20px;
   padding: 20px 25px;
   width: 400px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -237,9 +276,9 @@
   gap: 10px;
   flex-wrap: wrap;
 }
-.linha-prioridade-data{
-    display: flex;
-    gap: 20px;
+.linha-prioridade-data {
+  display: flex;
+  gap: 20px;
 }
 
 .prioridade {
@@ -296,7 +335,6 @@
   margin-bottom: 10px;
 }
 
-
 /* ========================
    DECORAÇÃO
 ========================= */
@@ -309,14 +347,13 @@
   pointer-events: none;
 }
 
-
 #modal-tarefa {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -350,4 +387,23 @@
   background-color: #fdd;
   cursor: pointer;
   border: 1px solid red;
+}
+
+loader {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Estilo para mensagens de erro */
+.error {
+  color: #d32f2f;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Garantir que os botões não submetam o formulário */
+button[type="button"] {
+  cursor: pointer;
 }
