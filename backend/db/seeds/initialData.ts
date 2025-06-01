@@ -29,11 +29,11 @@ export async function seed(knex: Knex): Promise<void> {
     {
       idMissao: 1,
       nome: 'Desafio Inicial',
-      descricao: 'Complete 3 tarefas para ganhar moedas.',
-      meta: 3,
+      descricao: 'Complete 1 tarefa para ganhar moedas.',
+      meta: 1,
       tipo: 'tarefas',
       recompensa: 10,
-      idRecompensa: 1,
+      idRecompensa: null,
       dataLimite: null,
       dataInicio: null
     },
@@ -44,7 +44,7 @@ export async function seed(knex: Knex): Promise<void> {
       meta: 3,
       tipo: 'habitos',
       recompensa: 20,
-      idRecompensa: 2,
+      idRecompensa: null,
       dataLimite: null,
       dataInicio: null
     },
