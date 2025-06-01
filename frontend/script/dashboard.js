@@ -1,22 +1,45 @@
 import { carregarTarefas } from "../integracao/tarefas.js";
 
 // Troca de abas (tarefas/hábitos)
-export async function mostrarAba(aba) {
-  document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-  document.querySelectorAll(".conteudo-aba").forEach(div => div.classList.remove("ativo"));
+// Função para trocar de aba
+function mostrarAba(aba) {
+  // Remove a classe 'active' de todas as abas
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
 
-  if (aba === "tarefas") {
-    document.querySelector(".tab:nth-child(1)").classList.add("active");
-    document.getElementById("conteudo-tarefas").classList.add("ativo");
+  // Esconde todos os conteúdos de abas
+  document.querySelectorAll(".conteudo-aba").forEach(div => {
+    div.classList.add("hidden");
+    div.classList.remove("ativo");
+  });
 
-    await carregarTarefas(); // 🆕 chama a função de buscar e renderizar tarefas
+  // Ativa a aba selecionada
+  const abaSelecionada = document.querySelector(`.tab[data-aba="${aba}"]`);
+  if (abaSelecionada) {
+    abaSelecionada.classList.add("active");
+  }
 
-  } else {
-    document.querySelector(".tab:nth-child(2)").classList.add("active");
-    document.getElementById("conteudo-habitos").classList.add("ativo");
+  // Mostra o conteúdo da aba selecionada
+  const conteudoAba = document.getElementById(`conteudo-${aba}`);
+  if (conteudoAba) {
+    conteudoAba.classList.remove("hidden");
+    conteudoAba.classList.add("ativo");
   }
 }
 
+// Adiciona event listeners para as abas
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    const aba = tab.getAttribute("data-aba");
+    mostrarAba(aba);
+  });
+});
+
+// Inicia com a aba de tarefas aberta
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarAba("tarefas");
+});
 
 // Ativa os eventos de clique nas bolinhas de check
 export function ativarChecks() {
@@ -36,109 +59,3 @@ document.addEventListener("DOMContentLoaded", () => {
   mostrarAba("tarefas"); // Define a aba padrão
   ativarChecks();        // Ativa os eventos de clique nas bolinhas
 });
-
-document.addEventListener('DOMContentLoaded', () => {
-  carregarHabitos();
-  resetarHabitosSeNovoDia();
-});
-
-export function abrirModalHabito() {
-  document.getElementById('modal-habito').style.display = 'flex';
-}
-
-export function fecharModalHabito() {
-  document.getElementById('modal-habito').style.display = 'none';
-  document.getElementById('input-novo-habito').value = '';
-}
-
-export function confirmarAdicionarHabito() {
-  const input = document.getElementById('input-novo-habito');
-  const nome = input.value.trim();
-  if (nome) {
-    const habitos = JSON.parse(localStorage.getItem('habitos') || '[]');
-    habitos.push({ nome, feito: false });
-    localStorage.setItem('habitos', JSON.stringify(habitos));
-    renderizarHabitos();
-    fecharModalHabito();
-  }
-}
-
-// FUNÇÕES DE REMOVER HÁBITO - ADICIONADAS E INTEGRADAS
-
-export function abrirModalRemoverHabito() {
-  const select = document.getElementById('habitosParaRemover');
-  select.innerHTML = ''; // limpa opções antigas
-
-  const habitos = JSON.parse(localStorage.getItem('habitos') || '[]');
-  habitos.forEach((habito, index) => {
-    const option = document.createElement('option');
-    option.value = index;
-    option.textContent = habito.nome;
-    select.appendChild(option);
-  });
-
-  document.getElementById('modal-remover-habito').style.display = 'flex';
-}
-
-export function fecharModalRemoverHabito() {
-  document.getElementById('modal-remover-habito').style.display = 'none';
-}
-
-export function removerHabitoSelecionado() {
-  const select = document.getElementById('habitosParaRemover');
-  const indice = select.value;
-
-  if (indice !== null && indice !== '') {
-    const habitos = JSON.parse(localStorage.getItem('habitos') || '[]');
-    habitos.splice(indice, 1); // remove o hábito do array
-    localStorage.setItem('habitos', JSON.stringify(habitos));
-    renderizarHabitos();
-    fecharModalRemoverHabito();
-  }
-}
-
-export function alternarHabito(index) {
-  const habitos = JSON.parse(localStorage.getItem('habitos') || '[]');
-  habitos[index].feito = !habitos[index].feito;
-  localStorage.setItem('habitos', JSON.stringify(habitos));
-  renderizarHabitos();
-}
-
-export function renderizarHabitos() {
-  const lista = document.getElementById('lista-habitos');
-  lista.innerHTML = '';
-  const habitos = JSON.parse(localStorage.getItem('habitos') || '[]');
-  habitos.forEach((habito, index) => {
-    const li = document.createElement('li');
-    li.className = 'habito-item' + (habito.feito ? ' feito' : '');
-
-    const texto = document.createElement('span');
-    texto.textContent = habito.nome;
-    texto.style.flexGrow = '1';
-
-    const botaoCheck = document.createElement('button');
-    botaoCheck.textContent = habito.feito ? '●' : '○';
-    botaoCheck.onclick = () => alternarHabito(index);
-    botaoCheck.className = habito.feito ? 'botao-check feito' : 'botao-check';
-
-    li.appendChild(texto);
-    li.appendChild(botaoCheck);
-    lista.appendChild(li);
-  });
-}
-
-export function carregarHabitos() {
-  renderizarHabitos();
-}
-
-export function resetarHabitosSeNovoDia() {
-  const hoje = new Date().toLocaleDateString();
-  const ultimoDia = localStorage.getItem('ultimoReset');
-  if (hoje !== ultimoDia) {
-    const habitos = JSON.parse(localStorage.getItem('habitos') || '[]');
-    habitos.forEach(h => h.feito = false);
-    localStorage.setItem('habitos', JSON.stringify(habitos));
-    localStorage.setItem('ultimoReset', hoje);
-    renderizarHabitos();
-  }
-}

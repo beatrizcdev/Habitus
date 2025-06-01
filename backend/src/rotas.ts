@@ -11,6 +11,7 @@ import { adicionarHabito, editarHabito, excluirHabito, listarHabitos, marcarHabi
 import { RequestComUsuario } from "./modelos/request"
 import { comprarItem, equiparItem, listarInventario } from "./controladores/itens"
 import path from "path"
+import Habito from "./modelos/habitos"
 
 const rotas = Router()
 
@@ -215,23 +216,62 @@ rotas.get('/moedas/:idUsuario', async (req, res) => {
   }
 })
 // Adicionar hábito
-rotas.post('/habitos', async (req, res) => {
+rotas.post('/habitos/:idUsuario/adicionar', async (req, res) => {
   try {
-    const mensagem = await adicionarHabito(req.body)
-    res.status(201).json({ mensagem })
+    const idUsuario = Number(req.params.idUsuario)
+    
+    // Validação do ID
+    if (isNaN(idUsuario)) {
+      throw new Error('ID do usuário inválido')
+    }
+
+    const { nome, descricao } = req.body
+
+    // Validação dos campos obrigatórios
+    if (!nome) {
+      throw new Error('Nome do hábito é obrigatório')
+    }
+
+    const mensagem = await adicionarHabito({
+      idUsuario,
+      nome,
+      descricao: descricao || '',
+      status: 'pendente'
+    })
+
+    res.status(201).json({ 
+      sucesso: true, 
+      mensagem,
+      idUsuario // Retornando o ID para referência
+    })
   } catch (erro: any) {
-    res.status(400).json({ erro: erro.message })
+    res.status(400).json({ 
+      sucesso: false, 
+      mensagem: erro.message 
+    })
   }
 })
 // Editar hábito
 rotas.put('/habitos/:idHabito', async (req, res) => {
-  try {
-    const idHabito = Number(req.params.idHabito)
-    const mensagem = await editarHabito(idHabito, req.body)
-    res.status(200).json({ mensagem })
-  } catch (erro: any) {
-    res.status(400).json({ erro: erro.message })
-  }
+  console.log('REQ BODY:', req.body);
+  const idHabito = Number(req.params.idHabito)
+    const { nome, descricao} = req.body
+
+    try {
+        const dadosAtualizados: Partial<Habito> = {
+            nome,
+            descricao
+        }
+
+        const mensagem = await editarHabito(idHabito, dadosAtualizados)
+        res.status(200).json({mensagem})
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ erro: error.message})
+        } else {
+            res.status(500).json({ erro: 'Erro desconhecido.'})
+        }
+    }
 })
 // Excluir hábito
 rotas.delete('/habitos/:idHabito', async (req, res) => {
@@ -244,15 +284,20 @@ rotas.delete('/habitos/:idHabito', async (req, res) => {
   }
 })
 // Marcar ou desmarcar hábito como concluído
-rotas.patch('/habitos/:idHabito/concluir', async (req, res) => {
+rotas.put('/habitos/:idHabito/concluir', async (req, res) => {
+  const idHabito = Number(req.params.idHabito);
+
   try {
-    const idHabito = Number(req.params.idHabito)
-    const mensagem = await marcarHabitoComoConcluido(idHabito)
-    res.status(200).json({ mensagem })
+    const resultado = await marcarHabitoComoConcluido(idHabito);
+
+    res.status(200).json({
+      mensagem: resultado.mensagem,
+      concluidoHoje: resultado.concluidoHoje // Isso deve ser boolean
+    });
   } catch (erro: any) {
-    res.status(404).json({ erro: erro.message })
+    res.status(400).json({ erro: erro.message });
   }
-})
+});
 //comprar itens na loja
 rotas.post('/loja/comprar', async (req, res) => {
   try{

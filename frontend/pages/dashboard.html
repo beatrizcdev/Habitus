@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="../style/global.css">
     <link rel="stylesheet" href="../style/tarefas.css">
     <link rel="stylesheet" href="../style/navbar.css">
-    <link rel="stylesheet" href="../style/habito.css">
+    <link rel="stylesheet" href="../style/habitos.css">
 </head>
 <body>
     <div class="container">
   <div id="navbar-container"></div>
 
   <div class="tabs-container">
-  <button class="tab active" onclick="mostrarAba('tarefas')">Tarefas</button>
-  <button class="tab" onclick="mostrarAba('habitos')">Hábitos</button>
+  <button class="tab active" data-aba="tarefas">Tarefas</button>
+<button id= 'habitos' class="tab" data-aba="habitos">Hábitos</button>
 </div>
 
 <!-- Conteúdo das abas -->
@@ -34,20 +34,19 @@
   </div>
 </div>
 
-<div id="conteudo-habitos" class="conteudo-aba">
-    <h3>
-        <hr style="width: 20%; display: inline-block;"> Lista de Hábitos
-        <hr style="width: 20%; display: inline-block;">
-      </h3>
+<div id="conteudo-habitos" class="conteudo-aba hidden">
+  <div class="habitos-container">
+    <h2>Lista de Habitos</h2>
+    
+    <ul id="lista-habitos" class="habit-list">
+      <!-- Habitos carregados dinamicamente vão aparecer aqui -->
+    </ul>
 
-      <ul id="lista-habitos"></ul>
-      
-      <div class="habitos-botoes">
-        <button id="habitos-botao" onclick="abrirModalHabito()"> <img src="../pictures/utilidades/Plus.svg" alt="icone +"> </button>
-        <button id="habitos-botao" onclick="abrirModalRemoverHabito()"> <img src="../pictures/utilidades/lixeira.svg" alt="icone lixeira"> </button>
-      </div>
-</div>
-
+    <div class="botoes-habitos">
+      <button class="btn-add">+</button>
+      <button id="btn-excluir-habit-modal" class="btn-trash">🗑️</button>
+    </div>
+  </div>
 </div>
 <img class="arvore" src="../pictures/arvore/arvore_fase_4.svg" alt="arvore">
 
@@ -86,46 +85,29 @@
   </div>
 </div>
 
+
 <!-- Modal habitos -->
-      <div id="modal-habito" class="modal-habito" style="display: none;">
-        <div class="modal-habito-conteudo">
-          <h4>Adicionar novo hábito</h4>
-          <input type="text" id="input-novo-habito" placeholder="Nome do Hábito">
-          <button class="modal-habito-botao" onclick="confirmarAdicionarHabito()">Adicionar</button>
-          <button class="modal-habito-botao" onclick="fecharModalHabito()">Cancelar</button>
-        </div>
-      </div>
+    <div id="modal-habitos" class="modal hidden">
+  <div class="modal-content">
+    <h2>Novo Habito</h2>
 
-      <div id="modal-remover-habito" class="modal-habito" style="display: none;">
-        <div class="modal-habito-conteudo">
-          <h2>Remover Hábito</h2>
-          <select id="habitosParaRemover">
-            <!-- hábitos serão inseridos aqui via JS -->
-          </select>
-          <button class="modal-habito-botao" onclick="removerHabitoSelecionado()">Remover</button>
-          <button class="modal-habito-botao" onclick="fecharModalRemoverHabito()">Cancelar</button>
-        </div>
-      </div>
+    <label for="nome-h">Título:</label>
+    <input type="text" id="nome-h" name="nome-h">
 
+    <label for="descricao-h">Descrição:</label>
+    <textarea id="descricao-h" name="descricao-h"></textarea>
 
+      <button type="button" id="btnSalvarHabitos">Salvar</button>
+    <button type="button" id="btn-cancelar-habitos">Cancelar</button>
+  </div>
+</div>
+
+    <script type="module" src="../integracao/habitos.js"></script> 
+    <script type="module" src="../script/dashboard.js"></script> 
     <script type="module" src="../script/navbar.js"></script> 
     <script type="module" src="../integracao/moedas.js"></script> 
     <script type="module" src="../integracao/tarefas.js"></script>
-  <script type="module">
-  import {mostrarAba, abrirModalHabito,
-    fecharModalHabito,
-    confirmarAdicionarHabito,
-    abrirModalRemoverHabito,
-    fecharModalRemoverHabito,
-    removerHabitoSelecionado} from '../script/dashboard.js';
-
-  document.querySelectorAll(".tab").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const aba = btn.textContent.trim().toLowerCase();
-      mostrarAba(aba);
-    });
-  });
-</script>
+  
 </body>
 
 </html>
