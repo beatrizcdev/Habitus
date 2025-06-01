@@ -1,4 +1,5 @@
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  const API_URL = "http://localhost:5000";
   e.preventDefault();
 
   const login = document.getElementById("login").value.trim();
@@ -13,32 +14,23 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   }
 
   try {
-    const resposta = await fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        emailOuCpf: login,
-        senha: senha,
-      }),
+    const resposta = await axios.post(`${API_URL}/login`, {
+      emailOuCpf: login,
+      senha: senha,
     });
 
-    const resultado = await resposta.json();
-
-    if (resposta.ok) {
-      console.log("Login ok, redirecionando...");
-      localStorage.setItem("userId", resultado.userId);
+    if (resposta.status === 200) {
+      localStorage.setItem("userId", resposta.data.userId);
       setTimeout(() => {
         window.location.href = "./dashboard.html";
       }, 100);
     } else {
-      erroTexto.textContent = resultado.error || "Erro ao fazer login.";
+      erroTexto.textContent = resposta.data.mensagem || "Erro ao fazer login.";
       erroContainer.style.display = "flex";
     }
   } catch (erro) {
-    console.error("Erro na requisição:", erro);
-    erroTexto.textContent = "Erro ao conectar com o servidor.";
+    erroTexto.textContent =
+      erro.response?.data?.mensagem || "Erro ao conectar com o servidor.";
     erroContainer.style.display = "flex";
   }
 });
