@@ -1,6 +1,6 @@
 import { carregarTarefas } from "../integracao/tarefas.js";
+import { carregarHabitos } from "../integracao/habitos.js";
 
-// Troca de abas (tarefas/hábitos)
 // Função para trocar de aba
 function mostrarAba(aba) {
   // Remove a classe 'active' de todas as abas
@@ -26,36 +26,25 @@ function mostrarAba(aba) {
     conteudoAba.classList.remove("hidden");
     conteudoAba.classList.add("ativo");
   }
+
+  // Carrega os dados da aba selecionada
+  if (aba === "tarefas") {
+    carregarTarefas();
+  } else if (aba === "habitos") {
+    carregarHabitos();
+  }
 }
 
 // Adiciona event listeners para as abas
 document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => {
+  tab.addEventListener("click", (event) => {
+    event.preventDefault();
     const aba = tab.getAttribute("data-aba");
     mostrarAba(aba);
   });
 });
 
-// Inicia com a aba de tarefas aberta
+// Inicia com a aba de tarefas aberta ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
   mostrarAba("tarefas");
-});
-
-// Ativa os eventos de clique nas bolinhas de check
-export function ativarChecks() {
-  document.querySelectorAll('.check-circle').forEach((circle) => {
-    circle.addEventListener('click', () => {
-      circle.classList.toggle('checked');
-      const taskText = circle.nextElementSibling;
-      if (taskText) {
-        taskText.classList.toggle('checked');
-      }
-    });
-  });
-}
-
-// Executa tudo quando o DOM estiver pronto
-document.addEventListener("DOMContentLoaded", () => {
-  mostrarAba("tarefas"); // Define a aba padrão
-  ativarChecks();        // Ativa os eventos de clique nas bolinhas
 });

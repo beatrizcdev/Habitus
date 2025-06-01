@@ -1,17 +1,18 @@
-// Função para carregar tarefas
+//import axios from "axios";
+
+const API_URL = "http://localhost:5000";
+
+// Carregar tarefas
 export async function carregarTarefas() {
-  const params = new URLSearchParams(window.location.search);
-  const idUsuario = params.get("userId");
+  const idUsuario = localStorage.getItem("userId");
   if (!idUsuario) {
     console.error("ID do usuário não encontrado");
     return;
   }
 
   try {
-    const resposta = await fetch(`http://localhost:5000/tarefas/${idUsuario}`);
-    if (!resposta.ok) throw new Error("Erro ao buscar tarefas");
-
-    const tarefas = await resposta.json();
+    const resposta = await axios.get(`${API_URL}/tarefas/${idUsuario}`);
+    const tarefas = resposta.data;
     const lista = document.getElementById("lista-tarefas");
 
     if (!lista) {
@@ -22,8 +23,7 @@ export async function carregarTarefas() {
     lista.innerHTML = "";
 
     if (tarefas.length === 0) {
-      lista.innerHTML =
-        "<p class='nenhuma-tarefa'>Nenhuma tarefa cadastrada.</p>";
+      lista.innerHTML = "<p class='nenhuma-tarefa'>Nenhuma tarefa cadastrada.</p>";
       return;
     }
 
@@ -32,9 +32,11 @@ export async function carregarTarefas() {
       li.classList.add("item-tarefa");
       li.id = `tarefa-${tarefa.idTarefa}`;
 
-      // Checkbox
-      const check = document.createElement("span");
+      // Checkbox como button
+      const check = document.createElement("button");
+      check.type = "button";
       check.classList.add("check-circle");
+      check.setAttribute("aria-label", "Concluir tarefa");
       if (tarefa.status === "concluída") {
         check.classList.add("checked");
       }
@@ -55,7 +57,6 @@ export async function carregarTarefas() {
       // Prioridade
       const prioridadeBox = document.createElement("span");
       prioridadeBox.classList.add("prioridade-box");
-
       if (tarefa.prioridade === "alta") {
         prioridadeBox.classList.add("prioridade-alta");
       } else if (tarefa.prioridade === "media") {
@@ -64,82 +65,49 @@ export async function carregarTarefas() {
         prioridadeBox.classList.add("prioridade-baixa");
       }
 
-      // Montagem do elemento
       li.appendChild(check);
       li.appendChild(textoContainer);
       li.appendChild(prioridadeBox);
 
-      const lixeira = document.createElement("span");
-      lixeira.innerHTML = "🗑️"; // Ou use um ícone de sua preferência
+      // Lixeira como button
+      const lixeira = document.createElement("button");
+      lixeira.type = "button";
+      lixeira.innerHTML = "🗑️";
       lixeira.classList.add("lixeira-exclusao");
       lixeira.title = "Excluir tarefa";
-
-      // Adicione a lixeira ao item (coloque onde achar melhor)
+      lixeira.setAttribute("aria-label", "Excluir tarefa");
       textoContainer.appendChild(lixeira);
 
-      // Evento de clique na lixeira
+      // Evento de excluir (direto, sem modo de exclusão)
       lixeira.addEventListener("click", async (event) => {
-        event.stopPropagation(); // Impede que o modal de edição abra
-
+        event.preventDefault();
+        event.stopPropagation();
         const confirmar = confirm(`Excluir a tarefa "${tarefa.nome}"?`);
         if (!confirmar) return;
-
         try {
-          const resposta = await fetch(
-            `http://localhost:5000/tarefas/${tarefa.idTarefa}`,
-            {
-              method: "DELETE",
-            }
-          );
-
-          if (!resposta.ok) throw new Error("Erro ao excluir tarefa");
-
-          await carregarTarefas(); // Recarrega a lista
+          await excluirTarefa(tarefa.idTarefa);
+          await carregarTarefas();
         } catch (erro) {
-          console.error("Erro ao excluir tarefa:", erro);
           alert("Erro ao excluir tarefa.");
         }
       });
 
-      // Evento para concluir tarefa
+      // Evento de concluir
       check.addEventListener("click", async (event) => {
         event.preventDefault();
         event.stopPropagation();
-
-        // Feedback visual imediato
         check.classList.toggle("checked");
         texto.classList.toggle("checked");
-
         try {
-          const resposta = await fetch(
-            `http://localhost:5000/tarefa/${tarefa.idTarefa}/concluir`,
-            {
-              method: "PUT",
-            }
-          );
-
-          if (!resposta.ok) {
-            // Reverte a mudança visual se houve erro
-            check.classList.toggle("checked");
-            texto.classList.toggle("checked");
-
-            const erro = await resposta.json();
-            throw new Error(erro.erro || "Erro ao atualizar tarefa");
-          }
-
-          const resultado = await resposta.json();
-
-          // Atualiza o status no objeto local
-          tarefa.status = resultado.status;
-
-          console.log(resultado.mensagem);
+          await concluirTarefa(tarefa.idTarefa);
         } catch (erro) {
-          console.error("Erro ao concluir tarefa:", erro);
-          alert("Erro ao atualizar tarefa: " + erro.message);
+          check.classList.toggle("checked");
+          texto.classList.toggle("checked");
+          alert("Erro ao atualizar tarefa.");
         }
       });
 
-      // Evento para abrir modal de edição
+      // Evento de editar
       textoContainer.addEventListener("click", (e) => {
         if (
           !e.target.classList.contains("check-circle") &&
@@ -153,8 +121,30 @@ export async function carregarTarefas() {
     });
   } catch (erro) {
     console.error("Erro ao buscar tarefas:", erro);
-    alert("Erro ao carregar tarefas. Verifique o console para mais detalhes.");
+    alert("Erro ao carregar tarefas.");
   }
+}
+
+// Adicionar tarefa
+export async function adicionarTarefa(dadosTarefa) {
+  const idUsuario = localStorage.getItem("userId");
+  if (!idUsuario) throw new Error("ID do usuário não encontrado");
+  await axios.post(`${API_URL}/tarefas/${idUsuario}/adicionar`, dadosTarefa);
+}
+
+// Editar tarefa
+export async function editarTarefa(idTarefa, dadosAtualizados) {
+  await axios.put(`${API_URL}/editarTarefa/${idTarefa}`, dadosAtualizados);
+}
+
+// Excluir tarefa
+export async function excluirTarefa(idTarefa) {
+  await axios.delete(`${API_URL}/tarefas/${idTarefa}`);
+}
+
+// Concluir tarefa
+export async function concluirTarefa(idTarefa) {
+  await axios.put(`${API_URL}/tarefa/${idTarefa}/concluir`);
 }
 
 // Função para abrir modal de edição
@@ -198,14 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const btnSalvar = document.getElementById("btnSalvarTarefa");
   const btnCancelar = document.getElementById("btn-cancelar-tarefa");
 
-  // Verificação dos elementos
-  if (!modal) console.error("Modal não encontrado");
-  if (!btnAdd) console.error("Botão add não encontrado");
-  if (!btnSalvar) console.error("Botão salvar não encontrado");
-  if (!btnCancelar) console.error("Botão cancelar não encontrado");
-
   // Evento para abrir modal (nova tarefa)
-  btnAdd?.addEventListener("click", () => {
+  btnAdd?.addEventListener("click", (event) => {
+    event.preventDefault();
     // Limpar campos
     const nomeInput = document.getElementById("nome");
     const descricaoInput = document.getElementById("descricao");
@@ -229,7 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Evento para cancelar
-  btnCancelar?.addEventListener("click", () => {
+  btnCancelar?.addEventListener("click", (event) => {
+    event.preventDefault();
     modal.classList.add("hidden");
     delete modal.dataset.editandoId;
     const modalTitle = modal.querySelector("h2");
@@ -237,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Evento para salvar tarefa
-  btnSalvar.addEventListener("click", async (event) => {
+  btnSalvar?.addEventListener("click", async (event) => {
     event.preventDefault();
     event.stopPropagation();
     try {
@@ -268,40 +254,23 @@ document.addEventListener("DOMContentLoaded", function () {
         categoria: categoriaInput.value,
       };
 
-      console.log(dadosTarefa);
-
-      // Validação
       if (!dadosTarefa.nome) {
         throw new Error("O nome da tarefa é obrigatório");
       }
 
       const idEdicao = modal.dataset.editandoId;
-      const params = new URLSearchParams(window.location.search);
-      const idUsuario = params.get("userId");
+      const idUsuario = localStorage.getItem("userId");
 
       if (!idUsuario) {
-        throw new Error("ID do usuário não encontrado");
+        throw new Error("ID do usuário não encontrado no localStorage");
       }
 
-      // Configurar requisição
-      const url = idEdicao
-        ? `http://localhost:5000/editarTarefa/${idEdicao}`
-        : `http://localhost:5000/tarefas/${idUsuario}/adicionar`;
-
-      const method = idEdicao ? "PUT" : "POST";
-
-      const resposta = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosTarefa),
-      });
-
-      if (!resposta.ok) {
-        const erro = await resposta.json();
-        throw new Error(erro.erro || erro.message || "Erro ao salvar tarefa");
+      if (idEdicao) {
+        await editarTarefa(idEdicao, dadosTarefa);
+      } else {
+        await adicionarTarefa(dadosTarefa);
       }
 
-      // Fechar modal e recarregar lista
       modal.classList.add("hidden");
       await carregarTarefas();
     } catch (error) {
@@ -317,7 +286,8 @@ document.addEventListener("DOMContentLoaded", function () {
 const btnExcluir = document.getElementById("btn-excluir-tarefa-modal");
 let modoExclusaoAtivo = false;
 
-btnExcluir?.addEventListener("click", () => {
+btnExcluir?.addEventListener("click", (event) => {
+  event.preventDefault();
   modoExclusaoAtivo = !modoExclusaoAtivo; // Alterna entre true/false
 
   document.querySelectorAll(".item-tarefa").forEach((item) => {

@@ -9,7 +9,11 @@ export async function listarHabitos(idUsuario: number): Promise<Habito[]> {
   const habitos = await db.all(`SELECT * FROM habito WHERE idUsuario = ?`, [idUsuario])
   await db.close()
 
-  return habitos
+  // Garante que status é sempre string
+  return habitos.map(h => ({
+    ...h,
+    status: h.status === "concluido" ? "concluido" : "pendente"
+  }))
 }
 
 export async function adicionarHabito(habito: Habito): Promise<string> {
@@ -32,7 +36,7 @@ export async function adicionarHabito(habito: Habito): Promise<string> {
         [
             habito.idUsuario,
             habito.nome,
-            habito.status,
+            status,
             habito.descricao,
         ]
     )
@@ -51,10 +55,6 @@ export async function editarHabito(idHabito: number, dadosAtualizados: Partial<H
         throw new Error('O hábito deve ter um nome e descrição.')
     }
 
-    if(!dadosAtualizados.status){
-        throw new Error('O hábito deve ter um nome e descrição.')
-    }
-
     //acessando banco de dados
     const db = process.env.NODE_ENV === 'test'
     ? await conectarBancoTeste()
@@ -63,12 +63,11 @@ export async function editarHabito(idHabito: number, dadosAtualizados: Partial<H
     //modificando banco de dados
     const resultado = await db.run(
         `UPDATE Habito
-        SET nome = ?, status = ?, descricao = ?
+        SET nome = ?, descricao = ?
         WHERE idHabito = ?`,
 
         [
-            dadosAtualizados.nome, 
-            dadosAtualizados.status,
+            dadosAtualizados.nome,
             dadosAtualizados.descricao,
             idHabito
         ]
@@ -101,26 +100,29 @@ export async function excluirHabito(idHabito: number): Promise<string> {
 }
 
 export async function marcarHabitoComoConcluido(idHabito: number): Promise<{ mensagem: string, concluidoHoje: boolean }> {
-    const db = await conectarBanco();
+  const db = await conectarBanco();
 
-    try {
-        const habito = await db.get(`SELECT idUsuario, status FROM Habito WHERE idHabito = ?`, [idHabito]);
-        if (!habito) throw new Error('Hábito não encontrado.');
+  try {
+    const habito = await db.get(`SELECT idUsuario, status FROM Habito WHERE idHabito = ?`, [idHabito]);
+    if (!habito) throw new Error('Hábito não encontrado.');
 
-        const concluidoHoje = habito.status !== 'concluído';
-        const novoStatus = concluidoHoje ? 'concluído' : 'pendente';
+    // Verifica se o hábito já está concluído
+    const concluidoHoje = habito.status !== 'concluido';
 
-        await db.run(`UPDATE Habito SET status = ? WHERE idHabito = ?`, [novoStatus, idHabito]);
+    // Define novo status conforme o toggle
+    const novoStatus = concluidoHoje ? 'concluido' : 'pendente';
 
-        return {
-            mensagem: concluidoHoje
-                ? 'Hábito concluído com sucesso!'
-                : 'Conclusão do hábito desfeita.',
-            concluidoHoje
-        };
-    } finally {
-        await db.close();
-    }
+    await db.run(`UPDATE Habito SET status = ? WHERE idHabito = ?`, [novoStatus, idHabito]);
+
+    return {
+      mensagem: concluidoHoje
+        ? 'Hábito concluído com sucesso!'
+        : 'Conclusão do hábito desfeita.',
+      concluidoHoje
+    };
+  } finally {
+    await db.close();
+  }
 }
 
 export async function resetarHabitosDiarios(): Promise<void> {

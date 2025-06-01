@@ -1,48 +1,53 @@
-// Função para carregar hábitos
+//import axios from "axios";
+
+const API_URL = "http://localhost:5000";
+
+// Carregar hábitos
 export async function carregarHabitos() {
-  const params = new URLSearchParams(window.location.search);
-  const idUsuario = params.get('userId');
+  const idUsuario = localStorage.getItem("userId");
   if (!idUsuario) {
-    console.error('ID do usuário não encontrado');
+    console.error("ID do usuário não encontrado");
     return;
   }
 
   try {
-    const resposta = await fetch(`http://localhost:5000/habitos/${idUsuario}`);
-    if (!resposta.ok) throw new Error('Erro ao buscar hábitos');
-
-    const habitos = await resposta.json();
+    const resposta = await axios.get(`${API_URL}/habitos/${idUsuario}`);
+    const habitos = resposta.data;
+    console.log("Habitos carregados:", habitos);
     const lista = document.getElementById("lista-habitos");
 
     if (!lista) {
-      console.error('Elemento lista-habitos não encontrado');
+      console.error("Elemento lista-habitos não encontrado");
       return;
     }
 
     lista.innerHTML = "";
 
     if (habitos.length === 0) {
-      lista.innerHTML = "<p class='nenhum-habito'>Nenhum hábito cadastrado.</p>";
+      lista.innerHTML =
+        "<p class='nenhum-habito'>Nenhum hábito cadastrado.</p>";
       return;
     }
 
-    habitos.forEach(habito => {
+    habitos.forEach((habito) => {
       const li = document.createElement("li");
       li.classList.add("item-habito");
       li.id = `habito-${habito.idHabito}`;
 
-      // Checkbox
-      const check = document.createElement("span");
+      // Checkbox como button
+      const check = document.createElement("button");
+      check.type = "button";
       check.classList.add("check-circle");
-      if (habito.concluidoHoje) {
-        check.classList.add("checked");
-      }
+      check.setAttribute("aria-label", "Concluir hábito");
 
       // Texto do hábito
       const texto = document.createElement("span");
       texto.classList.add("texto-habito");
       texto.textContent = habito.nome;
-      if (habito.concluidoHoje) {
+
+      // Agora sim, marque como concluído se necessário
+      if (habito.status && habito.status.trim() === "concluido") {
+        check.classList.add("checked");
         texto.classList.add("checked");
       }
 
@@ -52,84 +57,53 @@ export async function carregarHabitos() {
       textoContainer.appendChild(texto);
 
       // Lixeira para exclusão
-      const lixeira = document.createElement("span");
+      const lixeira = document.createElement("button");
+      lixeira.type = "button";
       lixeira.innerHTML = "🗑️";
       lixeira.classList.add("lixeira-exclusao");
       lixeira.title = "Excluir hábito";
-
-      // Montagem do elemento
-      li.appendChild(check);
-      li.appendChild(textoContainer);
+      lixeira.setAttribute("aria-label", "Excluir hábito");
       textoContainer.appendChild(lixeira);
 
-      // Evento de clique na lixeira
-      lixeira.addEventListener("click", async (event) => {
-        event.stopPropagation();
+      li.appendChild(check);
+      li.appendChild(textoContainer);
 
+      // Evento de excluir
+      lixeira.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         const confirmar = confirm(`Excluir o hábito "${habito.nome}"?`);
         if (!confirmar) return;
-
         try {
-          const resposta = await fetch(`http://localhost:5000/habitos/${habito.idHabito}`, {
-            method: "DELETE"
-          });
-
-          if (!resposta.ok) throw new Error("Erro ao excluir hábito");
-
-          await carregarHabitos(); // Recarrega a lista
+          await excluirHabito(habito.idHabito);
+          await carregarHabitos();
         } catch (erro) {
-          console.error("Erro ao excluir hábito:", erro);
           alert("Erro ao excluir hábito.");
         }
       });
 
-      // Evento para marcar/desmarcar hábito
+      // Evento de concluir (igual tarefas.js)
       check.addEventListener("click", async (event) => {
-  event.preventDefault();
-  event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
+        check.classList.toggle("checked");
+        texto.classList.toggle("checked");
+        try {
+          await concluirHabito(habito.idHabito);
+        } catch (erro) {
+          // Reverte visual se falhar
+          check.classList.toggle("checked");
+          texto.classList.toggle("checked");
+          alert("Erro ao atualizar hábito.");
+        }
+      });
 
-  // Feedback visual imediato (otimista)
-  const estavaConcluido = check.classList.contains("checked");
-  check.classList.toggle("checked");
-  texto.classList.toggle("checked");
-  
-  try {
-    const resposta = await fetch(`http://localhost:5000/habitos/${habito.idHabito}/concluir`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-
-    if (!resposta.ok) {
-      // Reverte se houve erro
-      check.classList.toggle("checked");
-      texto.classList.toggle("checked");
-      throw new Error("Erro ao atualizar hábito");
-    }
-const resultado = await resposta.json();
-    console.log('Resposta da API:', resultado);
-    
-    habito.concluidoHoje = resultado.concluidoHoje;
-    
-    if (habito.concluidoHoje) {
-  check.classList.add("checked");
-  texto.classList.add("checked");
-} else {
-      check.classList.remove("checked");
-      texto.classList.remove("checked");
-    }
-
-  } catch (erro) {
-    console.error("Erro ao atualizar hábito:", erro);
-    alert("Erro ao atualizar hábito: " + erro.message);
-  }
-});
-
-      // Evento para abrir modal de edição
+      // Evento de editar
       textoContainer.addEventListener("click", (e) => {
-        if (!e.target.classList.contains('check-circle') && 
-            !e.target.closest('.check-circle')) {
+        if (
+          !e.target.classList.contains("check-circle") &&
+          !e.target.closest(".check-circle")
+        ) {
           abrirModalEdicaoHabito(habito);
         }
       });
@@ -138,23 +112,43 @@ const resultado = await resposta.json();
     });
   } catch (erro) {
     console.error("Erro ao buscar hábitos:", erro);
-    alert("Erro ao carregar hábitos. Verifique o console para mais detalhes.");
+    alert("Erro ao carregar hábitos.");
   }
 }
 
-// Função para abrir modal de edição de hábito
+// Adicionar hábito
+export async function adicionarHabito(dadosHabito) {
+  const idUsuario = localStorage.getItem("userId");
+  if (!idUsuario) throw new Error("ID do usuário não encontrado");
+  await axios.post(`${API_URL}/habitos/${idUsuario}/adicionar`, dadosHabito);
+}
+
+// Editar hábito
+export async function editarHabito(idHabito, dadosAtualizados) {
+  await axios.put(`${API_URL}/habitos/${idHabito}`, dadosAtualizados);
+}
+
+// Excluir hábito
+export async function excluirHabito(idHabito) {
+  await axios.delete(`${API_URL}/habitos/${idHabito}`);
+}
+
+// Concluir hábito
+export async function concluirHabito(idHabito) {
+  await axios.put(`${API_URL}/habitos/${idHabito}/concluir`);
+}
+
+// Função para abrir modal de edição de hábito (mantém igual)
 function abrirModalEdicaoHabito(habito) {
   const modal = document.getElementById("modal-habitos");
   if (!modal) return;
 
-  // Preencher campos
   const nomeInput = document.getElementById("nome-h");
   const descricaoInput = document.getElementById("descricao-h");
 
   if (nomeInput) nomeInput.value = habito.nome || "";
   if (descricaoInput) descricaoInput.value = habito.descricao || "";
 
-  // Configurar modal
   modal.dataset.editandoId = habito.idHabito;
   const modalTitle = modal.querySelector("h2");
   if (modalTitle) modalTitle.textContent = "Editar Hábito";
@@ -162,7 +156,7 @@ function abrirModalEdicaoHabito(habito) {
 }
 
 // Inicialização para hábitos quando o DOM estiver pronto
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Elementos do modal de hábitos
   const modalHabitos = document.getElementById("modal-habitos");
   const btnAddHabitos = document.querySelector(".botoes-habitos .btn-add");
@@ -173,10 +167,12 @@ document.addEventListener("DOMContentLoaded", function() {
   if (!modalHabitos) console.error("Modal de hábitos não encontrado");
   if (!btnAddHabitos) console.error("Botão add hábitos não encontrado");
   if (!btnSalvarHabitos) console.error("Botão salvar hábitos não encontrado");
-  if (!btnCancelarHabitos) console.error("Botão cancelar hábitos não encontrado");
+  if (!btnCancelarHabitos)
+    console.error("Botão cancelar hábitos não encontrado");
 
   // Evento para abrir modal (novo hábito)
-  btnAddHabitos?.addEventListener("click", () => {
+  btnAddHabitos?.addEventListener("click", (event) => {
+    event.preventDefault();
     // Limpar campos
     const nomeInput = document.getElementById("nome-h");
     const descricaoInput = document.getElementById("descricao-h");
@@ -192,7 +188,8 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // Evento para cancelar
-  btnCancelarHabitos?.addEventListener("click", () => {
+  btnCancelarHabitos?.addEventListener("click", (event) => {
+    event.preventDefault();
     modalHabitos.classList.add("hidden");
     delete modalHabitos.dataset.editandoId;
     const modalTitle = modalHabitos.querySelector("h2");
@@ -212,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       const dadosHabito = {
         nome: nomeInput.value,
-        descricao: descricaoInput.value
+        descricao: descricaoInput.value,
       };
 
       // Validação
@@ -221,24 +218,24 @@ document.addEventListener("DOMContentLoaded", function() {
       }
 
       const idEdicao = modalHabitos.dataset.editandoId;
-      const params = new URLSearchParams(window.location.search);
-      const idUsuario = params.get('userId');
+      const idUsuario = localStorage.getItem("userId");
 
-      if (!idUsuario) {
-        throw new Error("ID do usuário não encontrado");
+      let url, method;
+      if (idEdicao) {
+        url = `http://localhost:5000/habitos/${idEdicao}`;
+        method = "PUT";
+      } else {
+        if (!idUsuario) {
+          throw new Error("ID do usuário não encontrado");
+        }
+        url = `http://localhost:5000/habitos/${idUsuario}/adicionar`;
+        method = "POST";
       }
-
-      // Configurar requisição
-      const url = idEdicao 
-        ? `http://localhost:5000/habitos/${idEdicao}`
-        : `http://localhost:5000/habitos/${idUsuario}/adicionar`;
-      
-      const method = idEdicao ? "PUT" : "POST";
 
       const resposta = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosHabito)
+        body: JSON.stringify(dadosHabito),
       });
 
       if (!resposta.ok) {
@@ -249,7 +246,6 @@ document.addEventListener("DOMContentLoaded", function() {
       // Fechar modal e recarregar lista
       modalHabitos.classList.add("hidden");
       await carregarHabitos();
-
     } catch (error) {
       console.error("Erro:", error);
       alert(error.message || "Erro ao processar hábito");
@@ -260,10 +256,11 @@ document.addEventListener("DOMContentLoaded", function() {
   const btnExcluirHabitos = document.getElementById("btn-excluir-habit-modal");
   let modoExclusaoHabitosAtivo = false;
 
-  btnExcluirHabitos?.addEventListener("click", () => {
+  btnExcluirHabitos?.addEventListener("click", (event) => {
+    event.preventDefault();
     modoExclusaoHabitosAtivo = !modoExclusaoHabitosAtivo;
-    
-    document.querySelectorAll(".item-habito").forEach(item => {
+
+    document.querySelectorAll(".item-habito").forEach((item) => {
       if (modoExclusaoHabitosAtivo) {
         item.classList.add("modo-exclusao");
       } else {
@@ -281,44 +278,52 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // Evento para excluir hábito ao clicar em li no modo exclusão
-  document.getElementById("lista-habitos")?.addEventListener("click", async (event) => {
-    if (!modoExclusaoHabitosAtivo) return;
+  document
+    .getElementById("lista-habitos")
+    ?.addEventListener("click", async (event) => {
+      if (!modoExclusaoHabitosAtivo) return;
 
-    const li = event.target.closest(".item-habito");
-    if (!li) return;
+      const li = event.target.closest(".item-habito");
+      if (!li) return;
 
-    const idHabito = li.id.replace("habito-", "");
-    const nomeHabito = li.querySelector(".texto-habito")?.textContent || "esse hábito";
+      const idHabito = li.id.replace("habito-", "");
+      const nomeHabito =
+        li.querySelector(".texto-habito")?.textContent || "esse hábito";
 
-    const confirmar = confirm(`Tem certeza que deseja excluir o hábito "${nomeHabito}"?`);
-    if (!confirmar) return;
+      const confirmar = confirm(
+        `Tem certeza que deseja excluir o hábito "${nomeHabito}"?`
+      );
+      if (!confirmar) return;
 
-    try {
-      const resposta = await fetch(`http://localhost:5000/habitos/${idHabito}`, {
-          method: "DELETE"
-      });
+      try {
+        const resposta = await fetch(
+          `http://localhost:5000/habitos/${idHabito}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-      if (!resposta.ok) {
+        if (!resposta.ok) {
           const erro = await resposta.json();
           throw new Error(erro.erro || "Erro ao excluir hábito");
-      }
+        }
 
-      await carregarHabitos();
-      alert("Hábito excluído com sucesso!");
-    } catch (erro) {
+        await carregarHabitos();
+        alert("Hábito excluído com sucesso!");
+      } catch (erro) {
         console.error("Erro ao excluir hábito:", erro);
         alert(erro.message || "Erro ao excluir hábito.");
-    } finally {
+      } finally {
         // Desliga o modo exclusão
         modoExclusaoHabitosAtivo = false;
         btnExcluirHabitos.textContent = "Excluir Hábitos";
         btnExcluirHabitos.style.backgroundColor = "";
 
-        document.querySelectorAll(".item-habito").forEach(item => {
+        document.querySelectorAll(".item-habito").forEach((item) => {
           item.classList.remove("modo-exclusao");
         });
-    }
-  });
+      }
+    });
 
   // Carregar hábitos inicialmente
   carregarHabitos();

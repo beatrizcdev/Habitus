@@ -255,6 +255,7 @@ rotas.post('/habitos/:idUsuario/adicionar', async (req, res) => {
 rotas.put('/habitos/:idHabito', async (req, res) => {
   console.log('REQ BODY:', req.body);
   const idHabito = Number(req.params.idHabito)
+  console.log(idHabito);
     const { nome, descricao} = req.body
 
     try {
@@ -292,7 +293,7 @@ rotas.put('/habitos/:idHabito/concluir', async (req, res) => {
 
     res.status(200).json({
       mensagem: resultado.mensagem,
-      concluidoHoje: resultado.concluidoHoje // Isso deve ser boolean
+      status: resultado.concluidoHoje ? "concluido" : "pendente"
     });
   } catch (erro: any) {
     res.status(400).json({ erro: erro.message });
