@@ -84,11 +84,18 @@
 
 .infoperfil {
   color: white;
-  padding: 40px;
+  padding: 24px 40px 24px 40px; /* Menos padding em cima e embaixo */
   background-color: #3f9a6d69;
-  max-height: 50vh;
+  max-height: 500px; /* Diminui a altura máxima */
   max-width: 70%;
   border-radius: 24px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  margin-top: 0; /* Garante que fique colada no topo da coluna */
+  margin-bottom: 0; /* Menos espaço embaixo */
 }
 
 .arvore{
@@ -165,3 +172,4 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
