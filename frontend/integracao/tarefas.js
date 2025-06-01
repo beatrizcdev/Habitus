@@ -1,4 +1,5 @@
 //import axios from "axios";
+import { carregarMoedasUsuario } from "./moedas.js";
 
 const API_URL = "http://localhost:5000";
 
@@ -100,6 +101,7 @@ export async function carregarTarefas() {
         texto.classList.toggle("checked");
         try {
           await concluirTarefa(tarefa.idTarefa);
+          await carregarMoedasUsuario(); // Atualiza moedas ao concluir tarefa
         } catch (erro) {
           check.classList.toggle("checked");
           texto.classList.toggle("checked");
@@ -270,6 +272,8 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         await adicionarTarefa(dadosTarefa);
       }
+      // Atualiza moedas após adicionar/editar tarefa
+      await carregarMoedasUsuario();
 
       modal.classList.add("hidden");
       await carregarTarefas();
