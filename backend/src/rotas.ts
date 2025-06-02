@@ -12,6 +12,7 @@ import { RequestComUsuario } from "./modelos/request"
 import { comprarItem, equiparItem, listarInventario } from "./controladores/itens"
 import path from "path"
 import Habito from "./modelos/habitos"
+import { conectarBanco } from "./utilitarios/conexaoBD"
 
 const rotas = Router()
 
@@ -216,18 +217,14 @@ rotas.get('/moedas/:idUsuario', async (req, res) => {
   }
 })
 // Adicionar hábito
-rotas.post('/habitos/:idUsuario/adicionar', async (req, res) => {
+rotas.post('/habitos/:idUsuario/adicionar', async (req, res, next) => {
   try {
     const idUsuario = Number(req.params.idUsuario)
-    
-    // Validação do ID
     if (isNaN(idUsuario)) {
       throw new Error('ID do usuário inválido')
     }
 
     const { nome, descricao } = req.body
-
-    // Validação dos campos obrigatórios
     if (!nome) {
       throw new Error('Nome do hábito é obrigatório')
     }
@@ -239,18 +236,24 @@ rotas.post('/habitos/:idUsuario/adicionar', async (req, res) => {
       status: 'pendente'
     })
 
-    res.status(201).json({ 
-      sucesso: true, 
-      mensagem,
-      idUsuario // Retornando o ID para referência
-    })
+    // Armazene informações no res.locals se quiser usar depois
+    res.locals.habitoInfo = { mensagem, idUsuario }
+
+    next(); // Chama o middleware de missões
   } catch (erro: any) {
-    res.status(400).json({ 
-      sucesso: false, 
-      mensagem: erro.message 
+    res.status(400).json({
+      sucesso: false,
+      mensagem: erro.message
     })
   }
-})
+}, verificarMissoesMiddleware, (req, res) => {
+  // Retorne a resposta final ao frontend
+  res.status(201).json({
+    sucesso: true,
+    mensagem: res.locals.habitoInfo?.mensagem,
+    idUsuario: res.locals.habitoInfo?.idUsuario
+  });
+});
 // Editar hábito
 rotas.put('/habitos/:idHabito', async (req, res) => {
   console.log('REQ BODY:', req.body);
@@ -346,5 +349,12 @@ rotas.get('/habitos/:idUsuario', async (req, res) => {
     res.status(500).json({ erro: erro.message })
   }
 })
+// Obter usuário por ID
+rotas.get('/usuario/:id', async (req, res) => {
+  const db = await conectarBanco();
+  const usuario = await db.get('SELECT * FROM Usuario WHERE idUsuario = ?', [req.params.id]);
+  if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
+  res.json(usuario);
+});
 
 export default rotas

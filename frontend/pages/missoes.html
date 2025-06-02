@@ -1,58 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Habitus | Missões</title>
-    <link rel="stylesheet" href="../style/missoes.css">
-    <link href="https://fonts.googleapis.com/css2?family=Magra:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style/navbar.css">
-    <link rel="stylesheet" href="../style/global.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../style/missoes.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Magra:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style/navbar.css" />
+    <link rel="stylesheet" href="../style/global.css" />
+  </head>
+  <body>
     <div id="navbar-container"></div>
     <div class="container">
-        <div class="main">
-            <div class="titulo-com-linhas">
-                <hr class="linha" />
-                <h2 class="titulo">Missões</h2>
-                <hr class="linha" />
-            </div>
-
-            <div class="bloco1">
-                <div class="listamissoes">
-                    <ul>
-                        <li>Convide 5 amigos para o habitus.</li>
-                        <li>Conclua 2 tarefas.</li>
-                        <li>Seja o primeiro do seu ranking.</li>
-                        <li>Atualize suas contas do Banco.</li>
-                    </ul>
-                    <img src="../pictures/utilidades/progress.svg" alt="barra de nivel" width="338" height="12"/>
-                </div>
-
-                <div class="img">
-                    <img src="../pictures/missoes/banner1.svg" alt="badge de conquista" width="497" height="285"/>
-                    <img class="bannerText" src="../pictures/missoes/quero-banner.svg" alt="badge de conquista" width="172" height="39"/>
-                    <img class="capibbara" src="../pictures/missoes/capibbara.svg" alt="badge de conquista" width="247" height="247"/>
-                </div>
-            </div>
-
-            <div class="bloco2">
-                <div class="side1">
-                    <h3>Traga 5 amigos e ganhe <br /> créditos e benefícios.</h3>
-                    <button class="buttonbloco2">Convidar</button>
-                </div>
-
-                <div class="side2">
-                    <div class="capibbaraetexto">
-                        <img class="capibbarabloco2" src="../pictures/missoes/capibbara2.svg" alt="skin bloco 2" width="145" height="145"/>
-                        <p class="textopremios"><b>Prêmios</b>exclusivos</p>
-                    </div>
-                </div>
-            </div>
+      <div class="main">
+        <div class="titulo-com-linhas">
+          <hr class="linha" />
+          <h2 class="titulo">Missões</h2>
+          <hr class="linha" />
         </div>
+
+        <div class="bloco1">
+          <div class="listamissoes">
+            <ul id="lista-missoes">
+              <!-- Missões serão carregadas aqui -->
+            </ul>
+            <!-- Barra de progresso de missões -->
+            <div id="progresso-missoes-container">
+              <div id="progresso-missoes-bar">
+                <div id="progresso-missoes-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="img">
+            <img
+              src="../pictures/missoes/banner1.svg"
+              alt="badge de conquista"
+              width="497"
+              height="285"
+            />
+            <img
+              class="bannerText"
+              src="../pictures/missoes/quero-banner.svg"
+              alt="badge de conquista"
+              width="172"
+              height="39"
+            />
+            <img
+              class="capibbara"
+              src="../pictures/missoes/capibbara.svg"
+              alt="badge de conquista"
+              width="247"
+              height="247"
+            />
+          </div>
+        </div>
+
+        <div class="bloco2">
+          <div class="side1">
+            <h3>
+              Traga 5 amigos e ganhe <br />
+              créditos e benefícios.
+            </h3>
+            <button class="buttonbloco2">Convidar</button>
+          </div>
+
+          <div class="side2">
+            <div class="capibbaraetexto">
+              <img
+                class="capibbarabloco2"
+                src="../pictures/missoes/capibbara2.svg"
+                alt="skin bloco 2"
+                width="145"
+                height="145"
+              />
+              <p class="textopremios"><b>Prêmios</b>exclusivos</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <script type="module" src="../integracao/missoes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="../script/navbar.js"></script>
-</body>
+  </body>
 </html>
