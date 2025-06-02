@@ -20,6 +20,7 @@ async function carregarMissoes() {
 
     if (missoes.length === 0) {
       lista.innerHTML = '<li>Nenhuma missão encontrada.</li>';
+      await carregarProgressoMissoes();
       return;
     }
 
@@ -32,9 +33,26 @@ async function carregarMissoes() {
       `;
       lista.appendChild(li);
     });
+
+    await carregarProgressoMissoes();
   } catch (erro) {
     console.error('Erro ao carregar missões:', erro);
     document.getElementById('lista-missoes').innerHTML = '<li>Erro ao carregar missões.</li>';
+    await carregarProgressoMissoes();
+  }
+}
+
+async function carregarProgressoMissoes() {
+  try {
+    const resposta = await axios.get(`${API_URL}/usuario/${idUsuario}`);
+    const usuario = resposta.data;
+    const missoesFeitas = usuario.missoesFeitas || 0;
+    const progressoAtual = missoesFeitas % 10;
+    const progressoPercent = (progressoAtual / 10) * 100;
+
+    document.getElementById('progresso-missoes-fill').style.width = `${progressoPercent}%`;
+  } catch (erro) {
+    
   }
 }
 

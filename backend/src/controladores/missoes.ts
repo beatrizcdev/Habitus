@@ -87,6 +87,12 @@ export async function verificarMissoes(idUsuario: number): Promise<void> {
       );
       console.log("[verificarMissoes] Missao atualizada:", updateResult);
 
+      // INCREMENTA O CONTADOR DE MISSÕES FEITAS
+      await db.run(
+        `UPDATE Usuario SET missoesFeitas = COALESCE(missoesFeitas,0) + 1 WHERE idUsuario = ?`,
+        [idUsuario]
+      );
+
       if (missao.idRecompensa) {
         const item = await db.get(
           `

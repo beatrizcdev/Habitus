@@ -12,6 +12,7 @@ import { RequestComUsuario } from "./modelos/request"
 import { comprarItem, equiparItem, listarInventario } from "./controladores/itens"
 import path from "path"
 import Habito from "./modelos/habitos"
+import { conectarBanco } from "./utilitarios/conexaoBD"
 
 const rotas = Router()
 
@@ -348,5 +349,12 @@ rotas.get('/habitos/:idUsuario', async (req, res) => {
     res.status(500).json({ erro: erro.message })
   }
 })
+// Obter usuário por ID
+rotas.get('/usuario/:id', async (req, res) => {
+  const db = await conectarBanco();
+  const usuario = await db.get('SELECT * FROM Usuario WHERE idUsuario = ?', [req.params.id]);
+  if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
+  res.json(usuario);
+});
 
 export default rotas
