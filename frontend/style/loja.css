@@ -1,0 +1,178 @@
+.container {
+  font-family: 'Magra';
+  background-image: url('../pictures/utilidades/Vector.svg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100%;
+  min-height: 70vh;
+  font-size: 18px;
+  padding: 2rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.container-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+}
+
+.container-titulo p {
+  margin: 0;
+  font-size: 2rem;
+  color: #3F9A6C;
+  font-weight: 800;
+  flex-shrink: 1;
+}
+
+.container-titulo img {
+  max-width: 250px;
+  height: auto;
+}
+
+.header-pequeno {
+  position: absolute;
+  top: 0;
+  left: 53%;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding-top: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.header-pequeno img{
+    width: 80%;
+}
+
+.box {
+  margin-top: 4rem;
+  background-color: white;
+  width: 73%;
+  min-height: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 45px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+  position: relative;
+}
+.Container_produto{
+    display: flex;
+    gap: 3vh;
+    max-width: 100%;
+    flex-wrap: wrap;
+    
+}
+
+.item{
+     border:solid 2px #5BA045;
+     border-radius: 28%;
+     display: flex;
+     
+}
+.capibara{
+    max-width: 8rem;
+    margin-right: -3vh;
+}
+.nivel{
+  width: 69.12994384765625px;
+  height: 26px;
+  margin-top: 10px;
+  color: #7D5841;
+
+  font-family: Magra;
+  font-weight: 600px;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+
+}
+
+
+.botao{
+  width: 11vh;
+  height: 5vh;
+  
+  border-radius: 25px;
+  background: #3F9A6C52;
+
+  font-family: Magra;
+  font-size: 20px;
+  color: #377c59;
+  border: none;
+  cursor: pointer;
+  
+} 
+
+.botao:hover {
+  color: #116d3f;
+  background: #116b3e52;
+}
+
+.coinspig{
+  width: 3vh;
+  right: 15px; 
+  bottom: 6.5px;
+  position:relative;
+  margin: -9px;
+
+}
+
+/* Pop-up de confirmação da loja */
+#popup-confirmacao {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+}
+#popup-confirmacao .popup-fundo {
+  position: absolute;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  top: 0; left: 0;
+}
+#popup-confirmacao .popup-box {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 18px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  text-align: center;
+  min-width: 280px;
+}
+#popup-confirmacao .popup-botoes {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+#popup-confirmacao button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  border: none;
+  background: #3F9A6C;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: 'Magra', sans-serif;
+  transition: background 0.2s;
+}
+#popup-confirmacao button:hover {
+  background: #116d3f;
+}
+
+
+
+

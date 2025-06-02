@@ -7,7 +7,8 @@ export async function comprarItem(idUsuario: number, idItem: number, equipar: bo
     ? await conectarBancoTeste()
     : await conectarBanco()
 
-    const item = await db.get(`SELECT * FROM Item WHERE idItem = ? AND tipo = 'skin'`, [idItem])
+    const item = await db.get(`SELECT * FROM Item WHERE idItem = ?`, [idItem])
+    console.log(item)
     if (!item) {
         await db.close()
         throw new Error("Item não encontrado.")
@@ -106,4 +107,19 @@ export async function equiparItem(idUsuario: number, idItem: number) {
     await db.close()
     return "Item equipado com sucesso."
     
+}
+
+export async function listarItensLoja() {
+    const db = process.env.NODE_ENV === 'test'
+        ? await conectarBancoTeste()
+        : await conectarBanco();
+
+    // Busca todos os itens disponiveis pra compra
+    const itens = await db.all(`
+        SELECT idItem, nome, tipo, descricao, preco
+        FROM Item
+    `);
+
+    await db.close();
+    return itens;
 }
