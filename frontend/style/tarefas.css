@@ -1,5 +1,5 @@
 /* ========================
-   GERAL / CONTAINER
+  CONTAINER
 ========================= */
 .wrapper {
   background-image: url("../pictures/utilidades/Vector.svg");
@@ -18,11 +18,11 @@
   margin: 0 auto;
 }
 
-/* ========================
-   TAREFAS
-========================= */
-.tarefas-container {
-  background-color: #ffa726;
+/*=========================
+  GERAL
+==========================*/
+
+.th-container {
   color: white;
   border-radius: 20px;
   padding: 20px;
@@ -30,10 +30,40 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.tarefas-container h2 {
+.th-container h2 {
   text-align: center;
   font-size: 18px;
   margin-bottom: 20px;
+}
+
+.th-list {
+  list-style: none;
+  padding: 0 12px 0 0;
+  margin: 0;
+  max-height: 300px; /* Ajuste conforme necessário */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #ccc;
+  }
+}
+/* ========================
+   TAREFAS
+========================= */
+.tarefas {
+  background-color: #ffa726;
 }
 
 .tabs-container {
@@ -71,7 +101,7 @@
 /* ========================
   TAREFA INDIVIDUAL
 ========================= */
-.item-tarefa {
+.item-th {
   display: grid;
   grid-template-columns: 0fr 1fr 0fr;
   align-items: center;
@@ -81,30 +111,6 @@
   border: transparent 1px;
   margin-bottom: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.task-list {
-  list-style: none;
-  padding: 0 12px 0 0;
-  margin: 0;
-  max-height: 300px; /* Ajuste conforme necessário */
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary) transparent;
-  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-    border-radius: 3px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: #ccc;
-  }
 }
 
 /*++++*/
@@ -149,7 +155,7 @@
   text-overflow: ellipsis;
 }
 
-.texto-tarefa {
+.texto-th {
   text-overflow: ellipsis;
   overflow: hidden;
   margin-left: 10px;

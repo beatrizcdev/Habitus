@@ -24,14 +24,13 @@ export async function carregarTarefas() {
     lista.innerHTML = "";
 
     if (tarefas.length === 0) {
-      lista.innerHTML =
-        "<p class='nenhuma-tarefa'>Nenhuma tarefa cadastrada.</p>";
+      lista.innerHTML = "<p class='nenhuma-tarefa'>Nenhuma tarefa cadastrada.</p>";
       return;
     }
 
     tarefas.forEach((tarefa) => {
       const li = document.createElement("li");
-      li.classList.add("item-tarefa");
+      li.classList.add("item-th");
       li.id = `tarefa-${tarefa.idTarefa}`;
 
       // Checkbox como button
@@ -45,7 +44,7 @@ export async function carregarTarefas() {
 
       // Texto da tarefa
       const texto = document.createElement("span");
-      texto.classList.add("texto-tarefa");
+      texto.classList.add("texto-th");
       texto.textContent = tarefa.nome;
       if (tarefa.status === "concluída") {
         texto.classList.add("checked");
@@ -112,10 +111,7 @@ export async function carregarTarefas() {
 
       // Evento de editar
       textoContainer.addEventListener("click", (e) => {
-        if (
-          !e.target.classList.contains("check-circle") &&
-          !e.target.closest(".check-circle")
-        ) {
+        if (!e.target.classList.contains("check-circle") && !e.target.closest(".check-circle")) {
           abrirModalEdicao(tarefa);
         }
       });
@@ -163,17 +159,12 @@ function abrirModalEdicao(tarefa) {
 
   if (nomeInput) nomeInput.value = tarefa.nome || "";
   if (descricaoInput) descricaoInput.value = tarefa.descricao || "";
-  if (dataLimiteInput)
-    dataLimiteInput.value = tarefa.dataLimite
-      ? tarefa.dataLimite.split("T")[0]
-      : "";
+  if (dataLimiteInput) dataLimiteInput.value = tarefa.dataLimite ? tarefa.dataLimite.split("T")[0] : "";
   if (categoriaInput) categoriaInput.value = tarefa.categoria || "";
 
   // Selecionar prioridade
   const prioridade = tarefa.prioridade || "media";
-  const prioridadeInput = document.querySelector(
-    `input[name="prioridade"][value="${prioridade}"]`
-  );
+  const prioridadeInput = document.querySelector(`input[name="prioridade"][value="${prioridade}"]`);
   if (prioridadeInput) prioridadeInput.checked = true;
 
   // Configurar modal
@@ -199,9 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const descricaoInput = document.getElementById("descricao");
     const dataLimiteInput = document.getElementById("dataLimite");
     const categoriaInput = document.getElementById("categoria");
-    const prioridadeMedia = document.querySelector(
-      'input[name="prioridade"][value="media"]'
-    );
+    const prioridadeMedia = document.querySelector('input[name="prioridade"][value="media"]');
 
     if (nomeInput) nomeInput.value = "";
     if (descricaoInput) descricaoInput.value = "";
@@ -235,17 +224,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const descricaoInput = document.getElementById("descricao");
       const dataLimiteInput = document.getElementById("dataLimite");
       const categoriaInput = document.getElementById("categoria");
-      const prioridadeInput = document.querySelector(
-        'input[name="prioridade"]:checked'
-      );
+      const prioridadeInput = document.querySelector('input[name="prioridade"]:checked');
 
-      if (
-        !nomeInput ||
-        !descricaoInput ||
-        !dataLimiteInput ||
-        !categoriaInput ||
-        !prioridadeInput
-      ) {
+      if (!nomeInput || !descricaoInput || !dataLimiteInput || !categoriaInput || !prioridadeInput) {
         throw new Error("Elementos do formulário não encontrados");
       }
 
@@ -313,49 +294,41 @@ btnExcluir?.addEventListener("click", (event) => {
 });
 
 // Evento para excluir tarefa ao clicar em li no modo exclusão
-document
-  .getElementById("lista-tarefas")
-  ?.addEventListener("click", async (event) => {
-    if (!modoExclusaoAtivo) return;
+document.getElementById("lista-tarefas")?.addEventListener("click", async (event) => {
+  if (!modoExclusaoAtivo) return;
 
-    const li = event.target.closest(".item-tarefa");
-    if (!li) return;
+  const li = event.target.closest(".item-tarefa");
+  if (!li) return;
 
-    const idTarefa = li.id.replace("tarefa-", "");
-    const nomeTarefa =
-      li.querySelector(".texto-tarefa")?.textContent || "essa tarefa";
+  const idTarefa = li.id.replace("tarefa-", "");
+  const nomeTarefa = li.querySelector(".texto-tarefa")?.textContent || "essa tarefa";
 
-    const confirmar = confirm(
-      `Tem certeza que deseja excluir a tarefa "${nomeTarefa}"?`
-    );
-    if (!confirmar) return;
+  const confirmar = confirm(`Tem certeza que deseja excluir a tarefa "${nomeTarefa}"?`);
+  if (!confirmar) return;
 
-    try {
-      const resposta = await fetch(
-        `http://localhost:5000/tarefas/${idTarefa}`,
-        {
-          method: "DELETE",
-        }
-      );
+  try {
+    const resposta = await fetch(`http://localhost:5000/tarefas/${idTarefa}`, {
+      method: "DELETE",
+    });
 
-      if (!resposta.ok) {
-        const erro = await resposta.json();
-        throw new Error(erro.erro || "Erro ao excluir tarefa");
-      }
-
-      await carregarTarefas(); // Recarrega a lista
-      alert("Tarefa excluída com sucesso!");
-    } catch (erro) {
-      console.error("Erro ao excluir tarefa:", erro);
-      alert(erro.message || "Erro ao excluir tarefa.");
-    } finally {
-      // Desliga o modo exclusão
-      modoExclusaoAtivo = false;
-      btnExcluir.textContent = "Excluir Tarefas";
-      btnExcluir.style.backgroundColor = "";
-
-      document.querySelectorAll(".item-tarefa").forEach((item) => {
-        item.classList.remove("modo-exclusao");
-      });
+    if (!resposta.ok) {
+      const erro = await resposta.json();
+      throw new Error(erro.erro || "Erro ao excluir tarefa");
     }
-  });
+
+    await carregarTarefas(); // Recarrega a lista
+    alert("Tarefa excluída com sucesso!");
+  } catch (erro) {
+    console.error("Erro ao excluir tarefa:", erro);
+    alert(erro.message || "Erro ao excluir tarefa.");
+  } finally {
+    // Desliga o modo exclusão
+    modoExclusaoAtivo = false;
+    btnExcluir.textContent = "Excluir Tarefas";
+    btnExcluir.style.backgroundColor = "";
+
+    document.querySelectorAll(".item-tarefa").forEach((item) => {
+      item.classList.remove("modo-exclusao");
+    });
+  }
+});
