@@ -1,38 +1,18 @@
 /* ========================
-   TAREFAS
+   HABITOS
 ========================= */
-.habitos-container {
-  background-color: #288e5b;
-  color: white;
-  border-radius: 20px;
-  padding: 20px;
-  width: 250px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  margin-left: 5%;
-}
-
-.habitos-container h2 {
-  text-align: center;
-  font-size: 18px;
-  margin-bottom: 20px;
-}
 
 #habitos.active {
+  background-color: #288e5b;
+}
+
+.habitos {
   background-color: #288e5b;
 }
 
 /* ========================
    TAREFA INDIVIDUAL
 ========================= */
-.item-habitos {
-  display: flex;
-  align-items: center;
-  padding: 10px 12px;
-  background-color: #fff;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .habit-item {
   display: flex;
