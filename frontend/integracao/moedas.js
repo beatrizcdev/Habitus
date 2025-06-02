@@ -1,21 +1,22 @@
-export async function carregarMoedasUsuario(idUsuario) {
-  try {
-    const resposta = await fetch(`http://localhost:5000/moedas/${idUsuario}`);
-    if (!resposta.ok) throw new Error('Erro ao buscar moedas');
+//import axios from "axios";
 
-    const dados = await resposta.json();
-    const moedasSpan = document.getElementById('quantidade-moedas');
+export async function carregarMoedasUsuario() {
+  try {
+    const idUsuario = localStorage.getItem("userId");
+    if (!idUsuario) return;
+
+    const resposta = await axios.get(
+      `http://localhost:5000/moedas/${idUsuario}`
+    );
+    const dados = resposta.data;
+    const moedasSpan = document.getElementById("quantidade-moedas");
 
     if (moedasSpan) {
       moedasSpan.textContent = dados.moedas;
     }
   } catch (erro) {
-    console.error('Erro ao carregar moedas:', erro);
+    console.error("Erro ao carregar moedas:", erro);
   }
 }
 
-const params = new URLSearchParams(window.location.search);
-const idUsuario = params.get('userId');
-if (idUsuario) {
-  carregarMoedasUsuario(idUsuario);
-}
+// carregarMoedasUsuario();

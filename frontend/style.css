@@ -25,10 +25,10 @@ html, body {
 
 .inicio-folhas {
   position: absolute;
-  bottom: 0;          
-  left: 0;         
-  width: 100%;     
-  height: 100%;    
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: -1;
   display: flex;
   object-fit: cover;
@@ -68,7 +68,7 @@ display: grid;
   padding: 20px;
 }
 
-.inicio-card{
+.inicio-card {
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -84,7 +84,7 @@ display: grid;
 
 
 .inicio-card p {
-  color: #3F9A6C;
+  color: #3f9a6c;
 }
 
 .inicio-button{
@@ -122,7 +122,7 @@ display: grid;
   max-width: 80%;
 }
 
-#inicio-arvore{
+#inicio-arvore {
   max-width: 100%;
   max-height: 100%;
 }

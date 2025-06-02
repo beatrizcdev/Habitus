@@ -3,109 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil</title>
-    <link rel="stylesheet" href="../style/editar-perfil.css">
+    <title>Habitus | Perfil</title>
     <link href="https://fonts.googleapis.com/css2?family=Magra:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style/editar-perfil.css">
     <link rel="stylesheet" href="../style/navbar.css">
     <link rel="stylesheet" href="../style/global.css">
-
 </head>
 <body>
     
     <div class="container">
-        <div id="navbar-container"></div>
-        <div class="main">
-            <div class="boxperfil">
-                <img
-                    class="avatar"
-                    src="../pictures/capibbara/capibbara1.svg"
-                    alt="Capivara Perfil"
-                    width="203"
-                    height="203"
-                />
-                <h3>Fernanda_taskMaster</h3>
-                <p>Nível atual: 15</p>
-                <img
-                    src="../pictures/utilidades/progress.svg"
-                    alt="barra de nivel"
-                    width="338"
-                    height="12"
-                />
+      <div id="navbar-container"></div>
+      <div class="main">
+        <div class="boxperfil">
+          <img
+            class="avatar"
+            src="../pictures/capibbara/capibbara1.svg"
+            alt="Capivara Perfil"
+            width="203"
+            height="203"
+          />
+          <h3>Fernanda_taskMaster</h3>
+          <p>Nível atual: 15</p>
+          <img
+            src="../pictures/utilidades/progress.svg"
+            alt="barra de nivel"
+            width="338"
+            height="12"
+          />
 
-                <h3 class="conquistastitulo">Conquistas</h3>
-                <div class="conquistas">
-                    <img src="../pictures/badges/badge1.svg" alt="badge de conquista" width="119" height="119"/>
-                    <img src="../pictures/badges/badge2.svg" alt="badge de conquista" width="119" height="119"/>
-                    <img src="../pictures/badges/badge3.svg" alt="badge de conquista" width="119" height="119"/>
-                </div>
+          <h3 class="conquistastitulo">Conquistas</h3>
+          <div class="conquistas">
+            <img
+              src="../pictures/badges/badge1.svg"
+              alt="badge de conquista"
+              width="119"
+              height="119"
+            />
+            <img
+              src="../pictures/badges/badge2.svg"
+              alt="badge de conquista"
+              width="119"
+              height="119"
+            />
+            <img
+              src="../pictures/badges/badge3.svg"
+              alt="badge de conquista"
+              width="119"
+              height="119"
+            />
+          </div>
 
-                <button class="botao">Editar</button>
-            </div>
-
-            <div class="infoperfil">
-                <h1>Editar Perfil</h1>
-
-                <div class="campo">
-                    <label>Nome:</label>
-                    <div class="editavel" id="editavel-nome">
-                        <span id="texto-nome">Fernanda_taskMaster</span>
-                        <input id="input-nome" value="Fernanda_taskMaster" style="display: none; flex: 1"/>
-                        <button id="salvar-nome" style="display: none; margin-left: 10px">Salvar</button>
-                        <img src="../pictures/utilidades/icon-editar.svg" alt="Editar nome" width="20" height="20" id="editar-nome"/>
-                    </div>
-                </div>
-
-                <div class="campo">
-                    <label>Email:</label>
-                    <div class="editavel" id="editavel-email">
-                        <span id="texto-email">fernanda_Montenegro@email.com.br</span>
-                        <input
-                            id="input-email"
-                            value="fernanda_Montenegro@email.com.br"
-                            style="display: none; flex: 1"
-                        />
-                        <button id="salvar-email" style="display: none; margin-left: 10px">Salvar</button>
-                        <img src="../pictures/utilidades/icon-editar.svg" alt="Editar email" width="20" height="20" id="editar-email"/>
-                    </div>
-                </div>
-
-                <div class="campo">
-                    <label>Senha:</label>
-                    <div class="editavel" id="editavel-senha">
-                        <span id="texto-senha">********</span>
-                        <input id="input-senha" type="password" value="********" style="display: none; flex: 1"/>
-                        <button id="salvar-senha" style="display: none; margin-left: 10px">Salvar</button>
-                        <img
-                            src="../pictures/utilidades/icon-editar.svg" alt="Editar senha" width="20" height="20" id="editar-senha"
-                        />
-                    </div>
-                </div>
-            </div>
-        
+          <button class="botao">Editar</button>
         </div>
-    </div>
 
+        <div class="infoperfil">
+          <h1>Editar Perfil</h1>
+
+          <div class="campo">
+            <label>Nome:</label>
+            <div class="editavel" id="editavel-nome">
+              <span id="texto-nome">Fernanda_taskMaster</span>
+              <input id="input-nome" value="Fernanda_taskMaster" style="display: none; flex: 1"/>
+              <button id="salvar-nome" style="display: none; margin-left: 10px">Salvar</button>
+              <img src="../pictures/utilidades/icon-editar.svg" alt="Editar nome" width="20" height="20" id="editar-nome"/>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>Email:</label>
+            <div class="editavel" id="editavel-email">
+              <span id="texto-email">fernanda_Montenegro@email.com.br</span>
+              <input
+                id="input-email"
+                value="fernanda_Montenegro@email.com.br"
+                style="display: none; flex: 1"
+              />
+              <button id="salvar-email" style="display: none; margin-left: 10px">Salvar</button>
+              <img src="../pictures/utilidades/icon-editar.svg" alt="Editar email" width="20" height="20" id="editar-email"/>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>Senha:</label>
+            <div class="editavel" id="editavel-senha">
+              <span id="texto-senha">********</span>
+              <input id="input-senha" type="password" value="********" style="display: none; flex: 1"/>
+              <button id="salvar-senha" style="display: none; margin-left: 10px">Salvar</button>
+              <img
+                src="../pictures/utilidades/icon-editar.svg" alt="Editar senha" width="20" height="20" id="editar-senha"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="../script/navbar.js"></script> 
     <script>
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const campos = ["nome", "email", "senha"];
+      document.addEventListener('DOMContentLoaded', function() {
+        const campos = ["nome", "email", "senha"];
 
-            campos.forEach((campo) => {
-                const btnEditar = document.getElementById(`editar-${campo}`);
-                const span = document.getElementById(`texto-${campo}`);
-                const input = document.getElementById(`input-${campo}`);
-                const salvarBtn = document.getElementById(`salvar-${campo}`);
+        campos.forEach((campo) => {
+          const btnEditar = document.getElementById(`editar-${campo}`);
+          const span = document.getElementById(`texto-${campo}`);
+          const input = document.getElementById(`input-${campo}`);
+          const salvarBtn = document.getElementById(`salvar-${campo}`);
 
-                btnEditar?.addEventListener('click', () => {
-                    const senha = prompt("Digite sua senha para confirmar:");
-                    if (senha) {
-                        input.style.display = "inline-block";
-                        span.style.display = "none";
-                        salvarBtn.style.display = "inline-block";
-                    }
-                });
+          btnEditar?.addEventListener("click", () => {
+            const senha = prompt("Digite sua senha para confirmar:");
+            if (senha) {
+              input.style.display = "inline-block";
+              span.style.display = "none";
+              salvarBtn.style.display = "inline-block";
+            }
+          });
 
                 salvarBtn?.addEventListener('click', () => {
                     const novoValor = input.value.trim();
@@ -117,8 +128,9 @@
                     }
                 });
             });
-        }); 
+        });
+ 
 
     </script>
-</body>
+  </body>
 </html>
