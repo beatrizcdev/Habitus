@@ -57,27 +57,40 @@ export async function verificarAcessoHandler(req: RequestComUsuario, res: Respon
   }
 }
 
-// Middleware para verificar missões ao concluir tarefa
+// Middleware para verificar missões ao concluir tarefa ou adicionar hábito
 export async function verificarMissoesMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
-    const idTarefa = Number(req.params.id);
-    if (!idTarefa) {
-      console.log("[verificarMissoesMiddleware] idTarefa não fornecido.");
-      return next();
+    let idUsuario: number | undefined;
+
+    // Para tarefas (concluir)
+    if (req.params.id) {
+      const idTarefa = Number(req.params.id);
+      if (!isNaN(idTarefa)) {
+        const db = await conectarBanco();
+        const tarefa = await db.get("SELECT idUsuario FROM Tarefa WHERE idTarefa = ?", [idTarefa]);
+        idUsuario = tarefa?.idUsuario;
+        console.log("[verificarMissoesMiddleware] idUsuario encontrado via tarefa:", idUsuario);
+      }
     }
 
-    const db = await conectarBanco();
-    // Busca o idUsuario da tarefa no banco
-    const tarefa = await db.get("SELECT idUsuario FROM Tarefa WHERE idTarefa = ?", [idTarefa]);
-    const idUsuario = tarefa?.idUsuario;
+    // Para hábitos (adicionar)
+    if (!idUsuario && req.params.idUsuario) {
+      idUsuario = Number(req.params.idUsuario);
+      console.log("[verificarMissoesMiddleware] idUsuario encontrado via req.params.idUsuario:", idUsuario);
+    }
 
-    console.log("[verificarMissoesMiddleware] idTarefa:", idTarefa, "| idUsuario encontrado:", idUsuario);
+    // Para casos em que o idUsuario está no body
+    if (!idUsuario && req.body.idUsuario) {
+      idUsuario = Number(req.body.idUsuario);
+      console.log("[verificarMissoesMiddleware] idUsuario encontrado via req.body.idUsuario:", idUsuario);
+    }
 
     if (idUsuario) {
+      console.log("[verificarMissoesMiddleware] Chamando verificarMissoes para idUsuario:", idUsuario);
       await verificarMissoes(idUsuario);
       console.log("[verificarMissoesMiddleware] verificarMissoes executado para idUsuario:", idUsuario);
     } else {
-      console.warn("[verificarMissoesMiddleware] idUsuario não encontrado para a tarefa", idTarefa);
+      console.warn("[verificarMissoesMiddleware] idUsuario não encontrado no contexto da requisição.");
     }
     next();
   } catch (erro) {

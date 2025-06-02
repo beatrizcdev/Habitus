@@ -1,7 +1,7 @@
 import { conectarBanco, conectarBancoTeste } from "../utilitarios/conexaoBD";
 import { enviarNotificacao } from "./notificacoes";
 
-//Listar missões
+// Listar missões
 export async function listarMissoes(idUsuario: number) {
   const db =
     process.env.NODE_ENV === "test"
@@ -26,7 +26,8 @@ export async function listarMissoes(idUsuario: number) {
 
   return Array.from(result);
 }
-//verficar e marcar como concluída uma missão
+
+// Verificar e marcar como concluída uma missão
 export async function verificarMissoes(idUsuario: number): Promise<void> {
   const db =
     process.env.NODE_ENV === "test"
@@ -48,7 +49,7 @@ export async function verificarMissoes(idUsuario: number): Promise<void> {
     if (missao.tipo === "tarefas") {
       const result = await db.get(
         `
-          SELECT COUNT(*) as total FROM Tarefa
+          SELECT COUNT(*) as total FROM tarefa
           WHERE idUsuario = ? AND status = 'concluída'
         `,
         [idUsuario]
@@ -62,6 +63,14 @@ export async function verificarMissoes(idUsuario: number): Promise<void> {
         [idUsuario]
       );
       progresso = result.diasSeguidos || 0;
+    } else if (missao.tipo === "habitos") {
+      const result = await db.get(`
+          SELECT COUNT(*) as total FROM Habito
+          WHERE idUsuario = ?
+        `,
+        [idUsuario]
+      );
+      progresso = result.total;
     }
 
     // LOG DETALHADO

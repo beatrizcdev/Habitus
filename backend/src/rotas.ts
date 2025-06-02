@@ -216,18 +216,14 @@ rotas.get('/moedas/:idUsuario', async (req, res) => {
   }
 })
 // Adicionar hábito
-rotas.post('/habitos/:idUsuario/adicionar', async (req, res) => {
+rotas.post('/habitos/:idUsuario/adicionar', async (req, res, next) => {
   try {
     const idUsuario = Number(req.params.idUsuario)
-    
-    // Validação do ID
     if (isNaN(idUsuario)) {
       throw new Error('ID do usuário inválido')
     }
 
     const { nome, descricao } = req.body
-
-    // Validação dos campos obrigatórios
     if (!nome) {
       throw new Error('Nome do hábito é obrigatório')
     }
@@ -239,18 +235,24 @@ rotas.post('/habitos/:idUsuario/adicionar', async (req, res) => {
       status: 'pendente'
     })
 
-    res.status(201).json({ 
-      sucesso: true, 
-      mensagem,
-      idUsuario // Retornando o ID para referência
-    })
+    // Armazene informações no res.locals se quiser usar depois
+    res.locals.habitoInfo = { mensagem, idUsuario }
+
+    next(); // Chama o middleware de missões
   } catch (erro: any) {
-    res.status(400).json({ 
-      sucesso: false, 
-      mensagem: erro.message 
+    res.status(400).json({
+      sucesso: false,
+      mensagem: erro.message
     })
   }
-})
+}, verificarMissoesMiddleware, (req, res) => {
+  // Retorne a resposta final ao frontend
+  res.status(201).json({
+    sucesso: true,
+    mensagem: res.locals.habitoInfo?.mensagem,
+    idUsuario: res.locals.habitoInfo?.idUsuario
+  });
+});
 // Editar hábito
 rotas.put('/habitos/:idHabito', async (req, res) => {
   console.log('REQ BODY:', req.body);
