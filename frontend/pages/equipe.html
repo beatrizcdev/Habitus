@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habitus</title>
+  <link rel="stylesheet" href="../style/navbar.css">
+  <link rel="stylesheet" href="../style/global.css">
+  <link rel="stylesheet" href="../style/equipe.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <main class="equipe-main">
+    <div class="equipe-estampa">
+      <section class="equipe-top-section">
+        <div class="equipe-tree">
+          <img src="../pictures/arvore/arvore.svg" alt="Árvore">
+        </div>
+        <div class="equipe-panel">
+          <div class="equipe-toggle">
+            <button id="btn-ranking" class="equipe-toggle-btn equipe-active">Ranking</button>
+            <button id="btn-equipes" class="equipe-toggle-btn">Equipes</button>
+          </div>
+
+          <div id="view-ranking" class="equipe-card equipe-view equipe-active" style="background: #EAAC47;">
+            <h2 style="color: white;">Ranking</h2>
+            <table class="equipe-ranking-table">
+              <tr><td>grazy_liesop</td><td class="equipe-pos">1º</td></tr>
+              <tr><td>fabeo_lol</td><td class="equipe-pos">2º</td></tr>
+              <tr><td>bia_c</td><td class="equipe-pos">3º</td></tr>
+              <tr><td>elias_lol2</td><td class="equipe-pos">4º</td></tr>
+              <tr><td>davi978</td><td class="equipe-pos">5º</td></tr>
+              <tr><td>vanessa567</td><td class="equipe-pos">6º</td></tr>
+            </table>
+          </div>
+
+          <div id="view-equipes" class="equipe-card equipe-view" style="background-color: #288e5ba0;">
+            <h2 style="color: white;">Equipes</h2>
+            <div class="equipe-team equipe-green-team">
+              <h3>Equipe verde:</h3>
+              <p>bia_123<br>grazy_liesop</p>
+            </div>
+            <div class="equipe-team equipe-orange-team">
+              <h3>Equipe laranja:</h3>
+              <p>fabeo_lol<br>elias_lol2</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="equipe-bottom-section">
+        <button class="equipe-arrow-btn">
+          <img src="../pictures/utilidades/seta-esquerda.svg" alt="Próximo">
+        </button>
+        <div class="equipe-avatar-card equipe-green">
+          <span class="equipe-lvl">Lvl5</span>
+          <img src="../pictures/capibbara/capibbara0.svg" alt="Capibara">
+          <p>grazy_liesop</p>
+        </div>
+        <div class="equipe-avatar-card equipe-greenn">
+          <span class="equipe-lvl">Lvl5</span>
+          <img src="../pictures/capibbara/capibbara3.svg" alt="Capibara">
+          <p>vanessa567</p>
+        </div>
+        <div class="equipe-avatar-card equipe-yellow">
+          <span class="equipe-lvl">Lvl5</span>
+          <img src="../pictures/capibbara/capibbara1.svg" alt="Capibara">
+          <p>bia_c</p>
+        </div>
+        <div class="equipe-avatar-card equipe-orange">
+          <span class="equipe-lvl">Lvl5</span>
+          <img src="../pictures/capibbara/capibbara2.svg" alt="Capibara">
+          <p>fabeo_lol</p>
+        </div>
+        <button class="equipe-arrow-btn">
+          <img src="../pictures/utilidades/seta-direita.svg" alt="Próximo">
+        </button>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="../script/navbar.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

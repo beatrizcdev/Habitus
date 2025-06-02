@@ -313,3 +313,29 @@
     margin-top: 50px; 
   }
 }
+
+#progresso-missoes-container {
+  margin: 18px 0 10px 0;
+  width: 100%;
+  text-align: center;
+}
+
+#progresso-missoes-bar {
+  width: 100%;
+  max-width: 350px;
+  height: 18px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  margin: 0 auto 6px auto;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  position: relative;
+}
+
+#progresso-missoes-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2f7e73 60%, #EAAC47 100%);
+  width: 0%;
+  border-radius: 12px 0 0 12px;
+  transition: width 0.6s cubic-bezier(.4,2,.6,1);
+}
