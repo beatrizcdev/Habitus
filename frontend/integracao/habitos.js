@@ -77,7 +77,10 @@ export async function carregarHabitos() {
           await excluirHabito(habito.idHabito);
           await carregarHabitos();
         } catch (erro) {
-          alert("Erro ao excluir hábito.");
+          alert(
+            erro.message ||
+            "Erro ao excluir hábito."
+          );
         }
       });
 
@@ -93,13 +96,19 @@ export async function carregarHabitos() {
           // Reverte visual se falhar
           check.classList.toggle("checked");
           texto.classList.toggle("checked");
-          alert("Erro ao atualizar hábito.");
+          alert(
+            erro.message ||
+            "Erro ao atualizar hábito."
+          );
         }
       });
 
       // Evento de editar
       textoContainer.addEventListener("click", (e) => {
-        if (!e.target.classList.contains("check-circle") && !e.target.closest(".check-circle")) {
+        if (
+          !e.target.classList.contains("check-circle") &&
+          !e.target.closest(".check-circle")
+        ) {
           abrirModalEdicaoHabito(habito);
         }
       });
@@ -107,8 +116,14 @@ export async function carregarHabitos() {
       lista.appendChild(li);
     });
   } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao carregar hábitos.";
     console.error("Erro ao buscar hábitos:", erro);
-    alert("Erro ao carregar hábitos.");
+    alert(mensagem);
   }
 }
 
@@ -116,22 +131,62 @@ export async function carregarHabitos() {
 export async function adicionarHabito(dadosHabito) {
   const idUsuario = localStorage.getItem("userId");
   if (!idUsuario) throw new Error("ID do usuário não encontrado");
-  await axios.post(`${API_URL}/habitos/${idUsuario}/adicionar`, dadosHabito);
+  try {
+    await axios.post(`${API_URL}/habitos/${idUsuario}/adicionar`, dadosHabito);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao adicionar hábito.";
+    throw new Error(mensagem);
+  }
 }
 
 // Editar hábito
 export async function editarHabito(idHabito, dadosAtualizados) {
-  await axios.put(`${API_URL}/habitos/${idHabito}`, dadosAtualizados);
+  try {
+    await axios.put(`${API_URL}/habitos/${idHabito}`, dadosAtualizados);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao editar hábito.";
+    throw new Error(mensagem);
+  }
 }
 
 // Excluir hábito
 export async function excluirHabito(idHabito) {
-  await axios.delete(`${API_URL}/habitos/${idHabito}`);
+  try {
+    await axios.delete(`${API_URL}/habitos/${idHabito}`);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao excluir hábito.";
+    throw new Error(mensagem);
+  }
 }
 
 // Concluir hábito
 export async function concluirHabito(idHabito) {
-  await axios.put(`${API_URL}/habitos/${idHabito}/concluir`);
+  try {
+    await axios.put(`${API_URL}/habitos/${idHabito}/concluir`);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao concluir hábito.";
+    throw new Error(mensagem);
+  }
 }
 
 // Função para abrir modal de edição de hábito (mantém igual)
@@ -215,27 +270,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const idEdicao = modalHabitos.dataset.editandoId;
       const idUsuario = localStorage.getItem("userId");
 
-      let url, method;
       if (idEdicao) {
-        url = `http://localhost:5000/habitos/${idEdicao}`;
-        method = "PUT";
+        await editarHabito(idEdicao, dadosHabito);
       } else {
         if (!idUsuario) {
           throw new Error("ID do usuário não encontrado");
         }
-        url = `http://localhost:5000/habitos/${idUsuario}/adicionar`;
-        method = "POST";
-      }
-
-      const resposta = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosHabito),
-      });
-
-      if (!resposta.ok) {
-        const erro = await resposta.json();
-        throw new Error(erro.erro || erro.message || "Erro ao salvar hábito");
+        await adicionarHabito(dadosHabito);
       }
 
       // Fechar modal e recarregar lista
@@ -286,15 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!confirmar) return;
 
     try {
-      const resposta = await fetch(`http://localhost:5000/habitos/${idHabito}`, {
-        method: "DELETE",
-      });
-
-      if (!resposta.ok) {
-        const erro = await resposta.json();
-        throw new Error(erro.erro || "Erro ao excluir hábito");
-      }
-
+      await excluirHabito(idHabito);
       await carregarHabitos();
       alert("Hábito excluído com sucesso!");
     } catch (erro) {
