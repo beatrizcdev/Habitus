@@ -9,16 +9,13 @@ import { conectarBanco } from "./conexaoBD";
 // Middleware para carregar usuário pelo ID
 export async function carregarUsuario(req: Request, res: Response, next: NextFunction) {
   try {
-    const idUsuario = req.params.id || req.headers["x-user-id"]; // ou de token
+    const idUsuario = req.params.idUsuario || req.headers["x-user-id"]; // ou de token
 
     if (!idUsuario) {
       return res.status(400).json({ erro: "ID do usuário não fornecido" });
     }
 
-    const db = await open({
-      filename: "./db/app.db",
-      driver: sqlite3.Database,
-    });
+    const db = await conectarBanco();
 
     const usuario = await db.get(
       `SELECT * FROM Usuario WHERE idUsuario = ?`,
