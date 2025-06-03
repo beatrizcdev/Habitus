@@ -85,8 +85,62 @@ function exibirBarraProgressoMissoes(missoesFeitas) {
   ).style.width = `${progressoPercent}%`;
 }
 
+async function carregarBadgesUsuario() {
+  const idUsuario = localStorage.getItem("userId");
+  if (!idUsuario) return;
+
+  try {
+    const resposta = await axios.get(`http://localhost:5000/inventario/${idUsuario}`);
+    const itens = resposta.data;
+    const badges = itens.filter(item => item.tipo === "badge");
+
+    const container = document.querySelector(".conquistas");
+    container.innerHTML = "";
+
+    if (badges.length === 0) {
+      container.innerHTML = "<p>Nenhum badge conquistado ainda.</p>";
+      return;
+    }
+
+    badges.forEach(badge => {
+      const img = document.createElement("img");
+      // Ajuste o caminho conforme o nome/id do badge
+      img.src = `../pictures/badges/badge${badge.idItem - 10}.svg`;
+      img.alt = badge.nome;
+      img.width = 119;
+      img.height = 119;
+      container.appendChild(img);
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar badges:", erro);
+  }
+}
+
+async function carregarSkinEquipada() {
+  const idUsuario = localStorage.getItem("userId");
+  if (!idUsuario) return;
+
+  try {
+    const resposta = await axios.get(`http://localhost:5000/inventario/${idUsuario}`);
+    const itens = resposta.data;
+    // Procura a skin equipada
+    const skinEquipada = itens.find(item => item.tipo === "skin" && item.equipado === "SIM");
+    if (skinEquipada) {
+      const avatarImg = document.querySelector(".avatar");
+      if (avatarImg) {
+        avatarImg.src = `../pictures/capibbara/capibbara${skinEquipada.idItem}.svg`;
+        avatarImg.alt = skinEquipada.nome;
+      }
+    }
+  } catch (erro) {
+    console.error("Erro ao carregar skin equipada:", erro);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   carregarPerfil();
+  carregarBadgesUsuario();
+  carregarSkinEquipada();
 
   const campos = ["nome", "email", "senha"];
 
