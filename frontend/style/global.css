@@ -106,3 +106,9 @@ a {
   background: #f8f8f8;
   color: #888;
 }
+
+/* Suavização para a árvore da dashboard */
+.arvore {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
