@@ -34,6 +34,7 @@ import {
 import path from "path";
 import Habito from "./modelos/habitos";
 import { conectarBanco } from "./utilitarios/conexaoBD";
+import { listarNotificacoes } from "./controladores/notificacoes";
 
 const rotas = Router();
 
@@ -425,15 +426,24 @@ rotas.get("/loja/itens", async (req, res) => {
 rotas.get("/notificacoes/:idUsuario", async (req, res) => {
   try {
     const idUsuario = Number(req.params.idUsuario);
-    const db = await conectarBanco();
-    const notificacoes = await db.all(
-      "SELECT mensagem, dataEnvio FROM Notificacao WHERE idUsuario = ? ORDER BY dataEnvio DESC",
-      [idUsuario]
-    );
+    const notificacoes = await listarNotificacoes(idUsuario);
     console.log("Notificações retornadas para o usuário", idUsuario, ":", notificacoes);
     res.json(notificacoes);
   } catch (erro: any) {
     console.error("Erro ao buscar notificações:", erro);
+    res.status(500).json({ mensagem: erro.message });
+  }
+});
+
+// Marcar notificações como lidas
+rotas.put("/notificacoes/:idUsuario/ler", async (req, res) => {
+  try {
+    const idUsuario = Number(req.params.idUsuario);
+    const db = await conectarBanco();
+    await db.run("UPDATE Notificacao SET lida = 1 WHERE idUsuario = ?", [idUsuario]);
+    await db.close();
+    res.status(200).json({ mensagem: "Notificações marcadas como lidas." });
+  } catch (erro: any) {
     res.status(500).json({ mensagem: erro.message });
   }
 });
