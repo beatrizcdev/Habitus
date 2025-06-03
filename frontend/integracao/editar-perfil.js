@@ -1,24 +1,23 @@
-// Defina a URL base da sua API
 const API_URL = "http://localhost:5000";
 
 // Função para carregar os dados do perfil do usuário
 async function carregarPerfil() {
   try {
-    // Suponha que o id do usuário esteja salvo no localStorage
     const idUsuario = Number(localStorage.getItem("userId"));
     if (!idUsuario) {
       alert("Usuário não autenticado.");
       return;
     }
-
-    // A rota para buscar o perfil é /perfil/:idUsuario
     const resposta = await axios.get(`${API_URL}/perfil/${idUsuario}`);
     const usuario = resposta.data;
 
-    // Atualiza a área de exibição do perfil
-    // document.querySelector(".avatar").src = usuario.avatar || "../pictures/capibbara/capibbara1.svg";
     document.getElementById("perfil-nome").textContent = usuario.nome;
-    document.getElementById("perfil-nivel").textContent = `Nível atual: ${usuario.nivel || "--"}`;
+    const concluidas = usuario.progresso?.concluidas || 0;
+    const nivel = 1 + Math.floor(concluidas / 10);
+    document.getElementById("perfil-nivel").textContent = `Nível atual: ${nivel}`;
+
+    // Barra de progresso igual à de missões
+    exibirBarraProgressoMissoes(concluidas);
 
     // Atualiza os campos de edição
     document.getElementById("texto-nome").textContent = usuario.nome;
@@ -63,6 +62,27 @@ async function atualizarPerfil(campo, novoValor, senhaConfirmada) {
     alert(erro.response?.data?.erro || "Erro ao atualizar perfil.");
     return false;
   }
+}
+
+function exibirBarraProgressoMissoes(missoesFeitas) {
+  // Cria o container se não existir
+  let container = document.getElementById("progresso-missoes-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "progresso-missoes-container";
+    document.querySelector(".boxperfil").appendChild(container);
+  }
+  container.innerHTML = `
+    <div id="progresso-missoes-bar">
+      <div id="progresso-missoes-fill"></div>
+    </div>
+  `;
+
+  const progressoAtual = missoesFeitas % 10;
+  const progressoPercent = (progressoAtual / 10) * 100;
+  document.getElementById(
+    "progresso-missoes-fill"
+  ).style.width = `${progressoPercent}%`;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
