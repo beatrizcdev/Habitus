@@ -1,4 +1,5 @@
 //import axios from "axios";
+const API_URL = "http://localhost:5000";
 
 export async function carregarMoedasUsuario() {
   try {
@@ -6,7 +7,7 @@ export async function carregarMoedasUsuario() {
     if (!idUsuario) return;
 
     const resposta = await axios.get(
-      `http://localhost:5000/moedas/${idUsuario}`
+      `${API_URL}/moedas/${idUsuario}`
     );
     const dados = resposta.data;
     const moedasSpan = document.getElementById("quantidade-moedas");

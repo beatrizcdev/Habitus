@@ -119,8 +119,14 @@ export async function carregarTarefas() {
       lista.appendChild(li);
     });
   } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao carregar tarefas.";
     console.error("Erro ao buscar tarefas:", erro);
-    alert("Erro ao carregar tarefas.");
+    alert(mensagem);
   }
 }
 
@@ -128,22 +134,62 @@ export async function carregarTarefas() {
 export async function adicionarTarefa(dadosTarefa) {
   const idUsuario = localStorage.getItem("userId");
   if (!idUsuario) throw new Error("ID do usuário não encontrado");
-  await axios.post(`${API_URL}/tarefas/${idUsuario}/adicionar`, dadosTarefa);
+  try {
+    await axios.post(`${API_URL}/tarefas/${idUsuario}/adicionar`, dadosTarefa);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao adicionar tarefa.";
+    throw new Error(mensagem);
+  }
 }
 
 // Editar tarefa
 export async function editarTarefa(idTarefa, dadosAtualizados) {
-  await axios.put(`${API_URL}/editarTarefa/${idTarefa}`, dadosAtualizados);
+  try {
+    await axios.put(`${API_URL}/editarTarefa/${idTarefa}`, dadosAtualizados);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao editar tarefa.";
+    throw new Error(mensagem);
+  }
 }
 
 // Excluir tarefa
 export async function excluirTarefa(idTarefa) {
-  await axios.delete(`${API_URL}/tarefas/${idTarefa}`);
+  try {
+    await axios.delete(`${API_URL}/tarefas/${idTarefa}`);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao excluir tarefa.";
+    throw new Error(mensagem);
+  }
 }
 
 // Concluir tarefa
 export async function concluirTarefa(idTarefa) {
-  await axios.put(`${API_URL}/tarefa/${idTarefa}/concluir`);
+  try {
+    await axios.put(`${API_URL}/tarefa/${idTarefa}/concluir`);
+  } catch (erro) {
+    const mensagem =
+      erro.response?.data?.mensagem ||
+      erro.response?.data?.erro ||
+      erro.response?.data?.error ||
+      erro.message ||
+      "Erro ao concluir tarefa.";
+    throw new Error(mensagem);
+  }
 }
 
 // Função para abrir modal de edição
@@ -307,9 +353,7 @@ document.getElementById("lista-tarefas")?.addEventListener("click", async (event
   if (!confirmar) return;
 
   try {
-    const resposta = await fetch(`http://localhost:5000/tarefas/${idTarefa}`, {
-      method: "DELETE",
-    });
+    const resposta = await axios.delete(`http://localhost:5000/tarefas/${idTarefa}`);
 
     if (!resposta.ok) {
       const erro = await resposta.json();

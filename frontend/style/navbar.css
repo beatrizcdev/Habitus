@@ -162,3 +162,8 @@
   cursor: pointer;
   color: #999;
 }
+
+.notificacao-dinamica {
+  margin: 0.5rem 0;
+  color: #333;
+}
