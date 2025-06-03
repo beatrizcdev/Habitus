@@ -8,26 +8,31 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('Item_Usuario').del();
   await knex('Item').del();
 
-  // Insere itens (para recompensas de missão)
+  // Insere itens (10 skins capibara + 3 badges)
   await knex('Item').insert([
-    { idItem: 1, tipo: 'Chapéu', preco: 50, nome: 'Chapéu Azul', descricao: 'Um belo chapéu azul para o avatar.' },
-    { idItem: 2, tipo: 'Camisa', preco: 70, nome: 'Camisa Verde', descricao: 'Camisa para aventuras.' },
-    { idItem: 3, tipo: 'Botas', preco: 80, nome: 'Botas Marrons', descricao: 'Botas resistentes para desafios.' },
-    { idItem: 4, tipo: 'Óculos', preco: 40, nome: 'Óculos Estilosos', descricao: 'Melhore o visual do seu avatar.' },
+    { tipo: 'skin', preco: 100, nome: 'Capibbara de Capa', descricao: 'Capibbara estilosa com capa.' },
+    { tipo: 'skin', preco: 120, nome: 'Capibbara de Chapéu com Laço', descricao: 'Capibara elegante com chapéu e laço.' },
+    { tipo: 'skin', preco: 110, nome: 'Capibbara de Bolsa', descricao: 'Capibara pronta para aventuras com bolsa.' },
+    { tipo: 'skin', preco: 130, nome: 'Capibbara de Gravata', descricao: 'Capibara formal de gravata.' },
+    { tipo: 'skin', preco: 115, nome: 'Capibbara de Chapéu', descricao: 'Capibara clássica de chapéu.' },
+    { tipo: 'skin', preco: 140, nome: 'Capibbara Guia Turístico', descricao: 'Capibara pronta para te guiar.' },
+    { tipo: 'skin', preco: 125, nome: 'Capibbara Dia das Mães', descricao: 'Capibara especial para o Dia das Mães.' },
+    { tipo: 'skin', preco: 135, nome: 'Capibbara de Coroa', descricao: 'Capibara real com coroa.' },
+    { tipo: 'skin', preco: 150, nome: 'Capibbara de Chapéu Colorido', descricao: 'Capibara divertida com chapéu colorido.' },
+    { tipo: 'skin', preco: 90, nome: 'Capibbara Padrão', descricao: 'Capibara clássica e simpática.' },
+    { tipo: 'badge', preco: 0, nome: 'Mestre de Tarefas', descricao: 'Conquistada por completar muitas tarefas.' },
+    { tipo: 'badge', preco: 0, nome: 'Ancião Frequente', descricao: 'Conquistada por frequência exemplar.' },
+    { tipo: 'badge', preco: 0, nome: 'Semente do Hábito', descricao: 'Conquistada ao iniciar sua jornada de hábitos.' },
   ]);
 
-  // Insere recompensas (moedas ou itens)
-  await knex('Recompensa').insert([
-    { idRecompensa: 1, origem: 'Missão', qtdMoedas: 10 },
-    { idRecompensa: 2, origem: 'Missão', qtdMoedas: 20 },
-    { idRecompensa: 3, origem: 'Missão', qtdMoedas: 0 }, // Para missão que dá item
-    { idRecompensa: 4, origem: 'Missão', qtdMoedas: 0 }, // Para missão que dá item
-  ]);
+  // Insere recompensas 
+  await knex('Recompensa').insert(
+    Array.from({ length: 33 }, () => ({ origem: 'Missão' }))
+  );
 
-  // Insere missões (algumas com recompensa em moedas, outras com item)
+  // Insere 30 missões 
   await knex('Missao').insert([
     {
-      idMissao: 1,
       nome: 'Desafio Inicial',
       descricao: 'Complete 1 tarefa para ganhar moedas.',
       meta: 1,
@@ -38,7 +43,6 @@ export async function seed(knex: Knex): Promise<void> {
       dataInicio: null
     },
     {
-      idMissao: 2,
       nome: 'Criador de Hábitos',
       descricao: 'Crie 3 hábitos novos.',
       meta: 3,
@@ -48,28 +52,58 @@ export async function seed(knex: Knex): Promise<void> {
       dataLimite: null,
       dataInicio: null
     },
-    {
-      idMissao: 3,
-      nome: 'Ganhe um Chapéu',
-      descricao: 'Conclua 5 tarefas em uma semana e ganhe um chapéu exclusivo.',
-      meta: 5,
+    // Missões 3 a 12: skins capibara
+    ...Array.from({ length: 10 }, (_, i) => ({
+      nome: `Conquiste a Skin ${i + 1}`,
+      descricao: `Complete tarefas para ganhar a skin Capibara ${i + 1}.`,
+      meta: 5 + i,
       tipo: 'tarefas',
       recompensa: 0,
-      idRecompensa: 1, // idItem 1 = Chapéu Azul
+      idRecompensa: i + 1, // idItem 1 a 10 (ordem de inserção)
+      dataLimite: null,
+      dataInicio: null
+    })),
+    // Missões 13 a 15: badges
+    {
+      nome: 'Mestre de Tarefas',
+      descricao: 'Complete 50 tarefas para ganhar o badge Mestre de Tarefas.',
+      meta: 50,
+      tipo: 'tarefas',
+      recompensa: 0,
+      idRecompensa: 11, // badge Mestre de Tarefas
       dataLimite: null,
       dataInicio: null
     },
     {
-      idMissao: 4,
-      nome: 'Streak Semanal',
-      descricao: 'Mantenha 7 dias de streak.',
-      meta: 7,
-      tipo: 'streak',
+      nome: 'Ancião Frequente',
+      descricao: 'Faça login por 10 dias para ganhar o badge Ancião Frequente.',
+      meta: 10,
+      tipo: 'login',
       recompensa: 0,
-      idRecompensa: 2, // idItem 2 = Camisa Verde
+      idRecompensa: 12, // badge Ancião Frequente
       dataLimite: null,
       dataInicio: null
-    }
+    },
+    {
+      nome: 'Semente do Hábito',
+      descricao: 'Crie seu primeiro hábito para ganhar o badge Semente do Hábito.',
+      meta: 1,
+      tipo: 'habitos',
+      recompensa: 0,
+      idRecompensa: 13, // badge Semente do Hábito
+      dataLimite: null,
+      dataInicio: null
+    },
+    // Missões 16 a 30: moedas
+    ...Array.from({ length: 15 }, (_, i) => ({
+      nome: `Missão Extra ${i + 1}`,
+      descricao: `Complete ${10 + i * 2} tarefas para ganhar moedas.`,
+      meta: 10 + i * 2,
+      tipo: 'tarefas',
+      recompensa: 15 + i * 2,
+      idRecompensa: null,
+      dataLimite: null,
+      dataInicio: null
+    })),
   ]);
-
 }
