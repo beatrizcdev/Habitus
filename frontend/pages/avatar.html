@@ -1,58 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Avatar | Habitus</title>
-    <link href="https://fonts.googleapis.com/css2?family=Magra:wght@700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Magra:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../style/avatar.css" />
     <link rel="stylesheet" href="../style/navbar.css" />
     <link rel="stylesheet" href="../style/global.css" />
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div id="navbar-container"></div>
+      <div id="navbar-container"></div>
     </header>
 
     <main>
-        <div class="bloco">
-            <img id="folha-detalhe" src="../pictures/utilidades/vetor-folha.svg" alt="">
-            <div class="voltar">
-                <h1>Personalização de Avatar</h1>
-            </div>
-
-            <div class="avatar-skin">
-                <img id="mainAvatar" src="../pictures/capibbara/capibbara10.svg" alt="Skin capibbara padrao" width="130">
-            </div>
-            
-            <p id="p-texto">Skins desbloqueadas:</p>
-            <div class="outras-skins">
-                <img class="skin-escolha" src="../pictures/capibbara/capibbara9.svg" alt="Skin capibbara rei" width="130">
-                <img class="skin-escolha" src="../pictures/capibbara/capibbara6.svg" alt="Skin capibbara explroadora" width="130">
-                <img class="skin-escolha" src="../pictures/capibbara/capibbara1.svg" alt="Skin capibbara de capa" width="130">         
-                <img class="skin-escolha" src="../pictures/capibbara/capibbara2.svg" alt="Skin capibbara rei" width="130">
-                <img class="skin-escolha" src="../pictures/capibbara/capibbara8.svg" alt="Skin capibbara explroadora" width="130" height="130">
-                <img class="skin-escolha" src="../pictures/capibbara/capibbara10.svg" alt="Skin capibbara de capa" width="130">
-            </div>
+      <div class="bloco">
+        <img
+          id="folha-detalhe"
+          src="../pictures/utilidades/vetor-folha.svg"
+          alt=""
+        />
+        <div class="voltar">
+          <h1>Personalização de Avatar</h1>
         </div>
+
+        <div class="avatar-skin">
+          <img
+            id="mainAvatar"
+            src="../pictures/capibbara/capibbara10.svg"
+            alt="Skin capibbara padrao"
+            width="130"
+          />
+        </div>
+
+        <p id="p-texto">Skins desbloqueadas:</p>
+        <div class="outras-skins">
+          <!-- Skins desbloqueadas aparecerão aqui -->
+        </div>
+      </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="../integracao/avatar.js"></script>
     <script type="module" src="../script/navbar.js"></script>
-<script>
-    const skins = document.querySelectorAll('.skin-escolha');
-    const mainAvatar = document.getElementById('mainAvatar');
-
-    skins.forEach(skin => {
-        skin.addEventListener('click', () => {
-            // Remove a classe 'selected' de todas as skins
-            skins.forEach(s => s.classList.remove('selected'));
-
-            // Adiciona a classe 'selected' à skin clicada
-            skin.classList.add('selected');
-
-            // Troca a imagem principal pelo src da skin clicada
-            mainAvatar.src = skin.src;
-        });
-    });
-</script>
-</body>
+  </body>
 </html>

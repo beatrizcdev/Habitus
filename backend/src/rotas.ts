@@ -377,19 +377,16 @@ rotas.get("/inventario", carregarUsuario, async (req, res) => {
 });
 
 //equipar item
-rotas.patch("/inventario/:idItem/equipar",
-  carregarUsuario,
-  async (req, res) => {
-    try {
-      const idUsuario = (req as RequestComUsuario).usuario?.idUsuario;
-      const idItem = Number(req.params.idItem);
-      const mensagem = await equiparItem(Number(idUsuario), idItem);
-      res.status(200).json({ mensagem });
-    } catch (erro: any) {
-      res.status(400).json({ mensagem: erro.message });
-    }
+rotas.patch("/inventario/:idItem/equipar", async (req, res) => {
+  try {
+    const idUsuario = req.body.idUsuario;
+    const idItem = Number(req.params.idItem);
+    const mensagem = await equiparItem(Number(idUsuario), idItem);
+    res.status(200).json({ mensagem });
+  } catch (erro: any) {
+    res.status(400).json({ mensagem: erro.message });
   }
-);
+});
 
 //listar habitos
 rotas.get("/habitos/:idUsuario", async (req, res) => {
@@ -408,7 +405,8 @@ rotas.get("/usuario/:id", async (req, res) => {
   const usuario = await db.get("SELECT * FROM Usuario WHERE idUsuario = ?", [
     req.params.id,
   ]);
-  if (!usuario) return res.status(404).json({ mensagem: "Usuário não encontrado" });
+  if (!usuario)
+    return res.status(404).json({ mensagem: "Usuário não encontrado" });
   res.json(usuario);
 });
 
@@ -427,7 +425,12 @@ rotas.get("/notificacoes/:idUsuario", async (req, res) => {
   try {
     const idUsuario = Number(req.params.idUsuario);
     const notificacoes = await listarNotificacoes(idUsuario);
-    console.log("Notificações retornadas para o usuário", idUsuario, ":", notificacoes);
+    console.log(
+      "Notificações retornadas para o usuário",
+      idUsuario,
+      ":",
+      notificacoes
+    );
     res.json(notificacoes);
   } catch (erro: any) {
     console.error("Erro ao buscar notificações:", erro);
@@ -440,7 +443,9 @@ rotas.put("/notificacoes/:idUsuario/ler", async (req, res) => {
   try {
     const idUsuario = Number(req.params.idUsuario);
     const db = await conectarBanco();
-    await db.run("UPDATE Notificacao SET lida = 1 WHERE idUsuario = ?", [idUsuario]);
+    await db.run("UPDATE Notificacao SET lida = 1 WHERE idUsuario = ?", [
+      idUsuario,
+    ]);
     await db.close();
     res.status(200).json({ mensagem: "Notificações marcadas como lidas." });
   } catch (erro: any) {
