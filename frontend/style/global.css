@@ -53,14 +53,16 @@ a {
 .modalNotificacoes {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(30, 30, 30, 0.4);
+  right: 0;
+  left: unset;
+  width: auto;
+  height: auto;
+  background: none;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: flex-start;
   z-index: 1000;
+  pointer-events: none; /* permite clicar fora para fechar, se quiser */
 }
 
 .modalContent {
@@ -73,6 +75,8 @@ a {
   overflow-y: auto;
   box-shadow: 0 2px 16px rgba(0,0,0,0.18);
   position: relative;
+  margin: 24px 32px 0 0;
+  pointer-events: auto;
 }
 
 .modalContent h2 {
