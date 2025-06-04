@@ -102,12 +102,15 @@ export async function verificarMissoes(idUsuario: number): Promise<void> {
         );
 
         if (item) {
+          // Verifica se é badge para equipar automaticamente
+          const equipado = item.tipo === 'badge' ? 'SIM' : 'NÃO';
+
           await db.run(
             `
             INSERT INTO Item_Usuario (idItem, idUsuario, equipado, dataCompra)
-            VALUES (?, ?, 'NÃO', DATE('now'))
+            VALUES (?, ?, ?, DATE('now'))
             `,
-            [item.idItem, idUsuario]
+            [item.idItem, idUsuario, equipado]
           );
 
           await enviarNotificacao(

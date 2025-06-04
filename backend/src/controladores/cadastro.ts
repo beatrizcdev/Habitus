@@ -86,6 +86,16 @@ export async function cadastrarUsuario(dados:{
             ]
         )
 
+        // ...após inserir o usuário no banco...
+        const usuarioCriado = await db.get('SELECT idUsuario FROM Usuario WHERE cpf = ?', [dados.cpf]);
+
+        // Adiciona a Capibbara Padrão (idItem 10) já equipada
+        await db.run(
+          `INSERT INTO Item_Usuario (idItem, idUsuario, equipado, dataCompra)
+           VALUES (?, ?, 'SIM', DATE('now'))`,
+          [10, usuarioCriado.idUsuario]
+        );
+
         await db.close()
 
         return 'Cadastro realizado com sucesso!'

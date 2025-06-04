@@ -448,4 +448,15 @@ rotas.put("/notificacoes/:idUsuario/ler", async (req, res) => {
   }
 });
 
+// Listar inventário de qualquer usuário pelo id (sem middleware)
+rotas.get("/inventario/:idUsuario", async (req, res) => {
+  try {
+    const idUsuario = Number(req.params.idUsuario);
+    const itens = await listarInventario(idUsuario);
+    res.json(itens);
+  } catch (erro: any) {
+    res.status(500).json({ mensagem: erro.message });
+  }
+});
+
 export default rotas;
