@@ -68,45 +68,56 @@ export async function listarInventario(idUsuario: number): Promise<ItemInventari
 }
 
 export async function equiparItem(idUsuario: number, idItem: number) {
-
     const db = process.env.NODE_ENV === 'test'
-    ? await conectarBancoTeste()
-    : await conectarBanco()
+        ? await conectarBancoTeste()
+        : await conectarBanco();
 
-    //Verifica se o item pertence ao usuario
+    // Verifica se o item pertence ao usuário
     const itemUsuario = await db.get(`
-    SELECT * FROM Item_Usuario WHERE idUsuario = ? AND idItem = ?
-    `, [idUsuario, idItem])
+        SELECT * FROM Item_Usuario WHERE idUsuario = ? AND idItem = ?
+    `, [idUsuario, idItem]);
 
     if (!itemUsuario) {
-        throw new Error("Item não pertence ao usuário.")
+        await db.close();
+        throw new Error("Item não pertence ao usuário.");
     }
 
     // Verifica tipo do item
-    const item = await db.get(`SELECT tipo FROM Item WHERE idItem = ?`, [idItem])
-    if (!item || item.tipo !== 'skin') {
-        throw new Error("Item não é do tipo 'skin'.")
+    const item = await db.get(`SELECT tipo FROM Item WHERE idItem = ?`, [idItem]);
+    if (!item) {
+        await db.close();
+        throw new Error("Item não encontrado.");
     }
 
-    // Desequipa todos os itens do mesmo tipo
-    await db.run(`
-        UPDATE Item_Usuario
-        SET equipado = 'NÃO'
-        WHERE idUsuario = ? AND idItem IN (
-        SELECT idItem FROM Item WHERE tipo = 'skin'
-        )
-    `, [idUsuario])
+    if (item.tipo === 'skin') {
+        // Desequipa todas as skins do usuário
+        await db.run(`
+            UPDATE Item_Usuario
+            SET equipado = 'NÃO'
+            WHERE idUsuario = ? AND idItem IN (
+                SELECT idItem FROM Item WHERE tipo = 'skin'
+            )
+        `, [idUsuario]);
+        // Equipa a skin escolhida
+        await db.run(`
+            UPDATE Item_Usuario
+            SET equipado = 'SIM'
+            WHERE idUsuario = ? AND idItem = ?
+        `, [idUsuario, idItem]);
+    } else if (item.tipo === 'badge') {
+        // Apenas equipa o badge, sem desequipar outros badges
+        await db.run(`
+            UPDATE Item_Usuario
+            SET equipado = 'SIM'
+            WHERE idUsuario = ? AND idItem = ?
+        `, [idUsuario, idItem]);
+    } else {
+        await db.close();
+        throw new Error("Tipo de item não suportado para equipar.");
+    }
 
-    // Equipa o item escolhido
-    await db.run(`
-        UPDATE Item_Usuario
-        SET equipado = 'SIM'
-        WHERE idUsuario = ? AND idItem = ?
-    `, [idUsuario, idItem])
-
-    await db.close()
-    return "Item equipado com sucesso."
-    
+    await db.close();
+    return "Item equipado com sucesso.";
 }
 
 export async function listarItensLoja() {
