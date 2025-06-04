@@ -1,14 +1,14 @@
 .container {
   background-color: rgb(255, 255, 255);
-  font-family: "Magra", sans-serif; 
+  font-family: "Magra", sans-serif;
   min-height: 100vh;
-  padding: 20px 0; 
+  padding: 20px 0;
 }
 
 .main {
-  width: 90%; 
+  width: 90%;
   max-width: 1200px;
-  padding-top: 60px; 
+  padding-top: 60px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -18,13 +18,13 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin: 40px 0; 
+  margin: 40px 0;
   position: relative;
 }
 
 .linha {
-  flex: 1; 
-  max-width: 550px; 
+  flex: 1;
+  max-width: 550px;
   border: none;
   border-top: 3px solid #2f7e73;
 }
@@ -32,28 +32,34 @@
 .titulo {
   margin: 0;
   color: #184d3c;
-  font-size: clamp(24px, 3vw, 32px); 
+  font-size: clamp(24px, 3vw, 32px);
   font-weight: bold;
   text-align: center;
   transition: all 0.3s ease;
 }
 
 .titulo:hover {
-  transform: translateY(-2px); 
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bloco1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px; 
+  gap: 30px;
   margin-top: 60px;
   position: relative;
 }
 
+.listamissoes {
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 .listamissoes ul {
   list-style-type: none;
-  padding: 0;
+  padding: 6px;
   margin: 0;
 }
 
@@ -63,6 +69,7 @@
   margin-bottom: 10px;
   background-color: #f8f8f8;
   border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   overflow: hidden;
@@ -75,7 +82,7 @@
 }
 
 .listamissoes li::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -91,12 +98,33 @@
   transform: scaleY(1);
 }
 
+#lista-missoes {
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #ccc;
+  }
+}
+
 /* Estilos para imagens */
 .bloco1 img {
   margin-left: 90px;
   position: absolute;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .bannerText {
@@ -108,7 +136,7 @@
 
 .bannerText:hover {
   transform: scale(1.05) rotate(-2deg);
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
 }
 
 .capibbara {
@@ -120,7 +148,8 @@
 
 /* Animação flutuante */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -130,10 +159,10 @@
 
 .bloco2 {
   display: grid;
-  grid-template-columns: 3fr 1fr; 
+  grid-template-columns: 3fr 1fr;
   width: 100%;
-  min-height: 30vh; 
-  background-color: #257D6B;
+  min-height: 30vh;
+  background-color: #257d6b;
   border-radius: 24px;
   margin: 100px auto 0;
   padding: 16px;
@@ -144,21 +173,21 @@
   margin-top: 20px;
   font-size: clamp(24px, 3vw, 36px);
   text-align: center;
-  align-self: center; 
+  align-self: center;
 }
 
 .side2 {
   background-color: #ffffff;
   border-radius: 24px;
-  margin-left: 20px; 
+  margin-left: 20px;
   display: flex;
-  align-items: center; 
+  align-items: center;
   flex-direction: column;
   padding: 20px;
 }
 
 .capibbaraetexto {
-  border: 2px solid #257D6B;
+  border: 2px solid #257d6b;
   border-radius: 20px;
   padding: 10px;
 }
@@ -190,17 +219,16 @@
   transform: scale(1.02);
 }
 
-
 /* RESPONSIVIDADE */
 @media (max-width: 1200px) {
   .bloco1 {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .bloco1 img {
     margin-left: 50px;
   }
-  
+
   .bannerText {
     left: 50%;
   }
@@ -210,18 +238,18 @@
   .bloco1 {
     grid-template-columns: 1fr;
   }
-  
+
   .listamissoes {
     order: 1;
   }
-  
+
   .img {
     order: 2;
     position: relative;
     height: 300px;
     margin-top: 30px;
   }
-  
+
   .bloco1 img {
     position: relative;
     margin: 0 auto;
@@ -229,7 +257,7 @@
     max-width: 100%;
     height: auto;
   }
-  
+
   .bannerText {
     position: absolute;
     top: auto;
@@ -237,17 +265,17 @@
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   .capibbara {
     right: 20px;
     top: 20px;
   }
-  
+
   .bloco2 {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .side2 {
     margin-left: 0;
     margin-top: 20px;
@@ -258,33 +286,33 @@
   .main {
     padding-top: 40px;
   }
-  
+
   .titulo-com-linhas {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .linha {
     width: 80%;
     max-width: none;
   }
-  
+
   .bloco1 {
     margin-top: 40px;
   }
-  
+
   .img {
     height: 250px;
   }
-  
+
   .listamissoes li {
     padding: 10px 15px;
   }
-  
+
   .bloco2 {
     margin-top: 70px;
   }
-  
+
   .side1 h3 {
     font-size: 22px;
   }
@@ -294,23 +322,23 @@
   .img {
     display: none; /* Esconde todo o container dos banners */
   }
-  
+
   .bloco1 {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     margin-top: 30px;
   }
-  
+
   .listamissoes {
-    width: 100%; 
+    width: 100%;
   }
-  
+
   .listamissoes li {
-    padding: 12px 15px; 
-    font-size: 14px; 
+    padding: 12px 15px;
+    font-size: 14px;
   }
-  
+
   .bloco2 {
-    margin-top: 50px; 
+    margin-top: 50px;
   }
 }
 
@@ -328,14 +356,14 @@
   border-radius: 12px;
   margin: 0 auto 6px auto;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
   position: relative;
 }
 
 #progresso-missoes-fill {
   height: 100%;
-  background: linear-gradient(90deg, #2f7e73 60%, #EAAC47 100%);
+  background: linear-gradient(90deg, #2f7e73 10%, var(--secondary) 100%);
   width: 0%;
-  border-radius: 12px 0 0 12px;
-  transition: width 0.6s cubic-bezier(.4,2,.6,1);
+  border-radius: 12px;
+  transition: width 0.6s cubic-bezier(0.4, 2, 0.6, 1);
 }
