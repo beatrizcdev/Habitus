@@ -14,7 +14,8 @@
     <div class="wrapper">
       <div class="container">
         <div id="navbar-container"></div>
-
+        
+        <!--TAREFAS-->
         <div class="tabs-container">
           <button type="button" class="tab active" data-aba="tarefas">Tarefas</button>
           <button type="button" id="habitos" class="tab" data-aba="habitos">Hábitos</button>
@@ -32,12 +33,14 @@
             <div class="botoes-tarefa">
               <button type="button" class="btn-add">+</button>
               <button type="button" id="btn-excluir-tarefa-modal" class="btn-trash">
-                <img src="../pictures/utilidades/trash.svg" height="20px" alt="" />
+                <img src="../pictures/utilidades/lixeira-tarefas.svg" height="15px" alt="" />
               </button>
             </div>
           </div>
         </div>
 
+
+        <!--HÁBITOS-->
         <div id="conteudo-habitos" class="conteudo-aba hidden">
           <div class="th-container habitos">
             <h2>Lista de Habitos</h2>
@@ -57,6 +60,7 @@
         <img id="arvore-nivel" class="arvore" src="" alt="arvore" />
 
         <div class="headerSpacing"></div>
+
         <!-- Modal de Nova Tarefa -->
         <div id="modal-tarefa" class="modal hidden">
           <div class="modal-content">
@@ -74,19 +78,14 @@
             <div class="linha-prioridade-data">
               <div class="prioridade">
                 <p>Prioridade:</p>
-                <label
-                  ><input type="radio" name="prioridade" value="alta" required />
-                  <span class="bolinha vermelha"></span> Alta</label
-                >
-                <br />
-                <label
-                  ><input type="radio" name="prioridade" value="media" />
-                  <span class="bolinha amarela"></span> Média</label
-                ><br />
-                <label
-                  ><input type="radio" name="prioridade" value="baixa" />
-                  <span class="bolinha verde"></span> Baixa</label
-                >
+                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="alta" required />
+                <span class="bolinha-vermelha"></span> Alta</label>
+                
+                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="media" />
+                  <span class="bolinha-amarela"></span> Média</label>
+                
+                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="baixa" />
+                <span class="bolinha-verde"></span> Baixa</label>
               </div>
 
               <div class="data-limite">
@@ -94,9 +93,11 @@
                 <input type="date" id="dataLimite" name="dataLimite" />
               </div>
             </div>
-
-            <button type="button" id="btnSalvarTarefa">Salvar</button>
-            <button type="button" id="btn-cancelar-tarefa">Cancelar</button>
+             
+            <div class="botoes">
+              <button type="button" id="btn-cancelar-tarefa">Cancelar</button>
+              <button type="button" id="btnSalvarTarefa">Salvar</button>
+            </div>
           </div>
         </div>
 
