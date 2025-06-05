@@ -17,11 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 function iniciarTourOnboarding() {
   const passos = [
     {
-      seletor: "#navbar-container",
-      titulo: "Navegação",
-      texto: "Aqui você navega entre as principais páginas do Habitus."
-    },
-    {
       seletor: ".tabs-container",
       titulo: "Abas",
       texto: "Aqui você alterna entre tarefas e hábitos."
@@ -64,7 +59,7 @@ function iniciarTourOnboarding() {
     highlight.style.height = `${rect.height + 12}px`;
     highlight.style.border = "2.5px solid #4caf50";
     highlight.style.borderRadius = "12px";
-    highlight.style.zIndex = 2001;
+    highlight.style.zIndex = 10000000000000;
     highlight.style.pointerEvents = "none";
     document.body.appendChild(highlight);
 
