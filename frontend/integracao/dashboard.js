@@ -17,6 +17,7 @@ async function atualizarArvorePorNivel() {
         imgArvore.onload = () => {
           imgArvore.style.opacity = 1;
         };
+        carregarSkinEquipada();
       }, 400);
     }
   } catch (erro) {
@@ -30,3 +31,24 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarAba("tarefas");
   }
 });
+
+async function carregarSkinEquipada() {
+  const idUsuario = localStorage.getItem("userId");
+  if (!idUsuario) return;
+
+  try {
+    const resposta = await axios.get(`http://localhost:5000/inventario/${idUsuario}`);
+    const itens = resposta.data;
+    // Procura a skin equipada
+    const skinEquipada = itens.find((item) => item.tipo === "skin" && item.equipado === "SIM");
+    if (skinEquipada) {
+      const avatarImg = document.querySelector(".capivara");
+      if (avatarImg) {
+        avatarImg.src = `../pictures/capibbara/capibbara${skinEquipada.idItem}.svg`;
+        avatarImg.alt = skinEquipada.nome;
+      }
+    }
+  } catch (erro) {
+    console.error("Erro ao carregar skin equipada:", erro);
+  }
+}
