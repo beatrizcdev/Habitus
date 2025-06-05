@@ -35,6 +35,7 @@ import path from "path";
 import Habito from "./modelos/habitos";
 import { conectarBanco } from "./utilitarios/conexaoBD";
 import { listarNotificacoes } from "./controladores/notificacoes";
+import { verificarPrimeiroAcesso } from "./controladores/tutorial";
 
 const rotas = Router();
 
@@ -74,12 +75,16 @@ rotas.post("/login", async (req, res) => {
   }
 });
 
-//verificar primeiro acesso
-rotas.get(
-  "/usuario/primeiro-acesso/:id",
-  carregarUsuario,
-  verificarAcessoHandler
-);
+//verificar primeiro acesso (tutorial)
+rotas.get("/usuario/primeiro-acesso/:id", async (req, res) => {
+  try {
+    const idUsuario = Number(req.params.id);
+    const primeiroAcesso = await verificarPrimeiroAcesso(idUsuario);
+    res.json({ primeiroAcesso });
+  } catch (erro: any) {
+    res.status(400).json({ mensagem: erro.message });
+  }
+});
 
 //listar tarefas
 rotas.get("/tarefas/:idUsuario", async (req, res) => {

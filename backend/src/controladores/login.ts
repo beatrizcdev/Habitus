@@ -1,5 +1,6 @@
 import { conectarBanco, conectarBancoTeste } from '../utilitarios/conexaoBD'
 import Usuario from '../modelos/Usuario'
+import { format, parseISO, differenceInCalendarDays } from "date-fns";
 
 
 export async function loginUsuario(emailOuCpf: string, senha: string): Promise<{mensagem: string, userId: number}> {
@@ -22,6 +23,28 @@ export async function loginUsuario(emailOuCpf: string, senha: string): Promise<{
 
     if(!senhaValida) {
         throw new Error('Senha incorreta.')
+    }
+
+    // Lógica de streak
+    const hoje = format(new Date(), "yyyy-MM-dd");
+    const ultimoLogin = usuario.ultimoLogin ? usuario.ultimoLogin : null;
+
+    if (ultimoLogin !== hoje) {
+        let diasSeguidos = usuario.diasSeguidos || 0;
+        if (ultimoLogin) {
+            const diff = differenceInCalendarDays(new Date(hoje), parseISO(ultimoLogin));
+            if (diff === 1) {
+                diasSeguidos += 1; // Incrementa streak
+            } else {
+                diasSeguidos = 1; // Reseta streak
+            }
+        } else {
+            diasSeguidos = 1; // Primeiro login
+        }
+        await db.run(
+            `UPDATE Usuario SET diasSeguidos = ?, ultimoLogin = ? WHERE idUsuario = ?`,
+            [diasSeguidos, hoje, usuario.idUsuario]
+        );
     }
 
     await db.close()

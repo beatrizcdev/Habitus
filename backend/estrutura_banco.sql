@@ -10,6 +10,7 @@ CREATE TABLE "main"."Usuario" (
   "cpf" text(11) NOT NULL,
   "avatar" text(20),
   "corAvatar" TEXT(10),
+  "ultimoLogin" TEXT,
   "diasSeguidos" integer DEFAULT 0,
   CONSTRAINT "fk_Usuario_Usuario_Noticia" FOREIGN KEY ("idUsuario") REFERENCES "Usuario_Noticia" ("idUsuario"),
   CONSTRAINT "id_unique_constraints" UNIQUE ("idUsuario"),
