@@ -33,21 +33,27 @@
           </div>
 
           <div class="img">
-            <img src="../pictures/missoes/banner1.svg" alt="badge de conquista" width="497" height="285" />
+            <!-- <img src="../pictures/missoes/banner1.svg" alt="badge de conquista" width="497" height="285" />
             <img
               class="bannerText"
               src="../pictures/missoes/quero-banner.svg"
               alt="badge de conquista"
               width="172"
               height="39"
-            />
-            <img
-              class="capibbara"
-              src="../pictures/missoes/capibbara.svg"
-              alt="badge de conquista"
-              width="247"
-              height="247"
-            />
+            /> -->
+            <div class="info">
+              <span>DIA DAS<br />MÃES</span>
+              <button class="bannerText" onclick="redirectLojinha()">QUERO COMPRAR</button>
+            </div>
+            <div class="capibbara-wrapper">
+              <img
+                class="capibbara"
+                src="../pictures/missoes/capibbara.svg"
+                alt="badge de conquista"
+                width="247"
+                height="247"
+              />
+            </div>
           </div>
         </div>
 
@@ -78,5 +84,11 @@
     <script type="module" src="../integracao/missoes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="../script/navbar.js"></script>
+    <script>
+      function redirectLojinha() {
+        console.log("oi");
+        window.location.href = "./loja.html";
+      }
+    </script>
   </body>
 </html>
