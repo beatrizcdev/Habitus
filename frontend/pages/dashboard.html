@@ -3,17 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Home | Habitus</title>
     <link rel="stylesheet" href="../style/global.css" />
     <link rel="stylesheet" href="../style/tarefas.css" />
     <link rel="stylesheet" href="../style/navbar.css" />
     <link rel="stylesheet" href="../style/habitos.css" />
+    <link rel="icon" href="../pictures/utilidades/favicon.png" width="100px" heigth="100px"type="image/svg+xml" />
   </head>
   <body>
     <div id="navbar-container"></div>
     <div class="wrapper">
       <div class="container">
-        
+        <div id="navbar-container"></div>
+
         <div class="tabs-container">
           <button type="button" class="tab active" data-aba="tarefas">Tarefas</button>
           <button type="button" id="habitos" class="tab" data-aba="habitos">Hábitos</button>
@@ -29,26 +31,32 @@
             </ul>
 
             <div class="botoes-tarefa">
-              <button type="button" class="btn-add">+</button>
+              <button type="button" id="btn-add-tarefa" class="btn-add">
+                <img src="../pictures/utilidades/btn-add-tarefa.svg" alt="">
+              </button>
               <button type="button" id="btn-excluir-tarefa-modal" class="btn-trash">
-                <img src="../pictures/utilidades/trash.svg" height="20px" alt="" />
+                <img src="../pictures/utilidades/lixeira-tarefas.svg" height="15px" alt="" />
               </button>
             </div>
           </div>
         </div>
 
+
+        <!--HÁBITOS-->
         <div id="conteudo-habitos" class="conteudo-aba hidden">
           <div class="th-container habitos">
-            <h2>Lista de Habitos</h2>
+            <h2>Lista de Hábitos</h2>
 
             <ul id="lista-habitos" class="th-list">
               <!-- Habitos carregados dinamicamente vão aparecer aqui -->
             </ul>
 
             <div class="botoes-habitos">
-              <button type="button" class="btn-add">+</button>
+              <button type="button" class="btn-add">
+                <img src="../pictures/utilidades/botao-add-habito.svg" alt="">
+              </button>
               <button type="button" id="btn-excluir-habit-modal" class="btn-trash">
-                <img src="../pictures/utilidades/trash.svg" height="20px" alt="" />
+                <img src="../pictures/utilidades/botao-lixeira-habito.svg" height="20px" alt="" />
               </button>
             </div>
           </div>
@@ -56,6 +64,7 @@
         <img id="arvore-nivel" class="arvore" src="" alt="arvore" />
 
         <div class="headerSpacing"></div>
+
         <!-- Modal de Nova Tarefa -->
         <div id="modal-tarefa" class="modal hidden">
           <div class="modal-content">
@@ -73,19 +82,14 @@
             <div class="linha-prioridade-data">
               <div class="prioridade">
                 <p>Prioridade:</p>
-                <label
-                  ><input type="radio" name="prioridade" value="alta" required />
-                  <span class="bolinha vermelha"></span> Alta</label
-                >
-                <br />
-                <label
-                  ><input type="radio" name="prioridade" value="media" />
-                  <span class="bolinha amarela"></span> Média</label
-                ><br />
-                <label
-                  ><input type="radio" name="prioridade" value="baixa" />
-                  <span class="bolinha verde"></span> Baixa</label
-                >
+                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="alta" required />
+                <span class="bolinha-vermelha"></span> Alta</label>
+                
+                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="media" />
+                  <span class="bolinha-amarela"></span> Média</label>
+                
+                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="baixa" />
+                <span class="bolinha-verde"></span> Baixa</label>
               </div>
 
               <div class="data-limite">
@@ -93,9 +97,11 @@
                 <input type="date" id="dataLimite" name="dataLimite" />
               </div>
             </div>
-
-            <button type="button" id="btnSalvarTarefa">Salvar</button>
-            <button type="button" id="btn-cancelar-tarefa">Cancelar</button>
+             
+            <div class="botoes">
+              <button type="button" id="btn-cancelar-tarefa">Cancelar</button>
+              <button type="button" id="btnSalvarTarefa">Salvar</button>
+            </div>
           </div>
         </div>
 
@@ -109,9 +115,11 @@
 
             <label for="descricao-h">Descrição:</label>
             <textarea id="descricao-h" name="descricao-h"></textarea>
-
-            <button type="button" id="btnSalvarHabitos">Salvar</button>
-            <button type="button" id="btn-cancelar-habitos">Cancelar</button>
+            
+            <div class="botoes">
+              <button type="button" id="btn-cancelar-habitos">Cancelar</button>
+              <button type="button" id="btnSalvarHabitos">Salvar</button>
+            </div>
           </div>
         </div>
       </div>
