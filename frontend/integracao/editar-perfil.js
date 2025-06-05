@@ -80,9 +80,7 @@ function exibirBarraProgressoMissoes(missoesFeitas) {
 
   const progressoAtual = missoesFeitas % 10;
   const progressoPercent = (progressoAtual / 10) * 100;
-  document.getElementById(
-    "progresso-missoes-fill"
-  ).style.width = `${progressoPercent}%`;
+  document.getElementById("progresso-missoes-fill").style.width = `${progressoPercent}%`;
 }
 
 async function carregarBadgesUsuario() {
@@ -92,7 +90,7 @@ async function carregarBadgesUsuario() {
   try {
     const resposta = await axios.get(`http://localhost:5000/inventario/${idUsuario}`);
     const itens = resposta.data;
-    const badges = itens.filter(item => item.tipo === "badge");
+    const badges = itens.filter((item) => item.tipo === "badge");
 
     const container = document.querySelector(".conquistas");
     container.innerHTML = "";
@@ -102,7 +100,7 @@ async function carregarBadgesUsuario() {
       return;
     }
 
-    badges.forEach(badge => {
+    badges.forEach((badge) => {
       const img = document.createElement("img");
       // Ajuste o caminho conforme o nome/id do badge
       img.src = `../pictures/badges/badge${badge.idItem - 10}.svg`;
@@ -124,7 +122,7 @@ async function carregarSkinEquipada() {
     const resposta = await axios.get(`http://localhost:5000/inventario/${idUsuario}`);
     const itens = resposta.data;
     // Procura a skin equipada
-    const skinEquipada = itens.find(item => item.tipo === "skin" && item.equipado === "SIM");
+    const skinEquipada = itens.find((item) => item.tipo === "skin" && item.equipado === "SIM");
     if (skinEquipada) {
       const avatarImg = document.querySelector(".avatar");
       if (avatarImg) {

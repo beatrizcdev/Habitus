@@ -23,10 +23,10 @@
 
           <h3 class="conquistastitulo">Conquistas</h3>
           <div class="conquistas">
-          <!-- Os badges do usuário aparecem aqui -->
+            <!-- Os badges do usuário aparecem aqui -->
           </div>
 
-          <button class="botao">Editar</button>
+          <button class="botao" onclick="redirectAvatar()">Editar</button>
         </div>
 
         <!-- Área de edição do perfil -->
@@ -88,5 +88,10 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="../integracao/editar-perfil.js"></script>
     <script type="module" src="../script/navbar.js"></script>
+    <script>
+      function redirectAvatar() {
+        window.location.href = "./avatar.html";
+      }
+    </script>
   </body>
 </html>
