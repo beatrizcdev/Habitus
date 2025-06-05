@@ -2,15 +2,18 @@
   CONTAINER
 ========================= */
 .wrapper {
-  background-image: url("../pictures/utilidades/Vector.svg");
+  background-image:
+    linear-gradient(180deg, #3FB79E 20%, #A9C7FF 100%),
+    url("../pictures/utilidades/Vector.svg");
   background-size: cover;
   background-position: center;
+  background-blend-mode: lighten; /* opcional, para misturar */
 }
 
 .container {
   box-sizing: content-box;
   padding: 0 6%;
-  min-height: 100vh;
+  min-height: 89vh;
   color: white;
   overflow-y: hidden;
   font-family: sans-serif;
@@ -158,6 +161,11 @@
 
 .texto-container {
   overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 95%;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -468,10 +476,24 @@
 .arvore {
   position: absolute;
   right: 0;
+  bottom: 10px;
+  max-height: 90%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.capivara {
+  position: absolute;
+  width: 160px;
+  right: 320px;
   bottom: 0;
   max-height: 90%;
   z-index: 2;
   pointer-events: none;
+}
+
+.arvore-capivara{
+  display: flex;
 }
 
 #modal-tarefa {
@@ -500,9 +522,15 @@
 }
 
 .lixeira-exclusao {
-  margin-left: 10px;
   cursor: pointer;
   opacity: 0;
+  background-color: white;
+  border: red 2px solid;
+  padding: 4px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 50%;
+  color: #d32f2f;
   transition: opacity 0.3s;
 }
 
@@ -548,4 +576,17 @@ loader {
 /* Garantir que os botões não submetam o formulário */
 button[type="button"] {
   cursor: pointer;
+}
+
+.footer-dashboard {
+  width: 100%;
+  background: #fff;
+  color: #333;
+  text-align: center;
+  padding: 24px 0 16px 0;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  font-size: 16px;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+  margin-top: 40px; /* ajuste esse valor para subir ou descer o footer */
 }

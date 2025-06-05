@@ -73,7 +73,7 @@ export async function carregarTarefas() {
       // Lixeira como button
       const lixeira = document.createElement("button");
       lixeira.type = "button";
-      lixeira.innerHTML = "🗑️";
+      lixeira.innerHTML = "X";
       lixeira.classList.add("lixeira-exclusao");
       lixeira.title = "Excluir tarefa";
       lixeira.setAttribute("aria-label", "Excluir tarefa");
@@ -322,7 +322,7 @@ btnExcluir?.addEventListener("click", (event) => {
   event.preventDefault();
   modoExclusaoAtivo = !modoExclusaoAtivo; // Alterna entre true/false
 
-  document.querySelectorAll(".item-tarefa").forEach((item) => {
+  document.querySelectorAll(".item-th").forEach((item) => { 
     if (modoExclusaoAtivo) {
       item.classList.add("modo-exclusao");
     } else {
