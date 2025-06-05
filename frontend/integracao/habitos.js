@@ -58,7 +58,7 @@ export async function carregarHabitos() {
       // Lixeira para exclusão
       const lixeira = document.createElement("button");
       lixeira.type = "button";
-      lixeira.innerHTML = "🗑️";
+      lixeira.innerHTML = "X";
       lixeira.classList.add("lixeira-exclusao");
       lixeira.title = "Excluir hábito";
       lixeira.setAttribute("aria-label", "Excluir hábito");
@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     modoExclusaoHabitosAtivo = !modoExclusaoHabitosAtivo;
 
-    document.querySelectorAll(".item-habito").forEach((item) => {
+    document.querySelectorAll(".item-th").forEach((item) => {
       if (modoExclusaoHabitosAtivo) {
         item.classList.add("modo-exclusao");
       } else {
