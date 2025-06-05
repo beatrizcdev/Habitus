@@ -89,7 +89,13 @@ Desenvolver uma plataforma web que:
    ```
    sqlite3 backend/app.db < backend/estrutura_banco.sql
    ```
+   ```
+   rodar as migrations
+   ```
    npm run knex:migrate
+   ```
+   ```
+   popular o banco de dados
    ```
    npm run knex:seed
    ```
