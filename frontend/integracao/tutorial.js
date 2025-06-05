@@ -35,6 +35,11 @@ function iniciarTourOnboarding() {
       seletor: ".btn-add",
       titulo: "Adicionar",
       texto: "Clique aqui para adicionar uma nova tarefa ou hábito."
+    },
+    {
+      seletor: ".capivara",
+      titulo: "Personalize sua Capivara!",
+      texto: "Clicando na capivara, você pode escolher a skin que quer equipar."
     }
     // Adicione mais passos conforme necessário
   ];

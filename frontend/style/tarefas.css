@@ -489,7 +489,6 @@
   bottom: 0;
   max-height: 90%;
   z-index: 2;
-  pointer-events: none;
 }
 
 .arvore-capivara{
@@ -589,4 +588,39 @@ button[type="button"] {
   font-size: 16px;
   box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
   margin-top: 40px; /* ajuste esse valor para subir ou descer o footer */
+}
+
+/* Botão de equipes */
+
+.btn-navbar-equipes {
+  position: absolute;
+  bottom: 60px;
+  right: 30px;
+  margin-left: 24px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 20px;
+  border: 2px solid;
+  border-color: #ff593453;
+  padding: 5px;
+  width: 150px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s, background 0.2s;
+  color: #000;
+}
+
+.btn-navbar-equipes:hover {
+  background: #f0f0f0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.icon-navbar {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 2px;
 }
