@@ -505,6 +505,21 @@
   transition: opacity 0.3s;
 }
 
+#btn-excluir-tarefa-modal{
+  color: transparent;
+  width: 32px; 
+  height: 32px;
+  background-image: url('../pictures/utilidades/lixeira-tarefas.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+}
+
+#btn-excluir-tarefa-modal:hover, #btn-add-tarefa:hover{
+  background-color: #ffffff;
+}
+
 .modo-exclusao .lixeira-exclusao {
   opacity: 1;
 }

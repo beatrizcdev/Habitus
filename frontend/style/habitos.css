@@ -7,7 +7,7 @@
 }
 
 .habitos {
-  background-color: #288e5b;
+  background-color: rgba(40, 142, 91, 0.815);
 }
 
 /* ========================
@@ -45,22 +45,24 @@
   margin-top: 15px;
 }
 
-.btn-add,
-.btn-trash {
-  background-color: white;
-  color: #ffa726;
-  border: none;
-  font-size: 20px;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
 .btn-add:hover,
 .btn-trash:hover {
-  background-color: #ffe0b2;
+  background-color: #bff5da;
+}
+
+.lista-habitos button{
+  color: #000;
+}
+
+#btn-excluir-habit-modal{
+  color: transparent;
+  width: 32px;
+  height: 32px;
+  background-image: url('../pictures/utilidades/botao-add-tarefa.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
 }
 
 /* ========================
@@ -84,6 +86,7 @@
 }
 
 .modal-content {
+  border: 3px solid #288e5b;
   background-color: #fff;
   border-radius: 20px;
   padding: 20px 25px;
@@ -96,7 +99,7 @@
   font-family: sans-serif;
 }
 
-.modal-content h3 {
+.modal-content h2 {
   color: #2f9e44;
   text-align: center;
   margin-bottom: 10px;
@@ -125,32 +128,22 @@
   border-radius: 50%;
 }
 
-.alta {
-  background-color: #ff4d4d;
-}
-
-.media {
-  background-color: #ffc107;
-}
-
-.baixa {
-  background-color: #c0eb75;
-}
-
-.btn-salvar {
-  background-color: #f5a623;
+#btnSalvarHabitos, #btn-cancelar-habitos {
+  background-color: #288e5b;
   color: white;
   border: none;
-  border-radius: 10px;
-  padding: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background 0.3s ease;
+  border-radius: 18px;
+  font-size: 18px;
+  cursor: pointer; 
+  transition: background-color 0.4s ease;
+  width: 40%;
 }
 
-.btn-salvar:hover {
-  background-color: #e69500;
+#btnSalvarHabitos:hover, #btn-cancelar-habitos:hover {
+  background-color: #ffffff;
+  border: 2px solid #288e5b;
+  color: #288e5b;
+  transform: scale(1.02);
 }
 
 .modal-content > *:not(:last-child) {
