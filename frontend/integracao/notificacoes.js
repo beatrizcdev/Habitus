@@ -58,10 +58,24 @@ export async function carregarNotificacoesNoModal(idUsuario) {
   }
 
   notificacoes.forEach(n => {
-    const div = document.createElement("div");
-    div.className = "notificacao-item";
-    div.innerHTML = `<strong>${n.tipo || "Sistema"}:</strong> ${n.mensagem} <br><small>${n.dataEnvio}</small>`;
-    if (n.lida) div.classList.add("notificacao-lida");
-    modal.appendChild(div);
+  const div = document.createElement("div");
+  
+  const tiposComAcento = {
+  missao: "Missão",
+  sistema: "Sistema",
+  alerta: "Alerta",
+  aviso: "Aviso"
+  };
+
+  const tipoKey = (n.tipo || "sistema").toLowerCase();
+  const tipoFormatado = tiposComAcento[tipoKey] || (tipoKey.charAt(0).toUpperCase() + tipoKey.slice(1));
+  const dataFormatada = new Date(n.dataEnvio).toLocaleDateString("pt-BR");
+
+  div.className = "notificacao-item";
+  div.innerHTML = `<strong>${tipoFormatado}:</strong> ${n.mensagem} <br><small>${dataFormatada}</small>`;
+
+  if (n.lida) div.classList.add("notificacao-lida");
+  
+  modal.appendChild(div);
   });
 }

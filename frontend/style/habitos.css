@@ -1,6 +1,3 @@
- body.dashboard-page {
-     background: linear-gradient(180deg, #3FB79E 20%, #A9C7FF 100%);
-   }
 /* ========================
    HABITOS
 ========================= */
@@ -71,7 +68,22 @@
 /* ========================
    MODAL HABITO
 ========================= */
+.modal.hidden {
+  display: none;
+}
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
 
 .modal-content {
   border: 3px solid #288e5b;
