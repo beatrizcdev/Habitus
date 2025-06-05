@@ -67,7 +67,7 @@
 }
 .Container_produto{
     display: flex;
-    gap: 3vh;
+    gap: 4vh;
     max-width: 100%;
     flex-wrap: wrap;
     
@@ -75,8 +75,11 @@
 
 .item{
      border:solid 2px #5BA045;
-     border-radius: 28%;
+     border-radius: 50px;
      display: flex;
+     padding: 10px;
+     padding-top: 20px;
+     padding-bottom: 20px;
      
 }
 .capibara{
