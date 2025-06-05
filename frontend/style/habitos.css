@@ -1,10 +1,13 @@
- body.dashboard-page {
-     background: linear-gradient(180deg, #3FB79E 20%, #A9C7FF 100%);
-   }
+/* ========================
+   DASHBOARD BACKGROUND
+========================= */
+body.dashboard-page {
+  background: linear-gradient(180deg, #3FB79E 20%, #A9C7FF 100%);
+}
+
 /* ========================
    HABITOS
 ========================= */
-
 #habitos.active {
   background-color: #288e5b;
 }
@@ -16,7 +19,6 @@
 /* ========================
    TAREFA INDIVIDUAL
 ========================= */
-
 .habit-item {
   display: flex;
   align-items: center;
@@ -24,11 +26,7 @@
   min-width: 0;
 }
 
-.checked {
-  text-decoration: line-through;
-  opacity: 0.7;
-}
-
+.checked,
 .habit-text.checked {
   text-decoration: line-through;
   opacity: 0.7;
@@ -41,6 +39,7 @@
   margin-left: 10px;
   color: #000;
 }
+
 .botoes-habitos {
   display: flex;
   justify-content: center;
@@ -53,11 +52,11 @@
   background-color: #bff5da;
 }
 
-.lista-habitos button{
+.lista-habitos button {
   color: #000;
 }
 
-#btn-excluir-habit-modal{
+#btn-excluir-habit-modal {
   color: transparent;
   width: 32px;
   height: 32px;
@@ -71,11 +70,31 @@
 /* ========================
    MODAL HABITO
 ========================= */
+#modal-habitos {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+#modal-habitos.hidden {
+  display: none;
+}
 
-.modal-content {
+.ativo {
+  display: block;
+}
+
+/* Modal de hábitos: borda verde */
+#modal-habitos .modal-content {
   border: 3px solid #288e5b;
-  background-color: #fff;
+  background: #fff;
   border-radius: 20px;
   padding: 20px 25px;
   width: 400px;
@@ -85,21 +104,26 @@
   flex-direction: column;
   gap: 10px;
   font-family: sans-serif;
+  max-width: 90vw;
 }
 
-.modal-content h2 {
+#modal-habitos .modal-content h2 {
   color: #2f9e44;
   text-align: center;
   margin-bottom: 10px;
 }
 
-.modal-content input[type="text"],
-.modal-content textarea,
-.modal-content input[type="date"] {
+#modal-habitos .modal-content input[type="text"],
+#modal-habitos .modal-content textarea,
+#modal-habitos .modal-content input[type="date"] {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 8px;
   width: 100%;
+}
+
+#modal-habitos .modal-content > *:not(:last-child) {
+  margin-bottom: 10px;
 }
 
 .linha-modal {
@@ -122,7 +146,7 @@
   border: none;
   border-radius: 18px;
   font-size: 18px;
-  cursor: pointer; 
+  cursor: pointer;
   transition: background-color 0.4s ease;
   width: 40%;
 }
@@ -134,43 +158,9 @@
   transform: scale(1.02);
 }
 
-.modal-content > *:not(:last-child) {
-  margin-bottom: 10px;
-}
-
 /* ========================
    DECORAÇÃO
 ========================= */
-
-#modal-habitos {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-#modal-habitos.hidden {
-  display: none;
-}
-
-.ativo {
-  display: block;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 30px;
-  max-width: 80%;
-  max-width: 500px;
-}
-
 .lixeira-exclusao {
   margin-left: 10px;
   cursor: pointer;

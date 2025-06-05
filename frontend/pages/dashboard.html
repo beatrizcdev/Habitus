@@ -8,7 +8,13 @@
     <link rel="stylesheet" href="../style/tarefas.css" />
     <link rel="stylesheet" href="../style/navbar.css" />
     <link rel="stylesheet" href="../style/habitos.css" />
-    <link rel="icon" href="../pictures/utilidades/favicon.png" width="100px" heigth="100px"type="image/svg+xml" />
+    <link
+      rel="icon"
+      href="../pictures/utilidades/favicon.png"
+      width="100px"
+      heigth="100px"
+      type="image/svg+xml"
+    />
   </head>
   <body class="dashboard-page">
     <div id="navbar-container"></div>
@@ -17,8 +23,12 @@
         <div id="navbar-container"></div>
 
         <div class="tabs-container">
-          <button type="button" class="tab active" data-aba="tarefas">Tarefas</button>
-          <button type="button" id="habitos" class="tab" data-aba="habitos">Hábitos</button>
+          <button type="button" class="tab active" data-aba="tarefas">
+            Tarefas
+          </button>
+          <button type="button" id="habitos" class="tab" data-aba="habitos">
+            Hábitos
+          </button>
         </div>
 
         <!-- Conteúdo das abas -->
@@ -32,15 +42,17 @@
 
             <div class="botoes-tarefa">
               <button type="button" id="btn-add-tarefa" class="btn-add">
-                <img src="../pictures/utilidades/btn-add-tarefa.svg" alt="">
+                <img src="../pictures/utilidades/btn-add-tarefa.svg" alt="" />
               </button>
-              <button type="button" id="btn-excluir-tarefa-modal" class="btn-trash">
-                <img src="../pictures/utilidades/lixeira-tarefas.svg" height="15px" alt="" />
+              <button
+                type="button"
+                id="btn-excluir-tarefa-modal"
+                class="btn-trash"
+              >
               </button>
             </div>
           </div>
         </div>
-
 
         <!--HÁBITOS-->
         <div id="conteudo-habitos" class="conteudo-aba hidden">
@@ -53,76 +65,115 @@
 
             <div class="botoes-habitos">
               <button type="button" class="btn-add">
-                <img src="../pictures/utilidades/botao-add-habito.svg" alt="">
+                <img src="../pictures/utilidades/botao-add-habito.svg" alt="" />
               </button>
-              <button type="button" id="btn-excluir-habit-modal" class="btn-trash">
-                <img src="../pictures/utilidades/botao-lixeira-habito.svg" height="20px" alt="" />
+              <button
+                type="button"
+                id="btn-excluir-habit-modal"
+                class="btn-trash"
+              >
+                <img
+                  src="../pictures/utilidades/botao-lixeira-habito.svg"
+                  height="20px"
+                  alt=""
+                />
               </button>
             </div>
           </div>
         </div>
-        <img id="arvore-nivel" class="arvore" src="" alt="arvore" />
-
+        <div class="arvore-capivara">
+          <img id="arvore-nivel" class="arvore" src="" alt="arvore" />
+          <img
+            id="capivara-dashboard"
+            class="capivara"
+            alt="Capivara"
+          />
+        </div>
         <div class="headerSpacing"></div>
 
-        <!-- Modal de Nova Tarefa -->
-        <div id="modal-tarefa" class="modal hidden">
-          <div class="modal-content">
-            <h2>Nova Tarefa</h2>
+        
+      </div>
 
-            <label for="nome">Título:</label>
-            <input type="text" id="nome" name="nome" />
+      <!-- Modal de Nova Tarefa -->
+      <div id="modal-tarefa" class="modal hidden">
+        <div class="modal-content">
+          <h2>Nova Tarefa</h2>
 
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao"></textarea>
+          <label for="nome">Título:</label>
+          <input type="text" id="nome" name="nome" />
 
-            <label for="categoria">Categoria:</label>
-            <input type="text" id="categoria" name="categoria" />
+          <label for="descricao">Descrição:</label>
+          <textarea id="descricao" name="descricao"></textarea>
 
-            <div class="linha-prioridade-data">
-              <div class="prioridade">
-                <p>Prioridade:</p>
-                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="alta" required />
-                <span class="bolinha-vermelha"></span> Alta</label>
-                
-                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="media" />
-                  <span class="bolinha-amarela"></span> Média</label>
-                
-                <label><input class="bolinha-tarefa" type="radio" name="prioridade" value="baixa" />
-                <span class="bolinha-verde"></span> Baixa</label>
-              </div>
+          <label for="categoria">Categoria:</label>
+          <input type="text" id="categoria" name="categoria" />
 
-              <div class="data-limite">
-                <label for="dataLimite">Data máxima:</label>
-                <input type="date" id="dataLimite" name="dataLimite" />
-              </div>
+          <div class="linha-prioridade-data">
+            <div class="prioridade">
+              <p>Prioridade:</p>
+              <label
+                ><input
+                  class="bolinha-tarefa"
+                  type="radio"
+                  name="prioridade"
+                  value="alta"
+                  required
+                />
+                <span class="bolinha-vermelha"></span> Alta</label
+              >
+
+              <label
+                ><input
+                  class="bolinha-tarefa"
+                  type="radio"
+                  name="prioridade"
+                  value="media"
+                />
+                <span class="bolinha-amarela"></span> Média</label
+              >
+
+              <label
+                ><input
+                  class="bolinha-tarefa"
+                  type="radio"
+                  name="prioridade"
+                  value="baixa"
+                />
+                <span class="bolinha-verde"></span> Baixa</label
+              >
             </div>
-             
-            <div class="botoes">
-              <button type="button" id="btn-cancelar-tarefa">Cancelar</button>
-              <button type="button" id="btnSalvarTarefa">Salvar</button>
+
+            <div class="data-limite">
+              <label for="dataLimite">Data máxima:</label>
+              <input type="date" id="dataLimite" name="dataLimite" />
             </div>
           </div>
-        </div>
 
-        <!-- Modal habitos -->
-        <div id="modal-habitos" class="modal hidden">
-          <div class="modal-content">
-            <h2>Novo Habito</h2>
-
-            <label for="nome-h">Título:</label>
-            <input type="text" id="nome-h" name="nome-h" />
-
-            <label for="descricao-h">Descrição:</label>
-            <textarea id="descricao-h" name="descricao-h"></textarea>
-            
-            <div class="botoes">
-              <button type="button" id="btn-cancelar-habitos">Cancelar</button>
-              <button type="button" id="btnSalvarHabitos">Salvar</button>
-            </div>
+          <div class="botoes">
+            <button type="button" id="btn-cancelar-tarefa">Cancelar</button>
+            <button type="button" id="btnSalvarTarefa">Salvar</button>
           </div>
         </div>
       </div>
+
+      <!-- Modal habitos -->
+      <div id="modal-habitos" class="modal hidden">
+        <div class="modal-content">
+          <h2>Novo Habito</h2>
+
+          <label for="nome-h">Título:</label>
+          <input type="text" id="nome-h" name="nome-h" />
+
+          <label for="descricao-h">Descrição:</label>
+          <textarea id="descricao-h" name="descricao-h"></textarea>
+
+          <div class="botoes">
+            <button type="button" id="btn-cancelar-habitos">Cancelar</button>
+            <button type="button" id="btnSalvarHabitos">Salvar</button>
+          </div>
+        </div>
+      </div>
+      <footer class="footer-dashboard"></footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
