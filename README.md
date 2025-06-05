@@ -18,7 +18,7 @@ Desenvolver uma plataforma web que:
 
 ## 1. Links Úteis
 
-- **Código-fonte (GitHub):** https://github.com/beatrizcdev/planoB  
+- **Código-fonte (GitHub):** https://github.com/beatrizcdev/Habitus  
 - **Deploy (produção):** *pendente*  
 - **Download do ZIP:** *pendente*
 
@@ -665,3 +665,68 @@ Após isso o frontend já irá consumir automaticamente a api do backend, e a ap
   }
   ```
 </details>
+# 🌐 Frontend
+
+O frontend do Habitus é composto por páginas HTML, estilos CSS, scripts de integração com o backend e ativos gráficos (SVGs). A estrutura de pastas foi pensada para facilitar a manutenção, a escalabilidade e o entendimento dos diferentes módulos do projeto.
+
+---
+
+## Estrutura das Pastas do Frontend
+
+```text
+frontend/
+├── integracao/       # Scripts JS para integração com o backend (um por funcionalidade)
+├── pages/            # Páginas HTML (views) do sistema
+├── pictures/         # Imagens, ícones e SVGs usados na interface
+├── script/           # Scripts auxiliares e de interface
+├── style/            # Arquivos CSS organizados por página/componente
+├── index.html        # Página inicial
+└── styles.css        # Estilo global (separado do /style)
+```
+
+### O que faz cada pasta/arquivo?
+
+- **integracao/**  
+  Scripts JavaScript responsáveis por consumir as APIs do backend e integrar os dados às páginas.  
+  Cada arquivo corresponde a uma funcionalidade principal do sistema:
+  - `avatar.js`: Gerencia o avatar do usuário (obter, atualizar, equipar skins).
+  - `cadastro.js`: Fluxo de registro de novos usuários.
+  - `dashboard.js`: Exibe dados gerais e progresso do usuário.
+  - `editar-perfil.js`: Permite editar informações do perfil.
+  - `habitos.js`: Gerencia hábitos (CRUD, conclusão, integração com backend).
+  - `login.js`: Autenticação de usuários.
+  - `loja.js`: Consome endpoints da loja para compra de itens virtuais.
+  - `missoes.js`: Busca e atualiza o estado das missões do usuário.
+  - `moedas.js`: Gerencia moedas e recursos virtuais.
+  - `notificacoes.js`: Busca e exibe notificações do usuário.
+  - `tarefas.js`: Controla tarefas diárias (CRUD, conclusão, exclusão).
+  - `tutorial.js`: Gerencia o tutorial inicial e onboarding.
+
+- **pages/**  
+  Páginas HTML do sistema, cada uma representando uma view ou funcionalidade:
+  - `dashboard.html`: Painel principal do usuário.
+  - `cadastro.html`, `login.html`: Telas de autenticação.
+  - `avatar.html`, `editar-perfil.html`: Gerenciamento de perfil e avatar.
+  - `equipe.html`, `missoes.html`, `loja.html`, `suporte.html`: Outras funcionalidades.
+  - `utilitarios/navbar.html`: Componente HTML reutilizável da navbar.
+
+- **style/**  
+  Arquivos CSS organizados por página ou componente:
+  - `global.css`: Estilos globais, variáveis e resets.
+  - `navbar.css`, `dashboard.css`, `tarefas.css`, `habitos.css`, etc.: Estilos específicos para cada parte da aplicação.
+
+- **pictures/**  
+  Imagens, ícones, SVGs e badges utilizados na interface, organizados em subpastas por tipo (ex: `arvore/`, `badges/`).
+
+- **script/**  
+  Scripts auxiliares para funcionalidades de interface e componentes reutilizáveis.
+
+- **index.html**  
+  Página inicial do frontend.
+
+- **styles.css**  
+  Estilo global adicional (caso necessário).
+
+---
+
+Cada pasta e arquivo foi pensado para separar responsabilidades, facilitar a colaboração e tornar o desenvolvimento e manutenção do projeto mais ágil e organizado.
