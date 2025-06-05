@@ -42,3 +42,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     container.innerHTML = "<p>Erro ao carregar a barra de navegação.</p>";
   }
 });
+
+setTimeout(async () => {
+  // ... seu código de notificações
+
+  const hamburguer = document.querySelector(".hamburguer");
+  const lista = document.querySelector(".lista");
+
+  if (hamburguer && lista) {
+    hamburguer.addEventListener("click", () => {
+      lista.classList.toggle("active");
+    });
+  }
+}, 300);

@@ -32,7 +32,7 @@
 }
 
 .container-titulo img {
-  max-width: 250px;
+  max-width: 350px;
   height: auto;
 }
 
@@ -183,25 +183,6 @@
   margin-bottom: 15px;
 }
 
-.botao {
-  background-color: #ffae43;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 20px 70px 20px 70px;
-  font-weight: bold;
-  margin: 0 auto;
-  margin-top: 40px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.botao:hover {
-  background-color: #ff9812;
-  transform: scale(1.02);
-}
-
 .header-pequeno {
   position: absolute;
   top: 0;
@@ -232,18 +213,20 @@
   color: white;
   border: none;
   border-radius: 30px;
-  font-size: 25px;
+  font-size: 20px;
   cursor: pointer;
-  padding: 20px 70px 20px 70px;
+  padding: 15px 40px 15px 40px;
   font-weight: bold;
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 20px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #botaoCadastro:hover {
-  background-color: #ff9812;
-  transform: scale(1.02);
+  border: 2px solid #ff9812;
+  color: #ff9812;
+  background-color: #fff;
+  transform: scale(1.03);
 }
 
 #botaoLogin {
@@ -251,30 +234,32 @@
   color: white;
   border: none;
   border-radius: 30px;
-  font-size: 25px;
+  font-size: 20px;
   cursor: pointer;
-  padding: 20px 70px 20px 70px;
+  padding: 15px 40px 15px 40px;
   font-weight: bold;
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 20px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #botaoLogin:hover {
-  background-color: #ff9812;
-  transform: scale(1.02);
+  border: 2px solid #ff9812;
+  color: #ff9812;
+  background-color: #fff;
+  transform: scale(1.03);
 }
 
 .botoes {
   display: flex;
-  justify-content: flex-start;
-  gap: 80px;
+  justify-content: center;
+  gap: 40px;
   margin-top: 20px;
   padding-right: 20%;
 }
 
 .botoes button {
-  white-space: nowrap;
+  white-space: now;
 }
 
 .erroContainer {

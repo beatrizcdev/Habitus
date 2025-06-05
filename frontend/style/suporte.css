@@ -75,8 +75,9 @@ body {
 /* Responsividade */
 @media (max-width: 992px) {
   .container {
+    background-color: #fff;
     grid-template-columns: 1fr;
-    padding-top: 60px;
+    padding-top: 100px;
     height: auto;
     min-height: 100vh;
     background-image: linear-gradient(to right, #1c5750, #fff, #ffffff);

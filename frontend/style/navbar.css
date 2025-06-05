@@ -141,15 +141,16 @@
 }
 
 .modalContent {
-  border: 2px solid #fea025;
-  background-color: rgba(255, 255, 255, 0.76);
+  border: 2px solid #257d6b;
+  background-color: rgba(255, 255, 255, 0.90);
   padding: 30px;
-  border-radius: 20px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  min-width: 100px;
+  max-width: 20vw;
+  max-height: 80vh;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
   position: relative;
-  color: #124621;
+  color: #ccc;
   text-align: left;
 }
 
@@ -166,4 +167,60 @@
 .notificacao-dinamica {
   margin: 0.5rem 0;
   color: #333;
+}
+
+.hamburguer {
+  display: none;
+  width: 30px;
+  height: 15px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-top: 3px solid #257d6b;
+}
+
+.hamburguer::before,
+.hamburguer::after {
+  content: " ";
+  display: block;
+  width: 30px;
+  height: 3px;
+  background: #257d6b;
+  margin-top: 4px;
+}
+
+@media (max-width: 750px) {
+  .hamburguer {
+    display: block;
+    z-index: 10001; /* garante que fique visível acima da navbar */
+    position: absolute;
+    right: 20px;
+    top: 28px;
+  }
+
+  .lista {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    clip-path: circle(100px at 90% -15%);
+    transition: clip-path 0.6s ease-out;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0;
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  .lista.active {
+    clip-path: circle(1500px at 90% -15%);
+    pointer-events: all;
+  }
+
+  .itensborda {
+    display: none;
+  }
 }
