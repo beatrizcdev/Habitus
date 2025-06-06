@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Equipe | Habitus</title>
-  <link rel="stylesheet" href="../style/navbar.css">
-  <link rel="stylesheet" href="../style/global.css">
-  <link rel="stylesheet" href="../style/equipe.css">
-  <link rel="icon" href="../pictures/utilidades/favicon.png" width="100px" heigth="100px"type="image/svg+xml" />
-</head>
-<body>
-  <div id="navbar-container"></div>
-  <main class="equipe-main">
-    <div class="equipe-estampa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Equipe | Habitus</title>
+    <link rel="stylesheet" href="../style/navbar.css" />
+    <link rel="stylesheet" href="../style/global.css" />
+    <link rel="stylesheet" href="../style/equipe.css" />
+    <link rel="icon" href="../pictures/utilidades/favicon.png" width="100px" heigth="100px" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="navbar-container"></div>
+    <main class="equipe-main" style="display: flex; align-items: center; flex-direction: column; gap: 24px">
+      <!-- <div class="equipe-estampa">
       <section class="equipe-top-section">
         <div class="equipe-tree">
           <img src="../pictures/arvore/arvore.svg" alt="Árvore">
@@ -77,10 +77,25 @@
           <img src="../pictures/utilidades/seta-direita.svg" alt="Próximo">
         </button>
       </section>
-    </div>
-  </main>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script type="module" src="../script/navbar.js"></script>
-  <script src="script.js"></script>
-</body>
+    </div> -->
+      <div style="display: flex; justify-content: center; align-items: center; gap: 24px">
+        <img
+          src="../pictures/utilidades/gear-svgrepo-com.svg"
+          alt="Engrenagem, pagina em desenvolvimento"
+          class="gear"
+        />
+        <h1 style="color: #1c5750; font-size: 3rem">
+          Em busca de amigos <br />
+          para sua CapiBBara...
+        </h1>
+      </div>
+      <p style="color: #1c5750; font-size: 2em">
+        Em breve: Teste suas habilidades e desafie<br />
+        seus amigos no novo modo de <strong>EQUIPES</strong>
+      </p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="../script/navbar.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
