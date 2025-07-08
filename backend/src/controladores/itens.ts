@@ -49,7 +49,7 @@ export async function comprarItem(idUsuario: number, idItem: number, equipar: bo
     }
 
     await db.close()
-    return equipar ? "Item comprado e equipado com sucesso!" : "Item compradocom sucesso!"
+    return equipar ? "Item comprado e equipado com sucesso!" : "Item comprado com sucesso!"
 }
 
 export async function listarInventario(idUsuario: number): Promise<ItemInventario[]> {

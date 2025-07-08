@@ -66,7 +66,8 @@ async function comprarItem(idItem) {
       const resposta = await axios.post(`${API_URL}/loja/comprar`, { idUsuario, idItem });
       alert('Item comprado com sucesso!');
     } catch (erro) {
-      alert(erro.response?.data?.erro || 'Erro ao comprar item');
+      const mensagem = erro.response?.data?.mensagem || 'Erro ao comprar item';
+      alert(mensagem);
     }
   });
 }
